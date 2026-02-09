@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
+import { ThemeToggle } from './theme-toggle';
 
 export function Navbar() {
 	return (
@@ -38,6 +39,7 @@ export function Navbar() {
 					href="/auth/sign-up">
 					Sign Up
 				</Link>
+				<ThemeToggle />
 			</div>
 		</nav>
 	);
