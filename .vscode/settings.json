@@ -1,15 +1,24 @@
 {
-   "editor.codeActionsOnSave": {
-      "source.organizeImports": "never",
-      "source.fixAll.eslint": "explicit"
-   },
-   "eslint.validate": [
-      "javascript",
-      "javascriptreact",
-      "typescript",
-      "typescriptreact"
-   ],
-   "editor.formatOnSave": true,
-   "editor.defaultFormatter": "esbenp.prettier-vscode",
-   "tailwindCSS.annotateRequired": true
+  "explorer.sortOrder": "default",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/package-lock.json": true,
+    "**/pnpm-lock.yaml": true,
+    "**/yarn.lock": true,
+    "**/.DS_Store": true,
+    "**/thumbs.db": true,
+    "**/.vscode": false,
+    "**/.env*": false
+  },
+
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "tailwindCSS.annotateRequired": true
 }
