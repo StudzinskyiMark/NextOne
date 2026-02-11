@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
 import { ThemeToggle } from './theme-toggle';
 
-export function Navbar() {
+export function Header() {
 	return (
 		<nav className="w-full py-5 flex items-center justify-between">
 			<div className="flex items-center gap-6">
