@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
+import { ConvexClientProvider } from '@/providers/ConvexClientProvider';
 import { ThemeProvider } from '@/providers/theme-provider';
 
 import '@/styles/globals.css';
@@ -34,7 +35,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="mx-auto w-full max-w-7xl px-2 md:px-4 lg:px-6">{children}</main>
+          <main className="mx-auto w-full max-w-7xl px-2 md:px-4 lg:px-6">
+            <ConvexClientProvider>{children}</ConvexClientProvider>
+          </main>
         </ThemeProvider>
       </body>
     </html>

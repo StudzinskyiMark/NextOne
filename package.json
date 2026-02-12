@@ -9,9 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@convex-dev/better-auth": "^0.10.10",
     "@hookform/resolvers": "^5.2.2",
+    "better-auth": "1.4.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "convex": "^1.31.7",
     "dropdown-menu": "^0.1.1",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
