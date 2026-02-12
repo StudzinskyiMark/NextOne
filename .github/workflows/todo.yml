@@ -17,13 +17,13 @@ jobs:
         with:
           identifiers: >
             [
-              {"name": "BUG", "label": "bug"},
-              {"name": "FIXME", "label": "fixme"},
-              {"name": "TODO", "label": "todo"},
-              {"name": "OPTIMIZE", "label": "optimize"},
-              {"name": "REFACTOR", "label": "refactor"},
-              {"name": "TEST", "label": "test"},
-              {"name": "IDEA", "label": "idea"}
+              {"name": "BUG", "labels": ["bug"]},
+              {"name": "FIXME", "labels": ["fixme"]},
+              {"name": "TODO", "labels": ["todo"]},
+              {"name": "OPTIMIZE", "labels": ["optimize"]},
+              {"name": "REFACTOR", "labels": ["refactor"]},
+              {"name": "TEST", "labels": ["test"]},
+              {"name": "IDEA", "labels": ["idea"]}
             ]
           ignore: 'node_modules, .next, .vscode, public, dist, build, .git'
           auto_assign: true

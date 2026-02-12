@@ -2,6 +2,8 @@ name: 'Setup Custom Issue Labels'
 
 on:
   workflow_dispatch:
+permissions:
+  issues: write
 
 jobs:
   create-labels:
