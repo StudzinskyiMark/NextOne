@@ -1,0 +1,30 @@
+name: 'Sync TODOs to GitHub Issues'
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Generate Issues'
+        uses: alstr/todo-to-issue-action@v5
+        with:
+          identifiers: >
+            [
+              {"name": "BUG", "label": "bug"},
+              {"name": "FIXME", "label": "fixme"},
+              {"name": "TODO", "label": "todo"},
+              {"name": "OPTIMIZE", "label": "optimize"},
+              {"name": "REFACTOR", "label": "refactor"},
+              {"name": "TEST", "label": "test"},
+              {"name": "IDEA", "label": "idea"}
+            ]
+          ignore: 'node_modules, .next, .vscode, public, dist, build, .git'
+          auto_assign: true
+          close_issues: true

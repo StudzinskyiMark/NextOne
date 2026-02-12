@@ -3,12 +3,16 @@ import { Separator } from '@/components/ui/separator';
 
 import { SignUpForm } from '../forms';
 
+// TODO add toast/sonar notifications for success and error states
+
+// TODO add loading state to the form and disable submit button while processing
+
 export function SignUpCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
-        <CardDescription>Create a new account</CardDescription>
+        <CardTitle className="text-center text-xl">Sign Up</CardTitle>
+        <CardDescription className="text-center">Create a new account</CardDescription>
         <Separator className="my-2" />
         <SignUpForm />
       </CardHeader>

@@ -1,0 +1,32 @@
+name: 'Setup Custom Issue Labels'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: 'bug', color: 'cc3333' },
+              { name: 'fixme', color: 'e68a00' },
+              { name: 'todo', color: '2d862d' },
+              { name: 'optimize', color: '0086b3' },
+              { name: 'refactor', color: '7b52ab' },
+              { name: 'test', color: '5562ac' },
+              { name: 'idea', color: 'c2185b' }
+            ];
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color
+                });
+              } catch (e) {}
+            }
