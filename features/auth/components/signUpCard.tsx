@@ -3,9 +3,8 @@ import { Separator } from '@/components/ui/separator';
 
 import { SignUpForm } from '../forms';
 
-// TODO add toast/sonar notifications for success and error states
-
-// TODO add loading state to the form and disable submit button while processing
+// TODO add toast/sonar notifications
+//add toast/sonar for success and/or error states for Sign Up to provide feedback to the user on the status of their sign up attempt
 
 export function SignUpCard() {
   return (
