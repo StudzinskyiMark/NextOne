@@ -23,7 +23,8 @@ jobs:
               {"name": "OPTIMIZE", "labels": ["optimize"]},
               {"name": "REFACTOR", "labels": ["refactor"]},
               {"name": "TEST", "labels": ["test"]},
-              {"name": "IDEA", "labels": ["idea"]}
+              {"name": "IDEA", "labels": ["idea"]},
+              {"name": "DOC", "labels": ["documentation"]}
             ]
           ignore: 'node_modules, .next, .vscode, public, dist, build, .git'
           auto_assign: true

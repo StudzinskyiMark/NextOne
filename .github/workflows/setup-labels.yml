@@ -14,13 +14,14 @@ jobs:
         with:
           script: |
             const labels = [
-              { name: 'bug', color: 'cc3333' },
-              { name: 'fixme', color: 'e68a00' },
-              { name: 'todo', color: '2d862d' },
-              { name: 'optimize', color: '0086b3' },
-              { name: 'refactor', color: '7b52ab' },
-              { name: 'test', color: '5562ac' },
-              { name: 'idea', color: 'c2185b' }
+              { name: 'bug', color: 'cc3333', description: 'Something is not working'},
+              { name: 'fixme', color: 'e68a00', description: 'Code needs to be fixed or improved'},
+              { name: 'todo', color: '2d862d', description: 'Tasks that need to be done'},
+              { name: 'optimize', color: '0086b3', description: 'Optimization needed'},
+              { name: 'refactor', color: '7b52ab', description: 'Code needs refactoring'},
+              { name: 'test', color: '5562ac', description: 'Tests need to be written or updated'},
+              { name: 'idea', color: 'c2185b', description: 'An idea for improvement or feature'},
+              { name: 'documentation', color: '0052cc', description: 'Documentation needs to be updated or added'}
             ];
             for (const label of labels) {
               try {
