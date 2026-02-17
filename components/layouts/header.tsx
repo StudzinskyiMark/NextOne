@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { AuthControl } from '@/features/auth';
+
 import { buttonVariants } from '../ui/button';
 import { ThemeToggle } from './theme-toggle';
 
@@ -26,12 +28,7 @@ export function Header() {
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <Link className={buttonVariants({ variant: 'outline' })} href="/auth/sign-in">
-          Sign In
-        </Link>
-        <Link className={buttonVariants({ variant: 'default' })} href="/auth/sign-up">
-          Sign Up
-        </Link>
+        <AuthControl />
         <ThemeToggle />
       </div>
     </nav>

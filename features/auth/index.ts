@@ -1,2 +1,4 @@
 // features/auth/index.ts
-export * from './components';
+export { AuthControl } from './components/AuthControl';
+export { SignInCard } from './components/SignInCard';
+export { SignUpCard } from './components/SignUpCard';
