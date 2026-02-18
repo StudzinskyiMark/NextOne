@@ -15,7 +15,7 @@ jobs:
       - name: 'Generate Issues'
         uses: alstr/todo-to-issue-action@v5
         with:
-          identifiers: >
+          IDENTIFIERS: >
             [
               {"name": "BUG", "labels": ["bug"]},
               {"name": "FIXME", "labels": ["fixme"]},
@@ -26,6 +26,6 @@ jobs:
               {"name": "IDEA", "labels": ["idea"]},
               {"name": "DOC", "labels": ["documentation"]}
             ]
-          ignore: 'node_modules, .next, .vscode, public, dist, build, .git'
-          auto_assign: true
-          close_issues: true
+          IGNORE: 'node_modules, .next, .vscode, public, dist, build, .git'
+          AUTO_ASSIGN: true
+          CLOSE_ISSUES: true
