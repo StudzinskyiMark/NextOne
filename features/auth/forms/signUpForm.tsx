@@ -15,9 +15,6 @@ import { Input } from '@/components/ui/input';
 import { signUpSubmit } from '../actions/signUpAction';
 import { TSignUpValues, signUpSchema } from '../schemas';
 
-// IDEA try useTransition hook for Submit button for Sign Up.
-// Show a loading state on the button while the form is being submitted, providing better feedback to the user and improving the overall user experience.
-
 export const SignUpForm = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { cn } from '@/lib/utils';
+
 import { AuthControl } from '@/features/auth';
 
 import { buttonVariants } from '../ui/button';
@@ -22,8 +24,8 @@ export function Header() {
           <Link className={buttonVariants({ variant: 'ghost' })} href="/blog">
             Blog
           </Link>
-          <Link className={buttonVariants({ variant: 'ghost' })} href="/create">
-            Create
+          <Link className={buttonVariants({ variant: 'secondary' })} href="/publish">
+            Publish
           </Link>
         </div>
       </div>

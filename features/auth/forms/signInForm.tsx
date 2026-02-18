@@ -15,8 +15,6 @@ import { Input } from '@/components/ui/input';
 import { signInAction } from '../actions/signInAction';
 import { TSignInValues, signInSchema } from '../schemas/authSchema';
 
-// IDEA try useTransition hook for Submit button for Sign In.
-// Show a loading state on the button while the form is being submitted, providing better feedback to the user and improving the overall user experience.
 
 export const SignInForm = () => {
   const router = useRouter();

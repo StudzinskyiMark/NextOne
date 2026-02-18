@@ -9,7 +9,7 @@ export async function proxy(request: NextRequest) {
   const isProtectedRoute =
     pathname.startsWith('/blog') ||
     pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/create');
+    pathname.startsWith('/publish');
 
   // THIS IS NOT SECURE!
   // This is the recommended approach to optimistically redirect users
@@ -32,5 +32,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/blog', '/create', '/dashboard'], // Specify the routes the proxy applies to
+  matcher: ['/blog', '/publish', '/dashboard'], // Specify the routes the proxy applies to
 };
