@@ -3,9 +3,6 @@ import { Separator } from '@/components/ui/separator';
 
 import { SignInForm } from '../forms/signInForm';
 
-// TODO add toast/sonar notifications Sign In
-//add toast/sonar for success and/or error states for Sign Up to provide feedback to the user on the status of their sign up attempt.
-
 export function SignInCard() {
   return (
     <Card>
