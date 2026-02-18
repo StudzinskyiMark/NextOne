@@ -1,8 +1,11 @@
 'use client';
 
+import { useTransition } from 'react';
+
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -12,13 +15,14 @@ import { Input } from '@/components/ui/input';
 import { signInAction } from '../actions/signInAction';
 import { TSignInValues, signInSchema } from '../schemas/authSchema';
 
-// IDEA try useTransition hook for Submit button.
+// IDEA try useTransition hook for Submit button for Sign In.
 // Show a loading state on the button while the form is being submitted, providing better feedback to the user and improving the overall user experience.
 
 export const SignInForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<TSignInValues>({
     resolver: zodResolver(signInSchema),
@@ -31,7 +35,9 @@ export const SignInForm = () => {
   return (
     <form
       onSubmit={form.handleSubmit((data) => {
-        signInAction(data, router, callbackUrl);
+        startTransition(async () => {
+          await signInAction(data, router, callbackUrl);
+        });
       })}
     >
       <FieldGroup>
@@ -68,8 +74,14 @@ export const SignInForm = () => {
             </Field>
           )}
         />
-        <Button type="submit" className="w-full">
-          Sign In
+        <Button disabled={isPending} type="submit" className="w-full">
+          {isPending ? (
+            <>
+              <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
+            </>
+          ) : (
+            <span>Sign In</span>
+          )}
         </Button>
       </FieldGroup>
     </form>
