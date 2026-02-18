@@ -1,15 +1,20 @@
-import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 
+import { signOutAction } from '../actions/signOutAction';
+
+//TODO Add dropdown menu for User
+// Add User profile image and name with dropdown menu that include Settings, Sign Out and etc.
+
 export function UserButton() {
-  //   console.log('Sign Up success!');
+  const router = useRouter();
+
   return (
     <>
       <Button
         onClick={() => {
-          console.log('Sign Out!');
-          authClient.signOut();
+          signOutAction(router);
         }}
       >
         Sign Out

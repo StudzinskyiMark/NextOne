@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -7,13 +9,15 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-import { handleSignUpSubmit } from '../actions/signUpAction';
+import { signUpSubmit } from '../actions/signUpAction';
 import { TSignUpValues, signUpSchema } from '../schemas';
 
 // IDEA try useTransition hook for Submit button.
 // Show a loading state on the button while the form is being submitted, providing better feedback to the user and improving the overall user experience.
 
 export const SignUpForm = () => {
+  const router = useRouter();
+
   const form = useForm<TSignUpValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -26,9 +30,7 @@ export const SignUpForm = () => {
   return (
     <form
       onSubmit={form.handleSubmit((data) => {
-        handleSignUpSubmit(data).then((data) => {
-          console.log('Sign up successful:', data);
-        });
+        signUpSubmit(data, router);
       })}
     >
       <FieldGroup>

@@ -1,18 +1,29 @@
-import { redirect } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+
+import { toast } from 'sonner';
 
 import { authClient } from '@/lib/auth-client';
 
 import { TSignUpValues } from '../schemas';
 
-export const handleSignUpSubmit = async (data: TSignUpValues) => {
+export const signUpSubmit = async (data: TSignUpValues, router: AppRouterInstance) => {
   try {
-    const result = await authClient.signUp.email({
+    await authClient.signUp.email({
       name: data.name,
       email: data.email,
       password: data.password,
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success('Sign In successfully!', { position: 'top-center' });
+        },
+        onError: (error) => {
+          toast.error(error.error.message, { position: 'top-center' });
+        },
+      },
     });
-    if (result) {
-      redirect('/');
+    if (router) {
+      router.refresh();
+      router.push('/');
     }
 
     return { success: true, message: `Sign up successful!` };
