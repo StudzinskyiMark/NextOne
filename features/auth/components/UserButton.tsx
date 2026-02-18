@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 import { signOutAction } from '../actions/signOutAction';
 
-//TODO Add dropdown menu for User
+// TODO Add dropdown menu for User
 // Add User profile image and name with dropdown menu that include Settings, Sign Out and etc.
 
 export function UserButton() {
