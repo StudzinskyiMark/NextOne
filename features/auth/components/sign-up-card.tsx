@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
-import { SignUpForm } from '../forms';
+import { SignUpForm } from '../forms/sign-up-form';
 
 export function SignUpCard() {
   return (

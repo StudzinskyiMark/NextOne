@@ -1,8 +1,7 @@
 import Link from 'next/link';
 
-import { cn } from '@/lib/utils';
-
 import { AuthControl } from '@/features/auth';
+import { PublishButton } from '@/features/editor';
 
 import { buttonVariants } from '../ui/button';
 import { ThemeToggle } from './theme-toggle';
@@ -12,7 +11,7 @@ export function Header() {
     <nav className="flex w-full items-center justify-between py-5">
       <div className="flex items-center gap-6">
         <Link href="/">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold tracking-wider">
             Next<span className="text-emerald-600">One</span>
           </h1>
         </Link>
@@ -24,9 +23,7 @@ export function Header() {
           <Link className={buttonVariants({ variant: 'ghost' })} href="/blog">
             Blog
           </Link>
-          <Link className={buttonVariants({ variant: 'secondary' })} href="/publish">
-            Publish
-          </Link>
+          <PublishButton />
         </div>
       </div>
       <div className="flex items-center gap-4">

@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
-import { SignInForm } from '../forms/signInForm';
+import { SignInForm } from '../forms/sign-in-form';
 
 // TODO Add dropdown menu for User
 // Add User profile image and name with dropdown menu that include Settings, Sign Out and etc.

@@ -2,7 +2,7 @@
 
 import { useTransition } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -12,17 +12,18 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-import { signUpSubmit } from '../actions/signUpAction';
-import { TSignUpValues, signUpSchema } from '../schemas';
+import { signInAction } from '../actions/sign-in-action';
+import { TSignInValues, signInSchema } from '../schemas/auth-schema';
 
-export const SignUpForm = () => {
+export const SignInForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<TSignUpValues>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<TSignInValues>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
     },
@@ -32,27 +33,11 @@ export const SignUpForm = () => {
     <form
       onSubmit={form.handleSubmit((data) => {
         startTransition(async () => {
-          await signUpSubmit(data, router);
+          await signInAction(data, router, callbackUrl);
         });
       })}
     >
       <FieldGroup>
-        <Controller
-          control={form.control}
-          name="name"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>Enter your name:</FieldLabel>
-              <Input
-                aria-invalid={fieldState.invalid}
-                placeholder="Enter your name"
-                {...field}
-                autoComplete="name"
-              />
-              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
-            </Field>
-          )}
-        />
         <Controller
           control={form.control}
           name="email"
@@ -92,7 +77,7 @@ export const SignUpForm = () => {
               <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
             </>
           ) : (
-            <span>Sign Up</span>
+            <span>Sign In</span>
           )}
         </Button>
       </FieldGroup>

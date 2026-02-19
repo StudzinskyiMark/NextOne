@@ -3,8 +3,8 @@ import { useConvexAuth } from 'convex/react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
-import { AuthButtons } from './AuthButtons';
-import { UserButton } from './UserButton';
+import { AuthButtons } from './auth-buttons';
+import { UserButton } from './user-button';
 
 export function AuthControl() {
   const { isAuthenticated, isLoading } = useConvexAuth();

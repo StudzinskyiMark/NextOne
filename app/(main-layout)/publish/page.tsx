@@ -1,10 +1,15 @@
+import { PublishCard } from '@/features/editor';
+
 export default function PublishPage() {
   return (
-    <div className="py-6">
-      <div className="text-center">
-        <h1 className="text-4xl font-semibold tracking-wide">Create new Post!</h1>
-        <p className="pt-2 text-xl font-semibold text-emerald-800">Create your own post</p>
+    <div className="py-4">
+      <div className="pb-6 text-center">
+        <h1 className="text-2xl font-bold tracking-wide">Create New Publication</h1>
+        <p className="text-m py-2 font-semibold text-muted-foreground">
+          Share your findings, tools, or development updates
+        </p>
       </div>
+      <PublishCard />
     </div>
   );
 }
