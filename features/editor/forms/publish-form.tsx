@@ -2,7 +2,9 @@
 
 import { useTransition } from 'react';
 
+import { api } from '@/convex/_generated/api';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'convex/react';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -12,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 
+import { publishPostAction } from '../actions/publish-post-action';
 import { TEditorValues, editorSchema } from '../schemas/editor-schema';
 
 // TODO Replace Text area with TipTap text editor
@@ -20,11 +23,29 @@ import { TEditorValues, editorSchema } from '../schemas/editor-schema';
 // TODO Implement symbol counter for fields
 // Add a counter to inform how many symbols remain
 
+// TODO Implement "Light" Draft system using LocalStorage
+// 1. Add a useEffect to sync form state with LocalStorage every 5 seconds.
+// 2. Implement logic to check for existing draft on component mount and use form.reset() to restore.
+// 3. Add a "Clear Draft" action upon successful publication.
+
+// TODO Implement Server-side Drafts (Convex)
+// 1. Create a `saveDraft` mutation in Convex that bypasses strict schema validation.
+// 2. Add `status: "draft" | "published"` to the posts schema.
+// 3. Implement `onSaveDraft` handler for the "Save Draft" button (type="button").
+// 4. Create a mechanism to resume editing by fetching the draft by ID or latest entry.
+
+// TODO Improve Drafts UX and Auto-save
+// 1. Add a "Draft saved" visual indicator (timestamp or icon) near the action buttons.
+// 2. Implement debounced auto-save to Convex to reduce server load.
+// 3. Add a "Discard Draft" confirmation dialog to prevent accidental data loss.
+
 // IDEA Add AI assistant for title generation
 // Improve UX by adding an AI title generator based on the content text
 
 export function PublishForm() {
   const [isPending, startTransition] = useTransition();
+
+  const postMutation = useMutation(api.posts.createPost);
 
   const form = useForm<TEditorValues>({
     resolver: zodResolver(editorSchema),
@@ -36,11 +57,11 @@ export function PublishForm() {
 
   return (
     <form
-      onSubmit={() => {
+      onSubmit={form.handleSubmit((data) => {
         startTransition(async () => {
-          await console.log('form submit!');
+          await publishPostAction(data, postMutation);
         });
-      }}
+      })}
     >
       <FieldGroup>
         <Controller
@@ -60,7 +81,7 @@ export function PublishForm() {
             </Field>
           )}
         />
-        <Separator className='my-2' />
+        <Separator className="my-2" />
         <Controller
           control={form.control}
           name="content"
@@ -80,9 +101,10 @@ export function PublishForm() {
         <div className="flex justify-end-safe gap-4 max-md:flex-col">
           <Button
             disabled={isPending}
-            type="submit"
+            type="button"
             variant={'secondary'}
             className="w-full md:max-w-46"
+            onClick={() => console.log('saved Draft')}
           >
             {isPending ? (
               <>

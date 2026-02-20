@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import { authClient } from '@/lib/auth-client';
 
-import { TSignUpValues } from '../schemas';
+import { TSignUpValues } from '../schemas/auth-schema';
 
 export const signUpSubmit = async (data: TSignUpValues, router: AppRouterInstance) => {
   try {

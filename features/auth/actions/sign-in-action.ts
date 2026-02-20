@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import { authClient } from '@/lib/auth-client';
 
-import { TSignInValues } from '../schemas';
+import { TSignInValues } from '../schemas/auth-schema';
 
 export async function signInAction(
   data: TSignInValues,
