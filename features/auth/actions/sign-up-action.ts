@@ -6,6 +6,9 @@ import { authClient } from '@/lib/auth-client';
 
 import { TSignUpValues } from '../schemas/auth-schema';
 
+// REFACTOR Refactor to server action signUpAction
+//This server action is used to sign up a user. Create hook for toasts and redirect for form
+
 export const signUpSubmit = async (data: TSignUpValues, router: AppRouterInstance) => {
   try {
     await authClient.signUp.email({

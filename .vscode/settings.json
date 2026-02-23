@@ -25,5 +25,6 @@
    "editor.formatOnSave": true,
    "editor.defaultFormatter": "esbenp.prettier-vscode",
    "tailwindCSS.annotateRequired": true,
-   "todo-tree.tree.showBadges": false
+   "todo-tree.tree.showBadges": false,
+   "todo-tree.tree.scanMode": "workspace only"
 }

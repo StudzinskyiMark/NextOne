@@ -4,6 +4,9 @@ import { toast } from 'sonner';
 
 import { authClient } from '@/lib/auth-client';
 
+// REFACTOR Refactor to server action signOutAction
+//This server action is used to sign out a user. Create hook for toasts and redirect for form
+
 export async function signOutAction(router?: AppRouterInstance) {
   try {
     authClient.signOut({

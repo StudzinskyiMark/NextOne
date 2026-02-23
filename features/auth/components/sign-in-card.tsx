@@ -3,9 +3,6 @@ import { Separator } from '@/components/ui/separator';
 
 import { SignInForm } from '../forms/sign-in-form';
 
-// TODO Add dropdown menu for User
-// Add User profile image and name with dropdown menu that include Settings, Sign Out and etc.
-
 export function SignInCard() {
   return (
     <Card>

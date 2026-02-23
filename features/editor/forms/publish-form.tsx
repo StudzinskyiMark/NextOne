@@ -2,9 +2,7 @@
 
 import { useTransition } from 'react';
 
-import { api } from '@/convex/_generated/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'convex/react';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -14,11 +12,11 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 
-import { publishPostAction } from '../actions/publish-post-action';
-import { TEditorValues, editorSchema } from '../schemas/editor-schema';
+import { usePublishPost } from '../model/use-publish-post';
+import { TEditorValues, editorSchema } from '../schemas/editor.schema';
 
-// TODO Replace Text area with TipTap text editor
-// Add a fully functional text editor for an improved user experience
+// IDEA Add AI assistant for title generation
+// Improve UX by adding an AI title generator based on the content text
 
 // TODO Implement symbol counter for fields
 // Add a counter to inform how many symbols remain
@@ -39,13 +37,15 @@ import { TEditorValues, editorSchema } from '../schemas/editor-schema';
 // 2. Implement debounced auto-save to Convex to reduce server load.
 // 3. Add a "Discard Draft" confirmation dialog to prevent accidental data loss.
 
-// IDEA Add AI assistant for title generation
-// Improve UX by adding an AI title generator based on the content text
+// TODO Replace Text area with TipTap text editor
+// Add a fully functional text editor for an improved user experience
 
 export function PublishForm() {
-  const [isPending, startTransition] = useTransition();
+  //DELETE after implementing auto-save
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const postMutation = useMutation(api.posts.createPost);
+  const [isSaving, startSaving] = useTransition();
+  const { handlePublish, isPublishing } = usePublishPost();
 
   const form = useForm<TEditorValues>({
     resolver: zodResolver(editorSchema),
@@ -56,13 +56,7 @@ export function PublishForm() {
   });
 
   return (
-    <form
-      onSubmit={form.handleSubmit((data) => {
-        startTransition(async () => {
-          await publishPostAction(data, postMutation);
-        });
-      })}
-    >
+    <form onSubmit={form.handleSubmit(handlePublish)}>
       <FieldGroup>
         <Controller
           control={form.control}
@@ -72,7 +66,7 @@ export function PublishForm() {
               <FieldLabel className="text-muted-foreground ml-2">Title</FieldLabel>
               <Input
                 type="text"
-                className="h-auto py-3 text-2xl font-medium"
+                className="text-l h-auto py-3 font-medium md:text-xl"
                 aria-invalid={fieldState.invalid}
                 placeholder="Give your research a clear name..."
                 {...field}
@@ -100,13 +94,17 @@ export function PublishForm() {
         />
         <div className="flex justify-end-safe gap-4 max-md:flex-col">
           <Button
-            disabled={isPending}
+            disabled={isSaving}
             type="button"
             variant={'secondary'}
             className="w-full md:max-w-46"
-            onClick={() => console.log('saved Draft')}
+            onClick={() => {
+              startSaving(async () => {
+                await delay(3000).then(() => console.log('Draft saved!'));
+              });
+            }}
           >
-            {isPending ? (
+            {isSaving ? (
               <>
                 <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
               </>
@@ -114,8 +112,8 @@ export function PublishForm() {
               <span>Save Draft</span>
             )}
           </Button>
-          <Button disabled={isPending} type="submit" className="w-full md:max-w-46">
-            {isPending ? (
+          <Button disabled={isPublishing} type="submit" className="w-full md:max-w-46">
+            {isPublishing ? (
               <>
                 <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
               </>

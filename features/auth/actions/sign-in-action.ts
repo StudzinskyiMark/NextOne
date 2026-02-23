@@ -6,6 +6,9 @@ import { authClient } from '@/lib/auth-client';
 
 import { TSignInValues } from '../schemas/auth-schema';
 
+// REFACTOR Refactor to server action signInAction
+//This server action is used to sign in a user. Create hook for toasts and redirect for form
+
 export async function signInAction(
   data: TSignInValues,
   router?: AppRouterInstance,
