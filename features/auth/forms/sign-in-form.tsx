@@ -1,9 +1,5 @@
 'use client';
 
-import { useTransition } from 'react';
-
-import { useRouter, useSearchParams } from 'next/navigation';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,14 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-import { signInAction } from '../actions/sign-in-action';
-import { TSignInValues, signInSchema } from '../schemas/auth-schema';
+import { useSignIn } from '../model/use-sign-in';
+import { TSignInValues, signInSchema } from '../schemas/auth.schema';
 
 export const SignInForm = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
-  const [isPending, startTransition] = useTransition();
+  const { isSigningIn, signIn } = useSignIn();
 
   const form = useForm<TSignInValues>({
     resolver: zodResolver(signInSchema),
@@ -30,13 +23,7 @@ export const SignInForm = () => {
   });
 
   return (
-    <form
-      onSubmit={form.handleSubmit((data) => {
-        startTransition(async () => {
-          await signInAction(data, router, callbackUrl);
-        });
-      })}
-    >
+    <form onSubmit={form.handleSubmit(signIn)}>
       <FieldGroup>
         <Controller
           control={form.control}
@@ -71,8 +58,8 @@ export const SignInForm = () => {
             </Field>
           )}
         />
-        <Button disabled={isPending} type="submit" className="w-full">
-          {isPending ? (
+        <Button disabled={isSigningIn} type="submit" className="w-full">
+          {isSigningIn ? (
             <>
               <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
             </>

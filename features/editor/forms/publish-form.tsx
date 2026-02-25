@@ -45,7 +45,7 @@ export function PublishForm() {
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const [isSaving, startSaving] = useTransition();
-  const { handlePublish, isPublishing } = usePublishPost();
+  const { isPublishing, handlePublish } = usePublishPost();
 
   const form = useForm<TEditorValues>({
     resolver: zodResolver(editorSchema),

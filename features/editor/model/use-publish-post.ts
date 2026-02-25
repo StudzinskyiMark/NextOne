@@ -29,5 +29,5 @@ export const usePublishPost = () => {
     });
   };
 
-  return { handlePublish, isPublishing: isPending };
+  return { isPublishing: isPending, handlePublish };
 };
