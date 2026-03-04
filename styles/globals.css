@@ -49,18 +49,18 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.99 0.004 165);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.666 0.179 164.76); /* Emerald 600 */
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted-foreground: oklch(0.45 0.02 264.695);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
@@ -80,6 +80,39 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  @layer base {
+    * {
+      @apply border-border outline-ring/50;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+
+    .bg-primary {
+      @apply transition-all duration-300;
+    }
+
+    /* Світла тема: кнопка стає темною з насиченим смарагдовим акцентом */
+    .bg-primary:hover {
+      /* Emerald 950 */
+      background-color: oklch(0.58 0.16 164.76) !important;
+      /* Смарагдове світіння */
+      box-shadow: 0 10px 25px -5px oklch(0.666 0.179 164.76 / 30%);
+      /* Білий текст */
+      color: oklch(0.985 0 0) !important;
+    }
+
+    /* Темна тема (твоя оригінальна логіка): кнопка стає білою */
+    .dark .bg-primary:hover {
+      /* Emerald 50 / White-ish */
+      background-color: oklch(0.98 0.01 165) !important;
+      /* Яскраве світіння на темному фоні */
+      box-shadow: 0 0 20px oklch(0.666 0.179 164.76 / 40%);
+      /* Темний текст (Emerald 950) */
+      color: oklch(0.18 0.05 165) !important;
+    }
+  }
 }
 
 .dark {
@@ -114,25 +147,25 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-}
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  @layer base {
+    * {
+      @apply border-border outline-ring/50;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
 
-  .bg-primary {
-    @apply transition-all duration-300;
-  }
+    .bg-primary {
+      @apply transition-all duration-300;
+    }
 
-  .bg-primary:hover {
-    background-color: theme('colors.emerald.50') !important;
+    .bg-primary:hover {
+      background-color: theme('colors.emerald.50') !important;
 
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
 
-    color: theme('colors.emerald.950') !important;
+      color: theme('colors.emerald.950') !important;
+    }
   }
 }

@@ -18,7 +18,7 @@ export async function publishPostAction(data: TEditorValues) {
     api.posts.createPost,
     {
       title: parsedData.data.title,
-      body: parsedData.data.content,
+      body: parsedData.data.body,
     },
     {
       token,

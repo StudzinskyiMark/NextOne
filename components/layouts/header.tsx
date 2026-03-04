@@ -12,7 +12,7 @@ export function Header() {
       <div className="flex items-center gap-6">
         <Link href="/">
           <h1 className="text-2xl font-bold tracking-wider">
-            Next<span className="text-emerald-600">One</span>
+            Next<span className="text-emerald-700 dark:text-emerald-500">One</span>
           </h1>
         </Link>
 

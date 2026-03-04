@@ -1,5 +1,21 @@
 'use client';
 
+import { PostCard, PostCardSkeleton, useGetPosts } from '@/features/editor';
+
 export default function BlogPage() {
-  return <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>;
+  const { posts, isLoading } = useGetPosts();
+
+  return (
+    <div className="py-4">
+      <div className="pb-8 text-center">
+        <h1 className="text-2xl font-bold tracking-wide md:text-3xl">Blog</h1>
+        <p className="text-muted-foreground text-lg md:text-xl">Thoughts, trends, and updates</p>
+      </div>
+      <div className="mt-4 grid grid-cols-1 gap-6 max-md:px-6 md:grid-cols-2 lg:grid-cols-3">
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, i) => <PostCardSkeleton key={i} />)
+          : posts?.map((post) => <PostCard key={post._id} data={post} />)}
+      </div>
+    </div>
+  );
 }

@@ -51,7 +51,7 @@ export function PublishForm() {
     resolver: zodResolver(editorSchema),
     defaultValues: {
       title: '',
-      content: '',
+      body: '',
     },
   });
 
@@ -78,7 +78,7 @@ export function PublishForm() {
         <Separator className="my-2" />
         <Controller
           control={form.control}
-          name="content"
+          name="body"
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel className="text-muted-foreground ml-2">Content</FieldLabel>
