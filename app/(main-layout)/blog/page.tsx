@@ -1,9 +1,9 @@
-'use client';
+import { Suspense } from 'react';
 
-import { PostCard, PostCardSkeleton, useGetPosts } from '@/features/editor';
+import { BlogPostsLost, PostCardSkeleton } from '@/features/editor';
 
-export default function BlogPage() {
-  const { posts, isLoading } = useGetPosts();
+export default async function BlogPage() {
+  //   const { posts, isLoading } = useGetPosts();
 
   return (
     <div className="py-4">
@@ -12,9 +12,13 @@ export default function BlogPage() {
         <p className="text-muted-foreground text-lg md:text-xl">Thoughts, trends, and updates</p>
       </div>
       <div className="mt-4 grid grid-cols-1 gap-6 max-md:px-6 md:grid-cols-2 lg:grid-cols-3">
-        {isLoading
-          ? Array.from({ length: 6 }).map((_, i) => <PostCardSkeleton key={i} />)
-          : posts?.map((post) => <PostCard key={post._id} data={post} />)}
+        <Suspense
+          fallback={Array.from({ length: 3 }).map((_, i) => (
+            <PostCardSkeleton key={i} />
+          ))}
+        >
+          <BlogPostsLost />
+        </Suspense>
       </div>
     </div>
   );

@@ -23,10 +23,11 @@ export function useSignIn() {
         await authClient.signIn.email({
           email: data.email,
           password: data.password,
-          callbackURL: callbackUrl || '/',
+
           fetchOptions: {
             onSuccess: () => {
               toast.success('Sign In successfully!', { position: 'top-center' });
+              router.push(callbackUrl || '/');
               router.refresh();
             },
             onError: (ctx) => {
