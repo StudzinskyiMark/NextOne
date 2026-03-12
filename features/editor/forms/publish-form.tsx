@@ -37,9 +37,16 @@ import { TEditorValues, editorSchema } from '../schemas/editor.schema';
 // TODO Replace Text area with TipTap text editor
 // Add a fully functional text editor for an improved user experience
 
-export function PublishForm() {
-  
+// TODO Implement symbol counter for fields
+// Add a counter to inform how many symbols remain
 
+// IDEA Add drag-and-drop for image upload
+// Add a drag-and-drop area for image upload with preview
+
+// IDEA Add AI assistant for title generation
+// Improve UX by adding an AI title generator based on the content text
+
+export function PublishForm() {
   //DELETE after implementing auto-save
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -66,28 +73,6 @@ export function PublishForm() {
   return (
     <form onSubmit={form.handleSubmit(handlePublish)}>
       <FieldGroup>
-        {/* <Controller
-          control={form.control}
-          name="image"
-          render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel className="text-muted-foreground ml-2">Image</FieldLabel>
-              <Input
-                aria-invalid={fieldState.invalid}
-                type="file"
-                accept="image/*"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) {
-                    field.onChange(file);
-                  }
-                }}
-              />
-              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
-            </Field>
-          )}
-        /> */}
-
         <Controller
           control={form.control}
           name="image"
@@ -97,12 +82,12 @@ export function PublishForm() {
 
               <div className="group relative">
                 {preview ? (
-                  <div className="border-muted-foreground/20 bg-muted/30 relative aspect-video w-full overflow-hidden rounded-lg border">
+                  <div className="border-muted-foreground/20 bg-muted/30 relative aspect-video h-56 w-full overflow-hidden rounded-lg border">
                     <Image
                       src={preview}
                       alt="post image preview"
                       fill
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover object-center"
                     />
                     <button
                       type="button"

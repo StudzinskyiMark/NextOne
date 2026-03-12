@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 
 import { useSignOut } from '../model/use-sign-out';
 
+// TODO Add dropdown menu for User
+// Add User profile image and name with dropdown menu that include Settings, Sign Out and etc.
+
 export function UserButton() {
   const { isPending, handleSignOut } = useSignOut();
-
-
 
   return (
     <>
