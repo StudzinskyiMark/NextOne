@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { BlogPostsLost, PostCardSkeleton } from '@/features/editor';
+import { BlogPostsList, PostCardSkeleton } from '@/features/editor';
 
 export default async function BlogPage() {
   //   const { posts, isLoading } = useGetPosts();
@@ -17,7 +17,7 @@ export default async function BlogPage() {
             <PostCardSkeleton key={i} />
           ))}
         >
-          <BlogPostsLost />
+          <BlogPostsList />
         </Suspense>
       </div>
     </div>

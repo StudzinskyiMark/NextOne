@@ -8,26 +8,45 @@ import { getToken } from '@/lib/auth-server';
 import { TEditorValues, editorSchema } from '../schemas/editor.schema';
 
 export async function publishPostAction(data: TEditorValues) {
-  const parsedData = editorSchema.safeParse(data);
+  try {
+    const parsedData = editorSchema.safeParse(data);
 
-  if (!parsedData.success) throw new Error(parsedData.error.message);
+    if (!parsedData.success) throw new Error(parsedData.error.message);
 
-  const token = await getToken();
+    const token = await getToken();
 
-  const result = await fetchMutation(
-    api.posts.createPost,
-    {
-      title: parsedData.data.title,
-      body: parsedData.data.body,
-    },
-    {
-      token,
+    const imageUrl = await fetchMutation(api.posts.generatedImageUploadUrl, {}, { token });
+
+    const resultUpload = await fetch(imageUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': parsedData.data.image?.type || '' },
+      body: parsedData.data.image,
+    });
+
+    if (!resultUpload.ok) {
+      throw new Error(resultUpload.statusText);
     }
-  );
 
-  if (!!result) {
-    return { success: true, message: `Successfully published!` };
-  } else {
-    return { success: false, message: `Something went wrong!` };
+    const { storageId } = await resultUpload.json();
+
+    const resultPost = await fetchMutation(
+      api.posts.createPost,
+      {
+        title: parsedData.data.title,
+        body: parsedData.data.body,
+        imageStorageID: storageId,
+      },
+      {
+        token,
+      }
+    );
+
+    if (!!resultPost) {
+      return { success: true, message: `Successfully published!` };
+    } else {
+      return { success: false, message: `Something went wrong!` };
+    }
+  } catch {
+    throw new Error('Server error!');
   }
 }

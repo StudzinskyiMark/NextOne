@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         port: '',
       },
+      {
+        hostname: 'joyous-bullfrog-329.convex.cloud',
+        protocol: 'https',
+        port: '',
+      },
     ],
   },
 };

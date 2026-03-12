@@ -13,9 +13,9 @@ export const usePublishPost = () => {
 
   const handlePublish = (data: TEditorValues) => {
     startTransition(async () => {
-      const result = await publishPostAction(data);
-
       try {
+        const result = await publishPostAction(data);
+
         if (result.success) {
           toast.success(result.message, { position: 'top-center' });
           router.push('/blog');

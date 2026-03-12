@@ -1,8 +1,11 @@
 'use client';
-
 import { useTransition } from 'react';
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Upload, X } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -14,12 +17,6 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { usePublishPost } from '../model/use-publish-post';
 import { TEditorValues, editorSchema } from '../schemas/editor.schema';
-
-// IDEA Add AI assistant for title generation
-// Improve UX by adding an AI title generator based on the content text
-
-// TODO Implement symbol counter for fields
-// Add a counter to inform how many symbols remain
 
 // TODO Implement "Light" Draft system using LocalStorage
 // 1. Add a useEffect to sync form state with LocalStorage every 5 seconds.
@@ -41,23 +38,111 @@ import { TEditorValues, editorSchema } from '../schemas/editor.schema';
 // Add a fully functional text editor for an improved user experience
 
 export function PublishForm() {
+  
+
   //DELETE after implementing auto-save
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const [isSaving, startSaving] = useTransition();
   const { isPublishing, handlePublish } = usePublishPost();
 
+  const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
+
   const form = useForm<TEditorValues>({
     resolver: zodResolver(editorSchema),
     defaultValues: {
       title: '',
       body: '',
+      image: undefined,
     },
   });
 
   return (
     <form onSubmit={form.handleSubmit(handlePublish)}>
       <FieldGroup>
+        {/* <Controller
+          control={form.control}
+          name="image"
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel className="text-muted-foreground ml-2">Image</FieldLabel>
+              <Input
+                aria-invalid={fieldState.invalid}
+                type="file"
+                accept="image/*"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) {
+                    field.onChange(file);
+                  }
+                }}
+              />
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
+          )}
+        /> */}
+
+        <Controller
+          control={form.control}
+          name="image"
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel className="text-muted-foreground ml-2">Image</FieldLabel>
+
+              <div className="group relative">
+                {preview ? (
+                  <div className="border-muted-foreground/20 bg-muted/30 relative aspect-video w-full overflow-hidden rounded-lg border">
+                    <Image
+                      src={preview}
+                      alt="post image preview"
+                      fill
+                      className="h-full w-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPreview(null);
+                        field.onChange(null);
+                      }}
+                      className="absolute top-2 right-2 rounded-full bg-black/50 p-1.5 text-white transition hover:bg-black/70"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="border-muted-foreground/25 bg-muted/50 hover:bg-muted/80 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition">
+                    <div className="text-muted-foreground flex flex-col items-center gap-2">
+                      <Upload className="size-6" />
+                      <span className="text-sm font-medium">Click to upload image</span>
+                    </div>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      aria-invalid={fieldState.invalid}
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (file) {
+                          setPreview(URL.createObjectURL(file));
+                          field.onChange(file);
+                        }
+                      }}
+                    />
+                  </label>
+                )}
+              </div>
+
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
+          )}
+        />
+
         <Controller
           control={form.control}
           name="title"

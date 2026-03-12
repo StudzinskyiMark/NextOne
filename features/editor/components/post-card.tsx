@@ -1,10 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Doc } from '@/convex/_generated/dataModel';
-
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+
+import { PostWithImageUrl } from '../model/types';
+
+interface PostCardProps {
+  data: PostWithImageUrl;
+}
 
 // TODO Add Spotlight Effect on Hover
 // - [ ] **Setup Framer Motion:** Ensure `framer-motion` is installed and imported.
@@ -26,7 +30,10 @@ import { Skeleton } from '@/components/ui/skeleton';
   v2: "Three dots" menu icon instead of direct buttons. Maximum clean UI.
 */
 
-export const PostCard = ({ data }: { data: Doc<'posts'> }) => {
+const PLACEHOLDER_IMAGE =
+  'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
+export const PostCard = ({ data }: PostCardProps) => {
   return (
     <div className="group relative h-full">
       <div className="absolute rounded-xl bg-emerald-600/40 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 dark:-inset-1" />
@@ -39,8 +46,9 @@ export const PostCard = ({ data }: { data: Doc<'posts'> }) => {
         />
         <div className="bg-muted relative h-44 w-full overflow-hidden rounded-xl">
           <Image
-            src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={data.imageUrl ?? PLACEHOLDER_IMAGE}
             alt="post image"
+            loading="eager"
             fill
             className="object-cover transition-transform duration-400 group-hover:scale-105"
           />
