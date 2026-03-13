@@ -6,6 +6,7 @@ import { fetchMutation } from 'convex/nextjs';
 import { getToken } from '@/lib/auth-server';
 
 import { TEditorValues, editorSchema } from '../schemas/editor.schema';
+import { revalidatePath } from 'next/cache';
 
 export async function publishPostAction(data: TEditorValues) {
   try {
@@ -49,4 +50,6 @@ export async function publishPostAction(data: TEditorValues) {
   } catch {
     throw new Error('Server error!');
   }
+
+  revalidatePath('/blog');
 }
