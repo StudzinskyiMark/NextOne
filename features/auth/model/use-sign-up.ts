@@ -2,6 +2,7 @@
 import { useTransition } from 'react';
 
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { toast } from 'sonner';
 
@@ -11,11 +12,11 @@ import { TSignUpValues } from '../schemas/auth.schema';
 
 export function useSignUp() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get('callbackUrl');
 
   const [isPending, startTransition] = useTransition();
-
-  const { searchParams } = new URL(window.location.href);
-  const callbackUrl = searchParams.get('callbackUrl');
 
   const signUp = async (data: TSignUpValues) => {
     startTransition(async () => {
