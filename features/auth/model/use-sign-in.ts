@@ -2,6 +2,7 @@
 import { useTransition } from 'react';
 
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { toast } from 'sonner';
 
@@ -11,17 +12,13 @@ import { TSignInValues } from '../schemas/auth.schema';
 
 export function useSignIn() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [isPending, startTransition] = useTransition();
 
-  const { searchParams } = new URL(window.location.href);
   const callbackUrl = searchParams.get('callbackUrl');
 
   const signIn = async (data: TSignInValues) => {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/';
-    }
-
     startTransition(async () => {
       try {
         await authClient.signIn.email({
