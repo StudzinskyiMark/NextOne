@@ -1,11 +1,15 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import { SignUpCard } from '@/features/auth';
 
 export default function SignUpPage() {
   return (
     <>
-      <SignUpCard />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SignUpCard />
+      </Suspense>
     </>
   );
 }
