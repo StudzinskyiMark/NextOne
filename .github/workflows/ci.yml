@@ -9,7 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
       NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
+      NEXT_PUBLIC_CONVEX_SITE_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_SITE_URL }}
+      CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
+      SITE_URL: ${{ secrets.SITE_URL }}
+      BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
 
     steps:
       - uses: actions/checkout@v4
