@@ -9,24 +9,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
+      NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
         with:
           version: 10
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
 
       - name: Run linter
         run: pnpm lint
@@ -34,11 +39,5 @@ jobs:
       - name: Type check
         run: pnpm tsc --noEmit
 
-      - name: Debug env
-        run: echo $CONVEX_SITE_URL
-
       - name: Build project
         run: pnpm build
-
-      # - name: Run tests
-      #   run: pnpm test
