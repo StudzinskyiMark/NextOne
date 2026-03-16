@@ -34,6 +34,9 @@ jobs:
       - name: Type check
         run: pnpm tsc --noEmit
 
+      - name: Debug env
+        run: echo $CONVEX_SITE_URL
+
       - name: Build project
         run: pnpm build
 
