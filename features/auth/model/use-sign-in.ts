@@ -18,6 +18,10 @@ export function useSignIn() {
   const callbackUrl = searchParams.get('callbackUrl');
 
   const signIn = async (data: TSignInValues) => {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
+
     startTransition(async () => {
       try {
         await authClient.signIn.email({
