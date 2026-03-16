@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
 
     steps:
       - name: Checkout repository
@@ -34,8 +36,6 @@ jobs:
 
       - name: Build project
         run: pnpm build
-        env:
-          CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
 
       # - name: Run tests
       #   run: pnpm test
