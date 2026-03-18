@@ -1,55 +1,54 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { api } from '@/convex/_generated/api';
 import { fetchMutation } from 'convex/nextjs';
 
 import { getToken } from '@/lib/auth-server';
 
 import { TEditorValues, editorSchema } from '../schemas/editor.schema';
-import { revalidatePath } from 'next/cache';
 
 export async function publishPostAction(data: TEditorValues) {
   try {
     const parsedData = editorSchema.safeParse(data);
-
     if (!parsedData.success) throw new Error(parsedData.error.message);
 
     const token = await getToken();
+    let imageStorageId = undefined;
 
-    const imageUrl = await fetchMutation(api.posts.generatedImageUploadUrl, {}, { token });
+    if (parsedData.data.image && parsedData.data.image.size > 0) {
+      const uploadUrl = await fetchMutation(api.posts.generatedImageUploadUrl, {}, { token });
 
-    const resultUpload = await fetch(imageUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': parsedData.data.image?.type || '' },
-      body: parsedData.data.image,
-    });
+      const resultUpload = await fetch(uploadUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': parsedData.data.image.type },
+        body: parsedData.data.image,
+      });
 
-    if (!resultUpload.ok) {
-      throw new Error(resultUpload.statusText);
+      if (!resultUpload.ok) throw new Error('Failed to upload image');
+
+      const response = await resultUpload.json();
+      imageStorageId = response.imageStorageId;
     }
-
-    const { storageId } = await resultUpload.json();
 
     const resultPost = await fetchMutation(
       api.posts.createPost,
       {
         title: parsedData.data.title,
         body: parsedData.data.body,
-        imageStorageID: storageId,
+        imageStorageID: imageStorageId,
       },
-      {
-        token,
-      }
+      { token }
     );
 
-    if (!!resultPost) {
-      return { success: true, message: `Successfully published!` };
-    } else {
-      return { success: false, message: `Something went wrong!` };
-    }
-  } catch {
-    throw new Error('Server error!');
-  }
+    if (!resultPost) return { success: false, message: `Something went wrong!` };
 
-  revalidatePath('/blog');
+    return { success: true, message: `Successfully published!` };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: 'Server error!' };
+  } finally {
+    revalidatePath('/blog');
+  }
 }

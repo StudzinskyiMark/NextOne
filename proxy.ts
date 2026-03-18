@@ -11,14 +11,9 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/publish');
 
-  // THIS IS NOT SECURE!
-  // This is the recommended approach to optimistically redirect users
-  // We recommend handling auth checks in each page/route
   if (isProtectedRoute && !sessionCookie) {
-    // Створюємо URL для сторінки входу
     const signInUrl = new URL('/auth/sign-in', request.url);
 
-    // ВАЖЛИВО: Передаємо поточний шлях у callbackUrl
     signInUrl.searchParams.set('callbackUrl', pathname);
 
     return NextResponse.redirect(signInUrl);
@@ -32,5 +27,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/blog', '/publish', '/dashboard'], // Specify the routes the proxy applies to
+  matcher: ['/publish', '/dashboard'], // Specify the routes the proxy applies to
 };
