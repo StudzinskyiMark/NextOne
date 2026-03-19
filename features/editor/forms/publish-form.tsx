@@ -7,7 +7,9 @@ import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Upload, X } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
@@ -16,7 +18,12 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 
 import { usePublishPost } from '../model/use-publish-post';
-import { TEditorValues, editorSchema } from '../schemas/editor.schema';
+import {
+  MAX_TITLE_LENGTH,
+  MIN_TITLE_LENGTH,
+  TEditorValues,
+  editorSchema,
+} from '../schemas/editor.schema';
 
 // TODO Implement "Light" Draft system using LocalStorage
 // 1. Add a useEffect to sync form state with LocalStorage every 5 seconds.
@@ -37,14 +44,14 @@ import { TEditorValues, editorSchema } from '../schemas/editor.schema';
 // TODO Replace Text area with TipTap text editor
 // Add a fully functional text editor for an improved user experience
 
-// TODO Implement symbol counter for fields
-// Add a counter to inform how many symbols remain
-
 // IDEA Add drag-and-drop for image upload
 // Add a drag-and-drop area for image upload with preview
 
 // IDEA Add AI assistant for title generation
 // Improve UX by adding an AI title generator based on the content text
+
+// REFACTOR Move symbol counter to a separate component
+// Move symbol counter logic to a separate function and reuse it in other components
 
 export function PublishForm() {
   //DELETE after implementing auto-save
@@ -69,6 +76,16 @@ export function PublishForm() {
       image: undefined,
     },
   });
+
+  const titleValue = useWatch({
+    control: form.control,
+    name: 'title',
+  });
+
+  const titleLength = titleValue?.length ?? 0;
+
+  const isError = titleLength > MAX_TITLE_LENGTH;
+  const isWarning = titleLength > MAX_TITLE_LENGTH * 0.8;
 
   return (
     <form onSubmit={form.handleSubmit(handlePublish)}>
@@ -134,14 +151,32 @@ export function PublishForm() {
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel className="text-muted-foreground ml-2">Title</FieldLabel>
-              <Input
-                type="text"
-                className="text-l h-auto py-3 font-medium md:text-xl"
-                aria-invalid={fieldState.invalid}
-                placeholder="Give your research a clear name..."
-                {...field}
-              />
-              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+              <div className="relative">
+                <Input
+                  type="text"
+                  className="text-l h-auto py-2 font-medium md:text-xl"
+                  aria-invalid={fieldState.invalid || isError}
+                  placeholder="Give your research a clear name..."
+                  {...field}
+                />
+                <div className="min-h-[20px]">
+                  {fieldState.error ? (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  ) : isError ? (
+                    <FieldError>{`Too long (max ${MAX_TITLE_LENGTH} characters)`}</FieldError>
+                  ) : null}
+                  <span
+                    className={cn(
+                      'absolute top-1/2 right-3 -translate-y-1/2 text-xs',
+                      isWarning && 'text-yellow-500',
+                      isError && 'text-red-500',
+                      !isError && !isWarning && 'text-muted-foreground'
+                    )}
+                  >
+                    {titleLength}/{MAX_TITLE_LENGTH}
+                  </span>
+                </div>
+              </div>
             </Field>
           )}
         />
@@ -182,7 +217,13 @@ export function PublishForm() {
               <span>Save Draft</span>
             )}
           </Button>
-          <Button disabled={isPublishing} type="submit" className="w-full md:max-w-46">
+          <Button
+            disabled={
+              isPublishing || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
+            }
+            type="submit"
+            className="w-full md:max-w-46"
+          >
             {isPublishing ? (
               <>
                 <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
