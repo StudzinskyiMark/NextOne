@@ -159,22 +159,22 @@ export function PublishForm() {
                   placeholder="Give your research a clear name..."
                   {...field}
                 />
-                <div className="min-h-[20px]">
+                <div className="min-h-5">
                   {fieldState.error ? (
                     <FieldError>{fieldState.error.message}</FieldError>
                   ) : isError ? (
                     <FieldError>{`Too long (max ${MAX_TITLE_LENGTH} characters)`}</FieldError>
                   ) : null}
-                  <span
+                  <div
                     className={cn(
-                      'absolute top-1/2 right-3 -translate-y-1/2 text-xs',
+                      'absolute top-1/2 right-3 -translate-y-1/3 text-xs',
                       isWarning && 'text-yellow-500',
                       isError && 'text-red-500',
                       !isError && !isWarning && 'text-muted-foreground'
                     )}
                   >
                     {titleLength}/{MAX_TITLE_LENGTH}
-                  </span>
+                  </div>
                 </div>
               </div>
             </Field>
