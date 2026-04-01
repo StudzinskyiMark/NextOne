@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 
 import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
 import { fetchMutation } from 'convex/nextjs';
 
 import { getToken } from '@/lib/auth-server';
@@ -29,7 +30,8 @@ export async function publishPostAction(data: TEditorValues) {
       if (!resultUpload.ok) throw new Error('Failed to upload image');
 
       const response = await resultUpload.json();
-      imageStorageId = response.imageStorageId;
+      console.log('Upload response:', response, typeof response);
+      imageStorageId = response.storageId as unknown as Id<'_storage'>;
     }
 
     const resultPost = await fetchMutation(
@@ -49,6 +51,6 @@ export async function publishPostAction(data: TEditorValues) {
     console.error(error);
     return { success: false, message: 'Server error!' };
   } finally {
-    revalidatePath('/blog');
+    //   revalidatePath('/blog');
   }
 }

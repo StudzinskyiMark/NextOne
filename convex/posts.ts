@@ -3,31 +3,11 @@ import { ConvexError, v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { authComponent } from './auth';
 
-// export const createPost = mutation({
-//   args: { title: v.string(), body: v.string(), imageStorageID: v.optional(v.id('_storage')) },
-//   handler: async (ctx, args) => {
-//     const user = await authComponent.safeGetAuthUser(ctx);
-
-//     if (!user) {
-//       throw new ConvexError('not authenticated');
-//     }
-
-//     const blogArticle = await ctx.db.insert('posts', {
-//       title: args.title,
-//       body: args.body,
-//       imageStorageID: args.imageStorageID,
-//       authorID: user._id,
-//     });
-//     return blogArticle;
-//   },
-// });
-
 export const createPost = mutation({
-  // 1. Дозволяємо фронтенду передавати v.null() або взагалі не передавати поле
   args: {
     title: v.string(),
     body: v.string(),
-    imageStorageID: v.optional(v.union(v.id('_storage'), v.null())),
+    imageStorageID: v.optional(v.id('_storage')),
   },
   handler: async (ctx, args) => {
     const user = await authComponent.safeGetAuthUser(ctx);

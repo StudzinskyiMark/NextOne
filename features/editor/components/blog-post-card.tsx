@@ -30,34 +30,29 @@ interface PostCardProps {
   v2: "Three dots" menu icon instead of direct buttons. Maximum clean UI.
 */
 
-const PLACEHOLDER_IMAGE =
-  'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-
 export const BlogPostCard = ({ data }: PostCardProps) => {
   return (
     <div className="group relative h-full">
       <div className="absolute rounded-xl bg-emerald-600/40 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 dark:-inset-1" />
 
-      <Card className="relative h-80 border-white/10 pt-0 transition-all duration-300 will-change-transform group-hover:border-emerald-600/50 hover:scale-102">
+      <Card className="relative h-80 gap-2 border-white/10 pt-0 transition-all duration-300 will-change-transform group-hover:border-emerald-600/50 hover:scale-102">
         <Link
           href={`/blog/${data?._id}`}
           className="absolute inset-0 z-10"
           aria-label={data.title}
         />
-        <div className="bg-muted relative h-44 w-full overflow-hidden rounded-xl">
+        <div className="bg-muted relative h-48 w-full overflow-hidden rounded-xl">
           <Image
-            src={data.imageUrl ?? PLACEHOLDER_IMAGE}
+            src={data.imageUrl || ''}
             alt="post image"
             loading="eager"
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-400 group-hover:scale-105"
           />
         </div>
         <CardHeader>
-          <h3 className="text-lg font-bold">{data.title}</h3>
+          <h3 className="mt-2 text-lg font-bold">{data.title}</h3>
         </CardHeader>
-
         <CardContent>
           <p className="text-muted-foreground line-clamp-2 text-sm">{data.body}</p>
         </CardContent>

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { api } from '@/convex/_generated/api';
@@ -26,7 +25,7 @@ export default async function PostIdPage({ params }: PostIdProps) {
 
   return (
     <>
-      <div className="animate-in fade-in relative mx-auto max-w-6xl duration-300">
+      <div className="animate-in fade-in relative mx-auto max-w-5xl duration-300">
         <Link
           href="/blog"
           className={buttonVariants({
