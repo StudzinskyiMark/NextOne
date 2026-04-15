@@ -7,36 +7,38 @@ import { PostWithImageUrl } from '../model/types';
 
 export async function PostCard(post: PostWithImageUrl) {
   return (
-    <Card className="mb-8 overflow-hidden pt-0 shadow-2xl backdrop-blur-sm">
-      <div className="relative h-64 w-full overflow-hidden sm:h-60">
+    <Card className="mb-8 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm">
+      <div className="relative h-64 w-full overflow-hidden sm:h-80">
         {post.imageUrl ? (
           <>
             <Image
               src={post.imageUrl}
-              alt={post.title}
+              alt={`Image for ${post.title}`}
               fill
-              className="object-cover"
+              className="mask-b-from-10% mask-b-to-90% object-cover"
               style={{
-                maskImage: 'linear-gradient(to top, transparent 0%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 100%)',
+                //  maskImage: 'linear-gradient(to top, transparent 10%, black 110%)',
+                //  WebkitMaskImage: 'linear-gradient(to top, transparent 10%, black 110%)',
+                maskImage: 'linear-gradient(to bottom, black 10%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 10%, transparent 100%)',
               }}
             />
           </>
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-slate-500">
+          <div className="text-muted-foreground flex h-full w-full items-center justify-center">
             No preview available
           </div>
         )}
       </div>
       <CardHeader>
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-          {post.title}
-        </h1>
-        <Separator className="mx-2 mt-6" />
+        <p className="text-muted-foreground sm:text-md -mt-4 text-sm">
+          {new Date(post._creationTime).toLocaleDateString()}
+        </p>
+        <h1 className="text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">{post.title}</h1>
+        <Separator className="my-2" />
       </CardHeader>
-
       <CardContent className="px-12">
-        <p className="text-lg leading-relaxed text-slate-300 antialiased sm:text-xl">{post.body}</p>
+        <p className="text-lg leading-relaxed tracking-tight antialiased sm:text-xl">{post.body}</p>
       </CardContent>
     </Card>
   );

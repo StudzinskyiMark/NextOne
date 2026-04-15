@@ -25,12 +25,12 @@ export default async function PostIdPage({ params }: PostIdProps) {
 
   return (
     <>
-      <div className="animate-in fade-in relative mx-auto max-w-5xl duration-300">
+      <div className="animate-in fade-in relative mx-auto max-w-3xl duration-300">
         <Link
           href="/blog"
           className={buttonVariants({
             variant: 'ghost',
-            className: 'text-muted-foreground mb-8 ml-8 hover:text-white',
+            className: 'text-muted-foreground mb-8 ml-8',
           })}
         >
           <ArrowLeft className="mr-2 size-4" /> Go back
