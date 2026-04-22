@@ -7,7 +7,7 @@ import { PostWithImageUrl } from '../model/types';
 
 export async function PostCard(post: PostWithImageUrl) {
   return (
-    <Card className="mb-8 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm">
+    <Card className="mb-8 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm dark:shadow-emerald-600/40">
       <div className="relative h-64 w-full overflow-hidden sm:h-80">
         {post.imageUrl ? (
           <>

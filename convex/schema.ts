@@ -2,48 +2,20 @@ import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 // TODO Upgrade auth to support Social Login (Google/GitHub) with account linking.
-// Add Admin/User roles and enforce security checks in all server-side functions.
+// Add Admin/User roles and enforce security checks in all server-side functions and add 0Auth with account linking.
+// Add table that stores user roles and enforce security checks in all server-side functions.
 
 export default defineSchema({
   posts: defineTable({
     title: v.string(),
     body: v.string(),
     imageStorageID: v.optional(v.id('_storage')),
-    authorID: v.id('users'),
+    authorID: v.string(),
   }),
-
-  users: defineTable({
-    name: v.string(),
-    email: v.string(),
-    emailVerified: v.boolean(),
-    role: v.optional(v.union(v.literal('admin'), v.literal('user'))),
-    image: v.optional(v.string()),
-    createdAt: v.number(),
-    updatedAt: v.number(),
-  }).index('by_email', ['email']),
-
-  accounts: defineTable({
-    userId: v.id('users'),
-    accountId: v.string(), // ID користувача в Google/GitHub
-    providerId: v.string(), // "google", "github", "credential"
-    accessToken: v.optional(v.string()),
-    refreshToken: v.optional(v.string()),
-    idToken: v.optional(v.string()),
-    expiresAt: v.optional(v.number()),
-    password: v.optional(v.string()), // Тут зберігатиметься хеш пароля для email+pass
-  }),
-
-  sessions: defineTable({
-    userId: v.id('users'),
-    token: v.string(),
-    expiresAt: v.number(),
-    ipAddress: v.optional(v.string()),
-    userAgent: v.optional(v.string()),
-  }).index('by_token', ['token']),
 
   comments: defineTable({
     postID: v.id('posts'),
-    authorID: v.id('users'),
+    authorID: v.string(),
     body: v.string(),
   }).index('posts', ['postID']),
 

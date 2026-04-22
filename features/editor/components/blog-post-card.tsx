@@ -63,13 +63,13 @@ export const BlogPostCard = ({ data }: PostCardProps) => {
 
 export const PostCardSkeleton = () => {
   return (
-    <Card>
+    <Card className="h-80 animate-pulse">
       <CardHeader>
         <Skeleton className="mb-4 h-40 w-full" />
         <Skeleton className="h-7 w-3/4" />
       </CardHeader>
       <CardContent>
-        <Skeleton className="mb-2 h-4 w-full" />
+        <Skeleton className="mb-1 h-4 w-full" />
         <Skeleton className="h-4 w-5/6" />
       </CardContent>
     </Card>

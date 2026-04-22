@@ -1,7 +1,8 @@
 import { paginationOptsValidator } from 'convex/server';
-import { v } from 'convex/values';
+import { ConvexError, v } from 'convex/values';
 
-import { query } from './_generated/server';
+import { mutation, query } from './_generated/server';
+import { authComponent } from './auth';
 
 export const getCommentsByPostID = query({
   args: {
@@ -15,9 +16,9 @@ export const getCommentsByPostID = query({
       .order('desc')
       .paginate(args.paginationOpts);
 
-    const pageWithAuthors = await Promise.all(
+    const page = await Promise.all(
       data.page.map(async (comment) => {
-        const author = await ctx.db.get(comment.authorID);
+        const author = await authComponent.getAnyUserById(ctx, comment.authorID);
 
         return {
           ...comment,
@@ -31,7 +32,26 @@ export const getCommentsByPostID = query({
       })
     );
 
-    return { ...data, page: pageWithAuthors };
+    return { ...data, page };
   },
 });
 
+export const createComment = mutation({
+  args: {
+    postID: v.id('posts'),
+    body: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+
+    if (!user) {
+      throw new ConvexError('You must be signed in to comment!');
+    }
+
+    return await ctx.db.insert('comments', {
+      postID: args.postID,
+      authorID: user._id,
+      body: args.body,
+    });
+  },
+});
