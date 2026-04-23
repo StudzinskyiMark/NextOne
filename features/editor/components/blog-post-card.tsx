@@ -46,6 +46,7 @@ export const BlogPostCard = ({ data }: PostCardProps) => {
             src={data.imageUrl || ''}
             alt="post image"
             loading="eager"
+            sizes="100%"
             fill
             className="object-cover transition-transform duration-400 group-hover:scale-105"
           />

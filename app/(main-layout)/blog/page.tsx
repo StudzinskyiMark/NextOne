@@ -17,7 +17,7 @@ export default async function BlogPage() {
       </div>
       <div className="mt-4 grid grid-cols-1 gap-6 max-md:px-6 md:grid-cols-2 lg:grid-cols-3">
         <Suspense
-          fallback={Array.from({ length: 3 }).map((_, i) => (
+          fallback={Array.from({ length: 3 }).map((_id, i) => (
             <PostCardSkeleton key={i} />
           ))}
         >

@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { CommentSection } from '@/features/comments/components/comment-section';
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
@@ -15,6 +17,8 @@ export async function PostCard(post: PostWithImageUrl) {
               src={post.imageUrl}
               alt={`Image for ${post.title}`}
               fill
+              sizes="100%"
+              loading="eager"
               className="mask-b-from-10% mask-b-to-90% object-cover"
               style={{
                 //  maskImage: 'linear-gradient(to top, transparent 10%, black 110%)',
@@ -37,8 +41,13 @@ export async function PostCard(post: PostWithImageUrl) {
         <h1 className="text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">{post.title}</h1>
         <Separator className="my-2" />
       </CardHeader>
-      <CardContent className="px-12">
+      <CardContent className="px-10">
         <p className="text-lg leading-relaxed tracking-tight antialiased sm:text-xl">{post.body}</p>
+
+        {/* <p> some data ?</p> */}
+      </CardContent>
+      <CardContent>
+        <CommentSection postId={post._id} />
       </CardContent>
     </Card>
   );

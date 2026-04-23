@@ -6,13 +6,13 @@ import { authComponent } from './auth';
 
 export const getCommentsByPostID = query({
   args: {
-    postID: v.id('posts'),
+    postId: v.id('posts'),
     paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
     const data = await ctx.db
       .query('comments')
-      .withIndex('posts', (q) => q.eq('postID', args.postID))
+      .withIndex('posts', (q) => q.eq('postId', args.postId))
       .order('desc')
       .paginate(args.paginationOpts);
 
@@ -38,7 +38,7 @@ export const getCommentsByPostID = query({
 
 export const createComment = mutation({
   args: {
-    postID: v.id('posts'),
+    postId: v.id('posts'),
     body: v.string(),
   },
   handler: async (ctx, args) => {
@@ -49,7 +49,7 @@ export const createComment = mutation({
     }
 
     return await ctx.db.insert('comments', {
-      postID: args.postID,
+      postId: args.postId,
       authorID: user._id,
       body: args.body,
     });

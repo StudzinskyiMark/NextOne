@@ -37,7 +37,7 @@ export function useSignUp() {
           },
         });
       } catch (error) {
-        toast.error('An unexpected error occurred');
+        toast.error('An unexpected error occurred', { position: 'top-center' });
         throw error instanceof Error ? error : new Error('An unknown error occurred');
       }
     });

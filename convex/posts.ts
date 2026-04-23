@@ -62,9 +62,9 @@ export const generatedImageUploadUrl = mutation({
 });
 
 export const getPostById = query({
-  args: { postID: v.id('posts') },
+  args: { postId: v.id('posts') },
   handler: async (ctx, args) => {
-    const post = await ctx.db.get('posts', args.postID);
+    const post = await ctx.db.get('posts', args.postId);
 
     if (!post) return null;
 

@@ -2,8 +2,7 @@ import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 // TODO Upgrade auth to support Social Login (Google/GitHub) with account linking.
-// Add Admin/User roles and enforce security checks in all server-side functions and add 0Auth with account linking.
-// Add table that stores user roles and enforce security checks in all server-side functions.
+// Add Admin/User roles and enforce security checks in all server-side functions and add 0Auth with account linking and a table that stores user roles and enforce security checks in all server-side functions.
 
 export default defineSchema({
   posts: defineTable({
@@ -14,10 +13,10 @@ export default defineSchema({
   }),
 
   comments: defineTable({
-    postID: v.id('posts'),
+    postId: v.id('posts'),
     authorID: v.string(),
     body: v.string(),
-  }).index('posts', ['postID']),
+  }).index('posts', ['postId']),
 
   // This table is used to store the settings for the site
   siteSettings: defineTable({

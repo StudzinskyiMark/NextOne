@@ -17,7 +17,7 @@ interface PostIdProps {
 
 export default async function PostIdPage({ params }: PostIdProps) {
   const { id } = await params;
-  const post = await fetchQuery(api.posts.getPostById, { postID: id });
+  const post = await fetchQuery(api.posts.getPostById, { postId: id });
 
   if (!post) {
     return <div className="text-muted-foreground p-8 text-center">Post not found!</div>;

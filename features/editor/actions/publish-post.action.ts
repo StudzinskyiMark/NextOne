@@ -1,7 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { fetchMutation } from 'convex/nextjs';
@@ -50,7 +48,5 @@ export async function publishPostAction(data: TEditorValues) {
   } catch (error) {
     console.error(error);
     return { success: false, message: 'Server error!' };
-  } finally {
-    //   revalidatePath('/blog');
   }
 }
