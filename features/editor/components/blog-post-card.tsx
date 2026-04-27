@@ -62,7 +62,7 @@ export const BlogPostCard = ({ data }: PostCardProps) => {
   );
 };
 
-export const PostCardSkeleton = () => {
+export const BlogPostCardSkeleton = () => {
   return (
     <Card className="h-80 animate-pulse">
       <CardHeader>

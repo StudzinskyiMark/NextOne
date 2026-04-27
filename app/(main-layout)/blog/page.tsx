@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { BlogPostsList, PostCardSkeleton } from '@/features/editor';
+import { BlogPostCardSkeleton, BlogPostsList } from '@/features/editor';
 
 export const dynamic = 'force-static';
 export const revalidate = 60;
@@ -18,7 +18,7 @@ export default async function BlogPage() {
       <div className="mt-4 grid grid-cols-1 gap-6 max-md:px-6 md:grid-cols-2 lg:grid-cols-3">
         <Suspense
           fallback={Array.from({ length: 3 }).map((_id, i) => (
-            <PostCardSkeleton key={i} />
+            <BlogPostCardSkeleton key={i} />
           ))}
         >
           <BlogPostsList />

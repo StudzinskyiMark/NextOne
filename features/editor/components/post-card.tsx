@@ -21,8 +21,6 @@ export async function PostCard(post: PostWithImageUrl) {
               loading="eager"
               className="mask-b-from-10% mask-b-to-90% object-cover"
               style={{
-                //  maskImage: 'linear-gradient(to top, transparent 10%, black 110%)',
-                //  WebkitMaskImage: 'linear-gradient(to top, transparent 10%, black 110%)',
                 maskImage: 'linear-gradient(to bottom, black 10%, transparent 100%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 10%, transparent 100%)',
               }}
@@ -43,8 +41,6 @@ export async function PostCard(post: PostWithImageUrl) {
       </CardHeader>
       <CardContent className="px-10">
         <p className="text-lg leading-relaxed tracking-tight antialiased sm:text-xl">{post.body}</p>
-
-        {/* <p> some data ?</p> */}
       </CardContent>
       <CardContent>
         <CommentSection postId={post._id} />

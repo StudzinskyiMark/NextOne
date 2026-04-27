@@ -25,7 +25,7 @@ export default async function PostIdPage({ params }: PostIdProps) {
 
   return (
     <>
-      <div className="animate-in fade-in relative mx-auto max-w-3xl duration-300">
+      <div className="animate-in fade-in relative mx-auto max-w-4xl duration-300">
         <Link
           href="/blog"
           className={buttonVariants({
