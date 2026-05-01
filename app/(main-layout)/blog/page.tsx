@@ -1,11 +1,23 @@
 import { Suspense } from 'react';
 
+import { Metadata } from 'next';
+
+import { api } from '@/convex/_generated/api';
+import { fetchQuery } from 'convex/nextjs';
+
 import { BlogPostCardSkeleton, BlogPostsList } from '@/features/editor';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Insights, ideas, and real-world development stories',
+};
 
 export const dynamic = 'force-static';
 export const revalidate = 60;
 export default async function BlogPage() {
-  //   const { posts, isLoading } = useGetPosts();
+  const settings = await fetchQuery(api.siteSettings.getSiteSettings);
+
+  const initialNumItems = settings?.postsPerPage ?? 6;
 
   return (
     <div className="py-4">
@@ -17,7 +29,7 @@ export default async function BlogPage() {
       </div>
       <div className="mt-4 grid grid-cols-1 gap-6 max-md:px-6 md:grid-cols-2 lg:grid-cols-3">
         <Suspense
-          fallback={Array.from({ length: 3 }).map((_id, i) => (
+          fallback={Array.from({ length: initialNumItems }).map((_id, i) => (
             <BlogPostCardSkeleton key={i} />
           ))}
         >

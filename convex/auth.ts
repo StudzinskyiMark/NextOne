@@ -33,7 +33,17 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
 export const getCurrentUser = query({
   args: {},
   handler: async (ctx) => {
-    return authComponent.getAuthUser(ctx);
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      return null;
+    }
+
+    try {
+      return await authComponent.getAuthUser(ctx);
+    } catch (e) {
+      return null;
+    }
   },
 });
 

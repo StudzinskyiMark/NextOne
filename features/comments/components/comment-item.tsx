@@ -17,7 +17,7 @@ export function CommentItem({ comment }: commentDataProps) {
 
   return (
     <div className="hover:bg-muted-foreground/10 flex gap-4 rounded-md p-4">
-      <Avatar className="border-accent-foreground size-10 shrink-0 border-2">
+      <Avatar className="border-accent-foreground size-8 shrink-0 border-2">
         <AvatarImage
           src={comment.author?.image ?? dynamicGradient}
           alt={`${comment.author?.name} avatar`}
@@ -45,7 +45,7 @@ export function CommentItem({ comment }: commentDataProps) {
 export function CommentItemSkeleton() {
   return (
     <div className="flex gap-4 rounded-md p-4">
-      <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+      <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
       <div className="flex-1 space-y-2">
         <div className="flex items-center justify-between gap-4">
           <Skeleton className="h-5 w-1/4" />

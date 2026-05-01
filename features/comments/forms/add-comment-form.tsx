@@ -1,6 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -10,9 +11,8 @@ import { Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Field, FieldError } from '@/components/ui/field';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 
 import { useAddComment } from '../model/use-add-comment';
@@ -31,6 +31,8 @@ import { TCommentsValues, commentsSchema } from '../schemas/comments.schema';
 // 5. Transition: Set initial/exit styles (height: 0, opacity: 0) to ensure the layout "slides" open and closed.
 
 export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
+  const pathname = usePathname();
+
   const { isAddComment, addComment } = useAddComment();
 
   const currentUser = useQuery(api.auth.getCurrentUser);
@@ -51,6 +53,24 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
       postId: postId,
     },
   });
+
+  if (currentUser === undefined) return <Loader2 className="mx-auto animate-spin" />;
+
+  if (currentUser === null) {
+    return (
+      <div className="bg-muted/20 flex flex-col items-center justify-center space-y-3 rounded-lg border border-dashed p-8">
+        <p className="text-muted-foreground text-sm">
+          Join the conversation! Sign in to share your thoughts.
+        </p>
+        <Link
+          className={buttonVariants({ variant: 'outline' })}
+          href={`/auth/sign-in?callbackUrl=${pathname}`}
+        >
+          Sign In
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={form.handleSubmit(onAddSubmit)} className="my-6 space-y-4">

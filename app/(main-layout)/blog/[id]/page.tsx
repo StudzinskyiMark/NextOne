@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { api } from '@/convex/_generated/api';
@@ -8,6 +9,18 @@ import { ArrowLeft } from 'lucide-react';
 import { PostCard } from '@/features/editor/components/post-card';
 
 import { buttonVariants } from '@/components/ui/button';
+
+export async function generateMetadata({ params }: PostIdProps): Promise<Metadata> {
+  const { id: postId } = await params;
+
+  const post = await fetchQuery(api.posts.getPostById, { postId });
+
+  if (!post) {
+    return { title: 'Post not found!' };
+  }
+
+  return { title: post.title, description: post.body, authors: [{ name: post.authorID }] };
+}
 
 interface PostIdProps {
   params: Promise<{
