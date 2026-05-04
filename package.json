@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@convex-dev/better-auth": "^0.10.10",
+    "@convex-dev/presence": "^0.3.0",
     "@hookform/resolvers": "^5.2.2",
     "better-auth": "1.4.9",
     "class-variance-authority": "^0.7.1",

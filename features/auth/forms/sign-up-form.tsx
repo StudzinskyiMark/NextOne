@@ -69,7 +69,7 @@ export const SignUpForm = () => {
                 placeholder="Enter your password"
                 {...field}
                 type="password"
-                autoComplete="new-password"
+                autoComplete="password"
               />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>

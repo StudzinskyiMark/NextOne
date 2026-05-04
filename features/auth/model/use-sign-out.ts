@@ -17,8 +17,8 @@ export const useSignOut = () => {
           fetchOptions: {
             onSuccess: () => {
               toast.success('You are signed out!', { position: 'top-center' });
+            //   router.push('/');
               router.refresh();
-              router.push('/');
             },
             onError: (ctx) => {
               toast.error(ctx.error.message || 'Error signing out', { position: 'top-center' });
