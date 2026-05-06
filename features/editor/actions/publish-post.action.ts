@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
+
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { fetchMutation } from 'convex/nextjs';
@@ -43,6 +45,8 @@ export async function publishPostAction(data: TEditorValues) {
     );
 
     if (!resultPost) return { success: false, message: `Something went wrong!` };
+
+    revalidateTag('posts', 'page');
 
     return { success: true, message: `Successfully published!` };
   } catch (error) {

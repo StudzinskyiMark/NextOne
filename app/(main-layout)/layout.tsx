@@ -1,6 +1,3 @@
-import { api } from '@/convex/_generated/api';
-import { fetchQuery } from 'convex/nextjs';
-
 import { Header } from '@/components/layouts/header';
 
 export default async function MainLayout({
@@ -8,11 +5,10 @@ export default async function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await fetchQuery(api.siteSettings.getSiteSettings);
-
   return (
     <>
-      <Header siteName={settings?.siteName || ''} />
+      {/* <Suspense fallback={<div className="bg-muted h-16 w-full animate-pulse" />}></Suspense> */}
+      <Header />
       <main>{children}</main>
     </>
   );

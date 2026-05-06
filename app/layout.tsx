@@ -16,50 +16,59 @@ import '@/styles/globals.css';
 // 4. Manifest: Consider adding 'manifest.json' for PWA support and mobile browser theme colors.
 
 export async function generateMetadata() {
-  const settings = await fetchQuery(api.siteSettings.getSiteSettings);
-  const siteName = settings?.siteName ?? 'NextOne';
+  'use cache';
+  //   await connection();
+  try {
+    const settings = await fetchQuery(api.siteSettings.getSiteSettings);
+    const siteName = settings?.siteName ?? 'NextOne';
 
-  return {
-    title: {
-      default: siteName,
-      template: `%s | ${siteName}`,
-    },
-    authors: [{ name: 'Mark Studzinskyi' }],
-    description: settings?.siteDescription ?? 'Developer Platform',
-    icons: {
-      icon: '/favicon.ico',
-      apple: '/apple-touch-icon.png', // Додав для кращого вигляду на iPhone
-    },
-    // Open Graph
-    openGraph: {
-      title: siteName,
+    return {
+      title: {
+        default: siteName,
+        template: `%s | ${siteName}`,
+      },
+      authors: [{ name: 'Mark Studzinskyi' }],
       description: settings?.siteDescription ?? 'Developer Platform',
-      url: 'https://tviy-domen.com', // FIXME: Update to production URL
-      siteName: siteName,
-      locale: 'en_US',
-      type: 'website',
-      images: [
-        {
-          url: '/og-image.png', // FIXME: Ensure this exists in /public
-          width: 1200,
-          height: 630,
-          alt: siteName,
-        },
-      ],
-    },
+      icons: {
+        icon: '/favicon.ico',
+        apple: '/apple-touch-icon.png', // Додав для кращого вигляду на iPhone
+      },
+      // Open Graph
+      openGraph: {
+        title: siteName,
+        description: settings?.siteDescription ?? 'Developer Platform',
+        url: 'https://tviy-domen.com', // FIXME: Update to production URL
+        siteName: siteName,
+        locale: 'en_US',
+        type: 'website',
+        images: [
+          {
+            url: '/og-image.png', // FIXME: Ensure this exists in /public
+            width: 1200,
+            height: 630,
+            alt: siteName,
+          },
+        ],
+      },
 
-    // Twitter
-    twitter: {
-      card: 'summary_large_image',
-      title: siteName,
-      images: ['/og-image.png'],
-    },
+      // Twitter
+      twitter: {
+        card: 'summary_large_image',
+        title: siteName,
+        images: ['/og-image.png'],
+      },
 
-    robots: {
-      index: true,
-      follow: true,
-    },
-  };
+      robots: {
+        index: true,
+        follow: true,
+      },
+    };
+  } catch (e) {
+    return {
+      title: { default: 'NextOne', template: '%s | NextOne' },
+    };
+    console.error(e);
+  }
 }
 
 const geistSans = Geist({

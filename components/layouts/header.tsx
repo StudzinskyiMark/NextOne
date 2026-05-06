@@ -1,38 +1,26 @@
+import { Suspense } from 'react';
+
 import Link from 'next/link';
+import { connection } from 'next/server';
+
+import { api } from '@/convex/_generated/api';
+import { fetchQuery } from 'convex/nextjs';
 
 import { AuthControl } from '@/features/auth';
 import { PublishButton } from '@/features/editor';
 
 import { buttonVariants } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
+import { SiteBrand } from './site-brand';
 import { ThemeToggle } from './theme-toggle';
 
-interface HeaderProps {
-  siteName?: string;
-}
-
-export function Header({ siteName }: HeaderProps) {
-  const brandName = siteName || 'NextOne';
-  const parts = brandName.split(/(?=[A-Z][a-z])/);
-
+export async function Header() {
   return (
     <nav className="flex w-full items-center justify-between py-5">
       <div className="flex items-center gap-6">
-        <Link href="/">
-          <h1 className="text-2xl font-bold tracking-wider">
-            {/* Next<span className="text-emerald-700 dark:text-emerald-500">One</span> */}
-            {parts.length > 1 ? (
-              <>
-                {parts[0]}
-
-                <span className="text-emerald-700 dark:text-emerald-500">
-                  {parts.slice(1).join('')}
-                </span>
-              </>
-            ) : (
-              brandName
-            )}
-          </h1>
-        </Link>
+        <Suspense fallback={<div className="bg-muted h-8 w-27 animate-pulse rounded" />}>
+          <SiteBrand />
+        </Suspense>
 
         <div className="flex items-center gap-4">
           <Link className={buttonVariants({ variant: 'ghost' })} href="/">

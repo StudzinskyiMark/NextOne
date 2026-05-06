@@ -15,17 +15,14 @@ export const heartbeat = mutation({
     interval: v.number(),
   },
   handler: async (ctx, { roomId, userId, sessionId, interval }) => {
-    // 1. Дозволяємо гостям проходити без перевірки auth
-    if (userId.startsWith('Guest:')) {
-      return await presence.heartbeat(ctx, roomId, userId, sessionId, interval);
-    }
-
-    // 2. Для реальних користувачів залишаємо перевірку безпеки
     const user = await authComponent.safeGetAuthUser(ctx);
-    if (!user || user._id !== userId) {
-      throw new Error('Unauthorized heartbeat request');
+
+    // 1. Якщо аутентифікований — використовуємо ID з auth контексту (для безпеки)
+    if (user) {
+      return await presence.heartbeat(ctx, roomId, user._id, sessionId, interval);
     }
 
+    // 2. Якщо гість — дозволяємо з переданим userId
     return await presence.heartbeat(ctx, roomId, userId, sessionId, interval);
   },
 });

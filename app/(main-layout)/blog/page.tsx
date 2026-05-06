@@ -1,6 +1,9 @@
+'use cache';
+
 import { Suspense } from 'react';
 
 import { Metadata } from 'next';
+import { cacheTag } from 'next/cache';
 
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
@@ -12,9 +15,9 @@ export const metadata: Metadata = {
   description: 'Insights, ideas, and real-world development stories',
 };
 
-export const dynamic = 'force-static';
-export const revalidate = 60;
 export default async function BlogPage() {
+  cacheTag('posts');
+
   const settings = await fetchQuery(api.siteSettings.getSiteSettings);
 
   const initialNumItems = settings?.postsPerPage ?? 6;
