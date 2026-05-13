@@ -9,7 +9,6 @@ import { BlogPostCard } from './blog-post-card';
 // 5. Ensure BlogPostCardSkeleton is displayed during 'LoadingMore' state.
 
 export async function BlogPostsList() {
-  //   await new Promise((resolve) => setTimeout(resolve, 3000));
   const posts = await getPostsAction();
 
   return (

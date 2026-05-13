@@ -70,6 +70,7 @@ export function PublishForm() {
 
   const form = useForm<TEditorValues>({
     resolver: zodResolver(editorSchema),
+    mode: 'onChange',
     defaultValues: {
       title: '',
       body: '',
@@ -151,23 +152,18 @@ export function PublishForm() {
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel className="text-muted-foreground ml-2">Title</FieldLabel>
-              <div className="relative">
-                <Input
-                  type="text"
-                  className="text-l h-auto py-2 font-medium md:text-xl"
-                  aria-invalid={fieldState.invalid || isError}
-                  placeholder="Give your research a clear name..."
-                  {...field}
-                />
-                <div className="min-h-5">
-                  {fieldState.error ? (
-                    <FieldError>{fieldState.error.message}</FieldError>
-                  ) : isError ? (
-                    <FieldError>{`Too long (max ${MAX_TITLE_LENGTH} characters)`}</FieldError>
-                  ) : null}
+              <div className="relative flex flex-col">
+                <div className="relative flex items-center">
+                  <Input
+                    type="text"
+                    className="text-l h-auto py-2 pr-16 font-medium md:text-xl"
+                    aria-invalid={fieldState.invalid || isError}
+                    placeholder="Give your research a clear name..."
+                    {...field}
+                  />
                   <div
                     className={cn(
-                      'absolute top-1/2 right-3 -translate-y-1/3 text-xs',
+                      'pointer-events-none absolute right-3 text-xs',
                       isWarning && 'text-yellow-500',
                       isError && 'text-red-500',
                       !isError && !isWarning && 'text-muted-foreground'
@@ -175,6 +171,14 @@ export function PublishForm() {
                   >
                     {titleLength}/{MAX_TITLE_LENGTH}
                   </div>
+                </div>
+
+                <div className="mt-3 min-h-5">
+                  {fieldState.error ? (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  ) : isError ? (
+                    <FieldError>{`Too long (max ${MAX_TITLE_LENGTH} characters)`}</FieldError>
+                  ) : null}
                 </div>
               </div>
             </Field>
@@ -222,7 +226,7 @@ export function PublishForm() {
               isPublishing || titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH
             }
             type="submit"
-            className="w-full md:max-w-46"
+            className="w-full disabled:pointer-events-auto disabled:cursor-not-allowed md:max-w-46"
           >
             {isPublishing ? (
               <>

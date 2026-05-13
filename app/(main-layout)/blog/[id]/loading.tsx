@@ -35,8 +35,10 @@ export default function LoadingPostIdPage() {
               <Skeleton className="h-4 w-20" />
 
               <div className="flex -space-x-2">
-                <Skeleton className="border-background h-8 w-8 rounded-full border-2" />
-                <Skeleton className="border-background h-8 w-8 rounded-full border-2" />
+                <Skeleton className="border-background h-8 w-8 rounded-full" />
+                <Skeleton className="border-background h-8 w-8 rounded-full" />
+                <Skeleton className="border-background h-8 w-8 rounded-full" />
+                <Skeleton className="border-background h-8 w-8 rounded-full" />
               </div>
             </div>
           </div>

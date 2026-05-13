@@ -8,7 +8,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from 'convex/react';
 import { Loader2 } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -16,7 +16,12 @@ import { Field, FieldError } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
 
 import { useAddComment } from '../model/use-add-comment';
-import { TCommentsValues, commentsSchema } from '../schemas/comments.schema';
+import {
+  MAX_COMMENT_LENGTH,
+  MIN_COMMENT_LENGTH,
+  TCommentsValues,
+  commentsSchema,
+} from '../schemas/comments.schema';
 
 // TODO Implement user avatar next to the comment input
 // 1. Fetch current user data (name, image) using authComponent or requireUser.
@@ -53,6 +58,13 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
       postId: postId,
     },
   });
+
+  const titleValue = useWatch({
+    control: form.control,
+    name: 'body',
+  });
+
+  const commentLength = titleValue?.length ?? 0;
 
   if (currentUser === undefined) return <Loader2 className="mx-auto animate-spin" />;
 
@@ -108,7 +120,17 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={isAddComment} className="max-md:w-full" size="lg">
+        <Button
+          type="submit"
+          disabled={
+            isAddComment ||
+            !form.formState.isValid ||
+            commentLength < MIN_COMMENT_LENGTH ||
+            commentLength > MAX_COMMENT_LENGTH
+          }
+          className="disabled:pointer-events-auto disabled:cursor-not-allowed disabled:hover:shadow-none max-md:w-full"
+          size="lg"
+        >
           {isAddComment ? <Loader2 className="animate-spin" /> : 'Comment'}
         </Button>
       </div>
