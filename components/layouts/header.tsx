@@ -1,16 +1,12 @@
 import { Suspense } from 'react';
 
 import Link from 'next/link';
-import { connection } from 'next/server';
-
-import { api } from '@/convex/_generated/api';
-import { fetchQuery } from 'convex/nextjs';
 
 import { AuthControl } from '@/features/auth';
 import { PublishButton } from '@/features/editor';
+import { SearchHeaderWrapper } from '@/features/search-posts';
 
 import { buttonVariants } from '../ui/button';
-import { Skeleton } from '../ui/skeleton';
 import { SiteBrand } from './site-brand';
 import { ThemeToggle } from './theme-toggle';
 
@@ -33,6 +29,7 @@ export async function Header() {
         </div>
       </div>
       <div className="flex items-center gap-4">
+        <SearchHeaderWrapper />
         <AuthControl />
         <ThemeToggle />
       </div>

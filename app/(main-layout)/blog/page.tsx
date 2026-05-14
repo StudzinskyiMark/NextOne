@@ -28,12 +28,12 @@ export default async function BlogPage() {
 
   return (
     <div className="py-4">
-      <div className="flex flex-col items-center justify-center pb-8 text-center md:px-12">
+      <div className="flex flex-col items-center justify-center gap-4 pb-8 text-center md:px-12">
         <h1 className="text-2xl font-bold tracking-wide md:text-3xl">Blog</h1>
         <p className="text-muted-foreground text-lg md:text-xl">
           Insights, ideas, and real-world development stories
         </p>
-        <Separator className="my-6" />
+        <Separator className="my-2" />
         <BlogSearchBar />
       </div>
       <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 md:px-6 lg:grid-cols-3">

@@ -34,7 +34,7 @@ export function BlogSearchBar() {
             }}
             onFocus={() => setIsOpen(true)}
             placeholder="Search articles by title or content..."
-            className="bg-card/50 w-full rounded-xl border pr-4 pl-12 text-base backdrop-blur-sm md:h-12"
+            className="bg-card w-full rounded-xl border pr-4 pl-12 text-base backdrop-blur-sm md:h-12"
           />
           {isLoading && (
             <Loader2 className="text-muted-foreground absolute right-4 z-10 size-4 animate-spin" />
@@ -42,7 +42,7 @@ export function BlogSearchBar() {
         </div>
 
         {showResults && (
-          <div className="border-border bg-background/95 absolute top-full left-0 z-50 mt-2 w-full rounded-xl border p-2 shadow-2xl backdrop-blur-md">
+          <div className="border-border bg-sidebar absolute top-full left-0 z-50 mt-2 w-full rounded-xl border p-2 shadow-2xl backdrop-blur-md">
             <CommandList className="max-h-75">
               <SearchResults
                 results={results}

@@ -8,7 +8,6 @@ export function useSearch(limit = 5) {
   const [term, setTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState('');
 
-  // Дебаунс, щоб не спамити Convex на кожен клік клавіші
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedTerm(term);

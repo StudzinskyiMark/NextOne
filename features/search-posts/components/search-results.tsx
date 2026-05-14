@@ -56,7 +56,7 @@ export function SearchResults({ results, isLoading, term, onItemClick }: SearchR
               if (onItemClick) onItemClick();
               router.push(`/blog/${post._id}`);
             }}
-            className="group data-[selected=true]:bg-secondary aria-selected:bg-secondary flex cursor-pointer flex-col items-start rounded-lg p-3 transition-colors"
+            className="group data-[selected=true]:bg-muted aria-selected:bg-muted flex cursor-pointer flex-col items-start rounded-lg p-3 transition-colors"
             asChild
           >
             <Link href={`/blog/${post._id}`} className="group flex w-full flex-col">
