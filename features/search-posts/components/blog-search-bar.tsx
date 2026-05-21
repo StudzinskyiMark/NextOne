@@ -2,12 +2,12 @@
 
 import { useRef, useState } from 'react';
 
+import { useClickAway } from '@/hooks';
 import { Loader2, Search } from 'lucide-react';
 
 import { Command, CommandList } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 
-import { useClickAway } from '../model/use-click-away';
 import { useSearch } from '../model/use-search';
 import { SearchResults } from './search-results';
 
