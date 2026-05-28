@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 
 import { useClickAway } from './use-click-away';
 
-describe('useClickAway', () => {
+describe('useClickAway hook', () => {
   test('should call onClickAway when clicked outside', () => {
     // 1. Arrange (Налаштування середовища)
     const cb = vi.fn(); // Create a mock function

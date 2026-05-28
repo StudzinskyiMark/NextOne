@@ -34,6 +34,7 @@ export default async function BlogPage() {
           Insights, ideas, and real-world development stories
         </p>
         <Separator className="my-2" />
+        
         <BlogSearchBar />
       </div>
       <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 md:px-6 lg:grid-cols-3">
