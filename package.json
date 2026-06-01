@@ -7,6 +7,10 @@
     "convex": "npx convex dev",
     "test:vitest": "vitest",
     "test:vitest-ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e-ui": "playwright test --ui",
+    "test:e2e-debug": "playwright test --debug",
+    "test:e2e-codegen": "playwright codegen",
     "build": "next build",
     "convex-build": "npx convex build",
     "start": "next start",
@@ -34,6 +38,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
