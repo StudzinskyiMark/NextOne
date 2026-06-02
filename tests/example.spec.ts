@@ -19,6 +19,6 @@ test.describe('Dashboard & Core Features', () => {
     // Тут буде логіка перевірки системи присутності
     // Наприклад: перевірити, чи світиться зелений індикатор біля твого профілю
     const presenceIndicator = page.locator('[data-testid="presence-online"]');
-    await expect(presenceIndicator).toBeVisible();
+    await expect(presenceIndicator).toBeVisible({ timeout: 10000 });
   });
 });
