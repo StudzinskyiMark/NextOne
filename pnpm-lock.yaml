@@ -102,6 +102,9 @@ importers:
       convex-test:
         specifier: ^0.0.53
         version: 0.0.53(convex@1.31.7(react@19.2.3))
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       eslint:
         specifier: ^9
         version: 9.39.2(jiti@2.6.1)
@@ -2746,8 +2749,8 @@ packages:
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
 
-  dotenv@17.2.4:
-    resolution: {integrity: sha512-mudtfb4zRB4bVvdj0xRo+e6duH1csJRM8IukBqfTRvHotn9+LBXB8ynAidP9zHqoRC/fsllXgk4kCKlR21fIhw==}
+  dotenv@17.4.2:
+    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
   dropdown-menu@0.1.1:
@@ -5231,7 +5234,7 @@ snapshots:
   '@dotenvx/dotenvx@1.52.0':
     dependencies:
       commander: 11.1.0
-      dotenv: 17.2.4
+      dotenv: 17.4.2
       eciesjs: 0.4.17
       execa: 5.1.1
       fdir: 6.5.0(picomatch@4.0.4)
@@ -7471,7 +7474,7 @@ snapshots:
 
   dom-accessibility-api@0.6.3: {}
 
-  dotenv@17.2.4: {}
+  dotenv@17.4.2: {}
 
   dropdown-menu@0.1.1:
     dependencies:

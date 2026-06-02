@@ -3,8 +3,8 @@ import { test as setup } from '@playwright/test';
 import { STORAGE_STATE } from '../playwright.config';
 
 const TEST_USER = {
-  email: 'e2e-test@nextone.com',
-  password: 'Password123!',
+  email: process.env.TEST_USER_EMAIL || 'e2e-test@nextone.com',
+  password: process.env.TEST_USER_PASSWORD || 'Password123!',
   name: 'E2E Tester',
 };
 
@@ -31,6 +31,5 @@ setup('authenticate user', async ({ request, page }) => {
   /* 🎯 КРОК 3: Очікування головної сторінки та збереження сесії */
   await page.waitForURL('/');
 
-  
   await page.context().storageState({ path: STORAGE_STATE });
 });

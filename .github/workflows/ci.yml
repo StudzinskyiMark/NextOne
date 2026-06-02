@@ -1,69 +1,110 @@
-name: CI
+name: CI Pipeline
 
 on:
   push:
-    branches: [main, dev, test/integration-vitest-playwrigth]
+    branches: [main, test/integrate-vitest-playwright]
   pull_request:
-
-env:
-  CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
-  NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
-  NEXT_PUBLIC_CONVEX_SITE_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_SITE_URL }}
-  CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
-  SITE_URL: ${{ secrets.SITE_URL }}
-  BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+    branches: [main]
 
 jobs:
-  build:
+  # 1. Швидка перевірка лінтера (ESLint)
+  static-checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
         with:
-          node-version: 20 # Фіксуємо версію 20 для стабільності
+          run_install: false
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          version: 10
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Cache Next.js build
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-
-
-      - name: Run linter
+      - name: Run ESLint
         run: pnpm lint
 
-      - name: Type check
-        run: pnpm tsc --noEmit
-
-      - name: Run Vitest
-        run: pnpm vitest --run
-
-      - name: Build project
-        run: pnpm build
-
-  playwright-e2e:
+  # 2. Окрема джоба для юніт-тестів (Vitest)
+  vitest-unit:
     runs-on: ubuntu-latest
-    needs: build # 🛡️ Запускати тільки після того, як задача 'build' завершиться успішно!
-    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
         with:
-          node-version: 20 # Синхронізовано з першою джобою
+          run_install: false
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          version: 10
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Vitest Unit Tests
+
+        run: pnpm test:vitest -- run
+        env:
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+  # 3. Збирання проекту (Next.js build)
+  build:
+    needs: [static-checks, vitest-unit]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Next.js application
+        run: pnpm build # Використовує твій "build": "next build"
+        env:
+          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
+          NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
+          NEXT_PUBLIC_CONVEX_SITE_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_SITE_URL }}
+          CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+
+  # 4. Е2Е тести (Playwright) з повним набором змінних та credentials
+  playwright-e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -71,12 +112,31 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: pnpm exec playwright test
+      - name: Build Next.js for Playwright webServer
+        run: pnpm build
+        env:
+          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
+          NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
+          NEXT_PUBLIC_CONVEX_SITE_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_SITE_URL }}
+          CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
 
-      # Зберігаємо звіти тестів, якщо вони впали, щоб розібратися в помилках
+      - name: Run Playwright tests
+        run: pnpm test:e2e
+        env:
+          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
+          NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
+          NEXT_PUBLIC_CONVEX_SITE_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_SITE_URL }}
+          CONVEX_SITE_URL: ${{ secrets.CONVEX_SITE_URL }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+          # 🔐 Додаємо тестові credentials для авторизаційних сценаріїв
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
       - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: always()
         with:
           name: playwright-report
           path: playwright-report/

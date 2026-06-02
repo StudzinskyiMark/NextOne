@@ -50,6 +50,7 @@
     "@vitejs/plugin-react": "^6.0.2",
     "@vitest/ui": "^4.1.7",
     "convex-test": "^0.0.53",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "^10.1.8",

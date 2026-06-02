@@ -1,5 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 import path from 'path';
+
+// 🔥 Змушуємо Playwright прочитати саме .env.local файл
+dotenv.config({ path: path.resolve(__dirname, '.env.local') });
+
+// Далі йде твій звичайний експорт конфігу...
+// export default defineConfig({ ... })
 
 export const STORAGE_STATE = path.join(__dirname, 'tests/.auth/user.json');
 
