@@ -1,12 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import path from 'path';
 
-
-
-// 🔥 Явно обчислюємо шлях та перевіряємо результат завантаження
 const envPath = path.resolve(__dirname, '.env.local');
-const configResult = dotenv.config({ path: envPath });
+const configResult = fs.existsSync(envPath) ? dotenv.config({ path: envPath }) : dotenv.config();
 
 if (configResult.error) {
   console.error(`❌ [PLAYWRIGHT ENV ERROR] File not found: ${envPath}`);
@@ -29,8 +27,9 @@ export default defineConfig({
   fullyParallel: true, // Запуск тестів паралельно для максимальної швидкості
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0, // На CI даємо 2 спроби (захист від випадкових мережевих флуктуацій)
-  workers: process.env.CI ? 2 : undefined, // Обмежуємо воркери на CI, щоб не перевантажити раннер GitHub
-  reporter: process.env.CI ? 'blob' : 'html', // Ефективніший репортер для CI
+  workers: process.env.CI ? 1 : undefined, // Обмежуємо воркери на CI, щоб не перевантажити раннер GitHub
+  //   reporter: process.env.CI ? 'blob' : 'html',
+  reporter: process.env.CI ? 'github' : 'html', // Ефективніший репортер для CI
 
   use: {
     baseURL: BASE_URL,
