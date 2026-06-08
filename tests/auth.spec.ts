@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Core Authentication & Layout (v1.0)', () => {
+test.describe('Core Authentication & Layout ', () => {
   test('should successfully load home page for authenticated user', async ({ page }) => {
     // 1. Переходимо на головну сторінку
     await page.goto('/');

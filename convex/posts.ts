@@ -128,3 +128,33 @@ export const postSearch = query({
     return results;
   },
 });
+
+export const deletePostByTitle = mutation({
+  args: { title: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db
+      .query('posts')
+      .filter((q) => q.eq(q.field('title'), args.title))
+      .unique();
+
+    if (!post) {
+      return { success: false, deletedCommentsCount: 0 };
+    }
+
+    const comments = await ctx.db
+      .query('comments')
+      .filter((q) => q.eq(q.field('postId'), post._id)) // перевір чи у тебе 'postId' чи 'postID'
+      .collect();
+
+    for (const comment of comments) {
+      await ctx.db.delete(comment._id);
+    }
+
+    await ctx.db.delete(post._id);
+
+    return {
+      success: true,
+      deletedCommentsCount: comments.length,
+    };
+  },
+});

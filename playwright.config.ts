@@ -2,11 +2,22 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// 🔥 Змушуємо Playwright прочитати саме .env.local файл
-dotenv.config({ path: path.resolve(__dirname, '.env.local') });
 
-// Далі йде твій звичайний експорт конфігу...
-// export default defineConfig({ ... })
+
+// 🔥 Явно обчислюємо шлях та перевіряємо результат завантаження
+const envPath = path.resolve(__dirname, '.env.local');
+const configResult = dotenv.config({ path: envPath });
+
+if (configResult.error) {
+  console.error(`❌ [PLAYWRIGHT ENV ERROR] File not found: ${envPath}`);
+  console.error(configResult.error);
+} else {
+  console.log(`✅ [PLAYWRIGHT ENV] File loaded: ${envPath}`);
+  // Перевірка чи змінні взагалі існують всередині файлу
+  if (!process.env.TEST_USER_EMAIL) {
+    console.warn(`⚠️ [PLAYWRIGHT ENV WARNING] File not found, missing TEST_USER_EMAIL: ${envPath}`);
+  }
+}
 
 export const STORAGE_STATE = path.join(__dirname, 'tests/.auth/user.json');
 
