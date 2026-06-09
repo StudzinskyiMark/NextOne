@@ -4,9 +4,11 @@ import { api } from '@/convex/_generated/api';
 import { fetchMutation } from 'convex/nextjs';
 
 export async function POST(request: Request) {
-  // Захист: забороняємо видалення в продакшені!
-  if (process.env.NODE_ENV === 'production') {
-    return new NextResponse('Forbidden in production', { status: 403 });
+  const authHeader = request.headers.get('Authorization');
+  const expectedToken = `Bearer ${process.env.TEST_API_KEY}`;
+
+  if (!process.env.TEST_API_KEY || authHeader !== expectedToken) {
+    return new NextResponse('Forbidden: Invalid or missing test token', { status: 403 });
   }
 
   try {

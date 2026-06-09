@@ -9,8 +9,9 @@ test('should create a post, find it in the feed, and leave a comment', async ({
   page,
   request,
 }, testInfo) => {
-  // Гарантує унікальну назву для кожного паралельного потоку (напр., "E2E Test: Title Worker 0")
-  const postTitle = `E2E Test: Title Worker ${testInfo.parallelIndex}`;
+  // 🌟 BEST PRACTICE: Робимо назву унікальною для кожного воркера, ретраю та запуску
+  const uniqueId = `${testInfo.parallelIndex}-r${testInfo.retry}-${Date.now().toString().slice(-4)}`;
+  const postTitle = `E2E Test: Title Worker ${uniqueId}`;
   const postStory = 'E2E test: story';
   const commentText = 'E2E test: comment';
 
@@ -60,6 +61,9 @@ test('should create a post, find it in the feed, and leave a comment', async ({
     // 5. Автоматичне очищення: відпрацює НАВІТЬ якщо тест упаде на кроці 3 чи 4
     await request.post('/api/test/cleanup', {
       data: { title: postTitle },
+      headers: {
+        Authorization: `Bearer ${process.env.TEST_API_KEY}`,
+      },
     });
   }
 });
