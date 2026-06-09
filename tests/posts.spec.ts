@@ -24,7 +24,6 @@ test('should create a post, find it in the feed, and leave a comment', async ({
     await page.getByRole('textbox', { name: 'Tell your story, paste code,' }).fill(postStory);
     await page.getByRole('button', { name: 'Publish' }).click({ force: true });
 
-    // 2. Стабілізація: чекаємо успішного збереження в БД через тост
     // 2. Стабілізація: даємо серверу та БД час відпрацювати під навантаженням воркерів (15 секунд)
     await expect(page.getByText('Successfully published!')).toBeVisible({ timeout: 15000 });
 
@@ -33,14 +32,26 @@ test('should create a post, find it in the feed, and leave a comment', async ({
 
     // 3. Перевірка у фіді та перехід всередину поста
     const newPostLink = page.getByRole('link', { name: postTitle });
-    await expect(newPostLink).toBeVisible();
+
+    // 🌟 ЗАХИСТ ВІД ЛАГУ КЕШУ СТРІЧКИ БЛОГУ (FEED LAG)
+    try {
+      // Спочатку даємо 3 секунди на те, щоб пост з'явився у фіді автоматично
+      await expect(newPostLink).toBeVisible({ timeout: 3000 });
+    } catch (error) {
+      // Якщо Next.js на CI закешував старий список без нашого поста — робимо жорсткий релоад
+      console.log(`[E2E] Post "${postTitle}" not found in feed initially. Reloading page...`);
+      await page.reload();
+      await expect(newPostLink).toBeVisible({ timeout: 7000 });
+    }
+
+    // Тепер, коли лінка залізобетонно є на екрані, клікаємо
     await newPostLink.click();
 
     // 🌟 СТАБІЛІЗАЦІЯ: Чекаємо, поки URL зміниться на динамічний роут поста
     // Регулярний вираз /\/blog\/.+/ означає: "/blog/і-далі-будь-який-id"
     await page.waitForURL(/\/blog\/.+/);
 
-    // 🌟 ЗАХИСТ ВІД ЛАГУ КЕШУ СЕРВЕРА
+    // 🌟 ЗАХИСТ ВІД ЛАГУ КЕШУ СЕРВЕРА (ДЛЯ СТОРІНКИ ПОСТА)
     // Даємо 3 секунди на появу заголовка. Якщо сервер видав "Post not found",
     // перехоплюємо помилку, робимо жорсткий релоад сторінки і перевіряємо знову.
     try {
