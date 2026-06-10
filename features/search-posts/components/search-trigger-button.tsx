@@ -36,7 +36,9 @@ export function SearchTriggerButton({ onClick }: SearchTriggerButtonProps) {
       <kbd className="bg-muted/50 border-border text-muted-foreground pointer-events-none hidden h-5 items-center gap-0.5 rounded border px-1.5 font-mono text-[10px] font-medium transition-colors select-none md:inline-flex">
         {isMac ? (
           <>
-            <span className="text-xs">⌘</span>K
+            <span className="text-xs">⌘</span>
+            <span className="text-[9px]">+</span>
+            <span>K</span>
           </>
         ) : (
           <>

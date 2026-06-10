@@ -22,9 +22,29 @@ export const SignInForm = () => {
     },
   });
 
+  const onSubmit = async (values: TSignInValues) => {
+    try {
+      await signIn(values);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Auth failed';
+
+      if (message.toLowerCase().includes('password')) {
+        form.setError('password', { type: 'server', message });
+      } else {
+        form.setError('root', { type: 'server', message });
+      }
+    }
+  };
+
   return (
-    <form onSubmit={form.handleSubmit(signIn)}>
+    <form onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
+        {form.formState.errors.root && (
+          <div className="text-destructive bg-destructive/10 rounded p-2 text-center text-sm font-medium">
+            {form.formState.errors.root.message}
+          </div>
+        )}
+
         <Controller
           control={form.control}
           name="email"
@@ -34,6 +54,7 @@ export const SignInForm = () => {
               <Input
                 aria-invalid={fieldState.invalid}
                 placeholder="your.name@example.com"
+                type="email"
                 {...field}
                 autoComplete="email"
               />
@@ -41,6 +62,7 @@ export const SignInForm = () => {
             </Field>
           )}
         />
+
         <Controller
           control={form.control}
           name="password"
@@ -58,6 +80,7 @@ export const SignInForm = () => {
             </Field>
           )}
         />
+
         <Button disabled={isSigningIn} type="submit" className="w-full">
           {isSigningIn ? (
             <>

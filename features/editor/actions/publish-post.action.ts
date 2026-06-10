@@ -1,7 +1,6 @@
 'use server';
 
 import { revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -48,7 +47,6 @@ export async function publishPostAction(data: TEditorValues) {
     if (!resultPost) return { success: false, message: `Something went wrong!` };
 
     revalidateTag('posts', 'page');
-    redirect('/blog');
 
     return { success: true, message: `Successfully published!` };
   } catch (error) {

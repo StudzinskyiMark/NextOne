@@ -51,6 +51,7 @@ export const SignUpForm = () => {
               <Input
                 aria-invalid={fieldState.invalid}
                 placeholder="your.name@example.com"
+                type="email"
                 {...field}
                 autoComplete="email"
               />
