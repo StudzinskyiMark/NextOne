@@ -33,4 +33,9 @@ export default defineSchema({
       enabled: v.boolean(), // Whether the announcement is enabled
     }),
   }),
+  aiDailyLogs: defineTable({
+    userId: v.string(), // ID користувача від Better-Auth
+    date: v.string(), // Поточна дата у форматі "YYYY-MM-DD"
+    count: v.number(), // Скільки генерацій вже зроблено
+  }).index('by_user_and_date', ['userId', 'date']),
 });
