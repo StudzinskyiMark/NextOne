@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { navigationConfig } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
+import { Skeleton } from '../ui/skeleton';
+
 export function MobileNav() {
   const pathname = usePathname();
 
@@ -42,5 +44,24 @@ export function MobileNav() {
         );
       })}
     </nav>
+  );
+}
+
+export function MobileNavSkeleton() {
+  return (
+    <div className="bg-background/80 fixed right-0 bottom-0 left-0 z-50 flex h-[65px] items-center justify-around border-t px-4 py-3 backdrop-blur-md sm:hidden">
+      <div className="flex flex-col items-center gap-1">
+        <Skeleton className="h-6 w-6 rounded-md" />
+        <Skeleton className="h-3 w-10" />
+      </div>
+      {/* Твоя кругла акцентна кнопка по центру */}
+      <div className="p-3">
+        <Skeleton className="h-12 w-12 rounded-full" />
+      </div>
+      <div className="flex flex-col items-center gap-1">
+        <Skeleton className="h-6 w-6 rounded-md" />
+        <Skeleton className="h-3 w-10" />
+      </div>
+    </div>
   );
 }

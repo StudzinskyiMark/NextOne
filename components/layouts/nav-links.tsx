@@ -7,6 +7,7 @@ import { navigationConfig } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
 import { buttonVariants } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
 
 export function NavLinks() {
   const pathname = usePathname();
@@ -44,6 +45,16 @@ export function NavLinks() {
           </Link>
         );
       })}
+    </div>
+  );
+}
+
+export function DesktopNavSkeleton() {
+  return (
+    <div className="hidden items-center gap-x-1 md:flex">
+      <Skeleton className="h-8 w-16 rounded-md" />
+      <Skeleton className="h-8 w-20 rounded-md" />
+      <Skeleton className="h-8 w-24 rounded-md" />
     </div>
   );
 }

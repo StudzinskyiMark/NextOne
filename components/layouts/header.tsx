@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { AuthControl } from '@/features/auth';
 import { SearchHeaderWrapper } from '@/features/search-posts';
 
-import { NavLinks } from './nav-links';
+import { DesktopNavSkeleton, NavLinks } from './nav-links';
 import { SiteBrand } from './site-brand';
 import { ThemeToggle } from './theme-toggle';
 
@@ -16,7 +16,7 @@ export async function Header() {
         </Suspense>
 
         <div className="hidden items-center gap-4 sm:flex">
-          <Suspense fallback={<div className="bg-muted h-10 w-20 animate-pulse" />}>
+          <Suspense fallback={<DesktopNavSkeleton />}>
             <NavLinks />
           </Suspense>
         </div>
