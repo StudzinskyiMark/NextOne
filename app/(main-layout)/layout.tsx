@@ -1,4 +1,5 @@
 import { Header } from '@/components/layouts/header';
+import { MobileNav } from '@/components/layouts/mobile-nav';
 
 export default async function MainLayout({
   children,
@@ -6,10 +7,13 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      {/* <Suspense fallback={<div className="bg-muted h-16 w-full animate-pulse" />}></Suspense> */}
+    <div className="relative flex min-h-screen flex-col">
       <Header />
-      <main>{children}</main>
-    </>
+
+      {/* Додаємо pb-20 (padding-bottom), щоб контент не ховався за мобільним баром! */}
+      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+
+      <MobileNav />
+    </div>
   );
 }

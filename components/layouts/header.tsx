@@ -1,12 +1,9 @@
 import { Suspense } from 'react';
 
-import Link from 'next/link';
-
 import { AuthControl } from '@/features/auth';
-import { PublishButton } from '@/features/editor';
 import { SearchHeaderWrapper } from '@/features/search-posts';
 
-import { buttonVariants } from '../ui/button';
+import { NavLinks } from './nav-links';
 import { SiteBrand } from './site-brand';
 import { ThemeToggle } from './theme-toggle';
 
@@ -18,20 +15,14 @@ export async function Header() {
           <SiteBrand />
         </Suspense>
 
-        <div className="flex items-center gap-4">
-          <Link className={buttonVariants({ variant: 'ghost' })} href="/">
-            Home
-          </Link>
-          <Link className={buttonVariants({ variant: 'ghost' })} href="/blog">
-            Blog
-          </Link>
-          <PublishButton />
+        <div className="hidden items-center gap-4 sm:flex">
+          <NavLinks />
         </div>
       </div>
       <div className="flex items-center gap-4">
         <SearchHeaderWrapper />
-        <AuthControl />
         <ThemeToggle />
+        <AuthControl />
       </div>
     </nav>
   );

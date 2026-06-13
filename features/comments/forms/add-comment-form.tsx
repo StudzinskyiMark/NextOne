@@ -66,7 +66,8 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
 
   const commentLength = titleValue?.length ?? 0;
 
-  if (currentUser === undefined) return <Loader2 className="mx-auto animate-spin" />;
+  if (currentUser === undefined)
+    return <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />;
 
   if (currentUser === null) {
     return (
@@ -131,7 +132,11 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
           className="disabled:pointer-events-auto disabled:cursor-not-allowed disabled:hover:shadow-none max-md:w-full"
           size="lg"
         >
-          {isAddComment ? <Loader2 className="animate-spin" /> : 'Comment'}
+          {isAddComment ? (
+            <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />
+          ) : (
+            'Comment'
+          )}
         </Button>
       </div>
     </form>

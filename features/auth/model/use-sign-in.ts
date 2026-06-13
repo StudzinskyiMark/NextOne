@@ -20,7 +20,6 @@ export function useSignIn() {
   const callbackUrl = searchParams.get('callbackUrl');
 
   const signIn = (data: SignInArgs) => {
-    // Повертаємо чесний Promise користувачу хука 🤝
     return new Promise<void>((resolve, reject) => {
       startTransition(async () => {
         try {
@@ -33,11 +32,11 @@ export function useSignIn() {
                   toast.success('Sign In successfully!', { position: 'top-center' });
                   router.push(callbackUrl || '/');
                   router.refresh();
-                  resolve(); // <-- Сигналізуємо компоненту про успіх
+                  resolve();
                 },
                 onError: (ctx) => {
                   toast.error(ctx.error.message, { position: 'top-center' });
-                  reject(new Error(ctx.error.message)); // <-- Прокидаємо помилку в компонент
+                  reject(new Error(ctx.error.message));
                 },
               },
             });
@@ -50,17 +49,16 @@ export function useSignIn() {
                   toast.success('Sign In successfully!', { position: 'top-center' });
                   router.push(callbackUrl || '/');
                   router.refresh();
-                  resolve(); // <-- Сигналізуємо компоненту про успіх
+                  resolve();
                 },
                 onError: (ctx) => {
                   toast.error(ctx.error.message, { position: 'top-center' });
-                  reject(new Error(ctx.error.message)); // <-- Прокидаємо помилку в компонент
+                  reject(new Error(ctx.error.message));
                 },
               },
             });
           }
         } catch (error) {
-          // Обробка мережевих помилок (якщо сам fetch впав)
           const errorMessage =
             error instanceof Error ? error.message : 'An unexpected error occurred';
           toast.error(errorMessage, { position: 'top-center' });

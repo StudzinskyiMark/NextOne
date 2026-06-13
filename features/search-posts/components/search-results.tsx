@@ -32,7 +32,7 @@ export function SearchResults({ results, isLoading, term, onItemClick }: SearchR
   if (isLoading) {
     return (
       <div className="flex justify-center p-6">
-        <Loader2 className="size-6 animate-spin text-emerald-500" />
+        <Loader2 className="m-0 aspect-square size-6 shrink-0 animate-spin p-0 text-emerald-500" />
       </div>
     );
   }
@@ -47,7 +47,7 @@ export function SearchResults({ results, isLoading, term, onItemClick }: SearchR
 
   return (
     <CommandGroup>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2 py-2">
         {results.map((post) => (
           <CommandItem
             key={post._id}
@@ -56,7 +56,7 @@ export function SearchResults({ results, isLoading, term, onItemClick }: SearchR
               if (onItemClick) onItemClick();
               router.push(`/blog/${post._id}`);
             }}
-            className="group data-[selected=true]:bg-muted aria-selected:bg-muted flex cursor-pointer flex-col items-start rounded-lg p-3 transition-colors"
+            className="group data-[selected=true]:bg-muted aria-selected:bg-muted flex cursor-pointer flex-col items-start rounded-lg p-2 transition-colors"
             asChild
           >
             <Link href={`/blog/${post._id}`} className="group flex w-full flex-col">

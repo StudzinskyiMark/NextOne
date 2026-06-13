@@ -21,7 +21,12 @@ export function BlogSearchBar() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useClickAway(containerRef, () => setIsOpen(false));
+  const handleClose = () => {
+    setIsOpen(false);
+    setTerm('');
+  };
+
+  useClickAway(containerRef, handleClose);
 
   const showResults = isOpen && term.trim().length > 0;
 
@@ -54,7 +59,7 @@ export function BlogSearchBar() {
                     results={results}
                     isLoading={isLoading}
                     term={term}
-                    onItemClick={() => setIsOpen(false)}
+                    onItemClick={handleClose}
                   />
                 </CommandList>
               </div>

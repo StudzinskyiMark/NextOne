@@ -79,7 +79,8 @@ export const SignUpForm = () => {
         <Button disabled={isSigningUp} type="submit" className="w-full">
           {isSigningUp ? (
             <>
-              <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
+              <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />{' '}
+              <span>Loading...</span>
             </>
           ) : (
             <span>Sign Up</span>

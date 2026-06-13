@@ -20,7 +20,11 @@ export function LoadMoreButton({ status, onLoadMore }: LoadMoreButtonProps) {
       onClick={onLoadMore}
       disabled={status === 'LoadingMore'}
     >
-      {status === 'LoadingMore' ? <Loader2 className="size-4 animate-spin" /> : 'Load more'}
+      {status === 'LoadingMore' ? (
+        <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />
+      ) : (
+        'Load more'
+      )}
     </Button>
   );
 }

@@ -84,7 +84,8 @@ export const SignInForm = () => {
         <Button disabled={isSigningIn} type="submit" className="w-full">
           {isSigningIn ? (
             <>
-              <Loader2 className="size-4 animate-spin" /> <span>Loading...</span>
+              <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />
+              <span>Loading...</span>
             </>
           ) : (
             <span>Sign In</span>
