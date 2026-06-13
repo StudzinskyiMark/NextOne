@@ -14,7 +14,6 @@ export function MobileNav() {
       {navigationConfig.map((item) => {
         const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
-        // Магія Flexbox Order: Публікація завжди по центру
         const orderClass = item.isAccent
           ? 'order-2' // Центр
           : item.href === '/'
@@ -28,7 +27,7 @@ export function MobileNav() {
             className={cn(
               'flex flex-col items-center justify-center gap-1 transition-transform active:scale-95',
               orderClass,
-              // Стилізація: акцентна кнопка (зелене коло) vs звичайні таби (просто іконка+текст)
+
               item.isAccent
                 ? 'bg-primary text-primary-foreground shadow-primary/30 rounded-full p-3 shadow-lg'
                 : isActive
@@ -38,7 +37,6 @@ export function MobileNav() {
           >
             <item.icon className={cn('h-6 w-6', item.isAccent && 'h-7 w-7')} />
 
-            {/* Для звичайних табів показуємо дрібний текст під іконкою */}
             {!item.isAccent && <span className="text-[10px] font-medium">{item.title}</span>}
           </Link>
         );

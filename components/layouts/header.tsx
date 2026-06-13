@@ -16,7 +16,9 @@ export async function Header() {
         </Suspense>
 
         <div className="hidden items-center gap-4 sm:flex">
-          <NavLinks />
+          <Suspense fallback={<div className="bg-muted h-10 w-20 animate-pulse" />}>
+            <NavLinks />
+          </Suspense>
         </div>
       </div>
       <div className="flex items-center gap-4">

@@ -71,13 +71,13 @@ export function UserButton() {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="cursor-pointer py-2.5 md:py-1.5">
             <Link href="/profile" className="cursor-pointer">
               <User className="mr-2 size-4" />
               <span>Profile</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="cursor-pointer py-2.5 md:py-1.5">
             <Link href="/settings" className="cursor-pointer">
               <Settings className="mr-2 size-4" />
               <span>Settings</span>
@@ -90,7 +90,7 @@ export function UserButton() {
         <DropdownMenuItem
           onClick={handleSignOut}
           disabled={isSignOutPending}
-          className="cursor-pointer hover:text-red-500 focus:text-red-500"
+          className="cursor-pointer py-2.5 hover:text-red-500 focus:text-red-500 md:py-1.5"
         >
           {isSignOutPending ? (
             <Loader2 className="mr-2 size-4 animate-spin" />
