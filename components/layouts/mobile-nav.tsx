@@ -16,20 +16,16 @@ export function MobileNav() {
       {navigationConfig.map((item) => {
         const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
-        const orderClass = item.isAccent
-          ? 'order-2' // Центр
-          : item.href === '/'
-            ? 'order-1' // Ліворуч
-            : 'order-3'; // Праворуч
+        const orderClass = item.isAccent ? 'order-2' : item.href === '/' ? 'order-1' : 'order-3';
 
         return (
           <Link
             key={item.href}
             href={item.href}
+            aria-label={item.title}
             className={cn(
               'flex flex-col items-center justify-center gap-1 transition-transform active:scale-95',
               orderClass,
-
               item.isAccent
                 ? 'bg-primary text-primary-foreground shadow-primary/30 rounded-full p-3 shadow-lg'
                 : isActive
