@@ -10,7 +10,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center pt-20 pb-8">
       <div className="absolute top-5 left-5">
         <Link href="/" className={buttonVariants({ variant: 'outline' })}>
           <ArrowLeft className="mr-1" />

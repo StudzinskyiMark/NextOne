@@ -24,8 +24,8 @@ export function NavLinks() {
               href={item.href}
               className={cn(buttonVariants({ variant: 'default' }))}
             >
-              <item.icon className="h-4 w-4 md:mr-2" />
-              <span className="hidden md:inline">{item.title}</span>
+              <item.icon className="h-5 w-5 lg:mr-2" />
+              <span className="hidden lg:inline">{item.title}</span>
             </Link>
           );
         }
@@ -40,8 +40,8 @@ export function NavLinks() {
               isActive && 'border-primary text-foreground'
             )}
           >
-            <item.icon className="h-4 w-4 md:mr-2" />
-            <span className="hidden md:inline">{item.title}</span>
+            <item.icon className="h-5 w-5 lg:mr-2" />
+            <span className="hidden lg:inline">{item.title}</span>
           </Link>
         );
       })}

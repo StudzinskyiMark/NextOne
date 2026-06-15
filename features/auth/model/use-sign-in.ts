@@ -10,7 +10,7 @@ import { authClient } from '@/lib/auth-client';
 import { TSignInValues } from '../schemas/auth.schema';
 
 type SignInArgs =
-  | { provider: 'google' | 'github' }
+  | { provider: 'google' | 'github' | 'linkedin' }
   | { email: TSignInValues['email']; password: TSignInValues['password'] };
 
 export function useSignIn() {

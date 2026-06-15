@@ -13,8 +13,8 @@ export function AuthControl() {
     <>
       {isLoading ? (
         <div className="flex items-center gap-x-4">
-          <Skeleton className="h-9 w-20 rounded-md" />
-          <Skeleton className="h-9 w-20 rounded-md" />
+          <Skeleton className="h-9 w-9 rounded-md md:w-28" />
+          <Skeleton className="h-9 w-9 rounded-md md:w-28" />
         </div>
       ) : isAuthenticated ? (
         <UserButton />

@@ -29,7 +29,7 @@ export function SearchTriggerButton({ onClick }: SearchTriggerButtonProps) {
       className="text-muted-foreground hover:text-foreground relative h-9 w-9 p-0 transition-colors lg:w-auto lg:px-3 lg:py-2"
       aria-label="Open global search"
     >
-      <Search className="size-5 lg:mr-2 lg:size-4" />
+      <Search className="size-4 lg:mr-2 lg:size-4" />
 
       <span className="hidden lg:inline">Search</span>
 
