@@ -1,79 +1,50 @@
 'use client';
 
-import { useState } from 'react';
-
-import { Loader2 } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 
-import { GitHub, Google, LinkedIn } from '@/components/icons';
+import { GitHubIcon, GoogleIcon, LinkedInIcon } from '@/components/icons';
 
 import { useSignIn } from '../model/use-sign-in';
 
 export function SocialAuthButtons() {
-  const { signIn, isSigningIn } = useSignIn();
-
-  const [activeProvider, setActiveProvider] = useState<'google' | 'github' | 'linkedin' | null>(
-    null
-  );
-
-  const handleSocialSignIn = async (provider: 'google' | 'github' | 'linkedin') => {
-    setActiveProvider(provider);
-    try {
-      await signIn({ provider });
-    } catch (error) {
-      setActiveProvider(null);
-    }
-  };
+  const { isSigningIn, signIn } = useSignIn();
 
   return (
-    <div className="flex w-full flex-col gap-y-2">
-      {/* Кнопка Google */}
+    <div className="grid grid-cols-3 gap-3">
+      {/* Google */}
       <Button
-        type="button"
         variant="outline"
-        className="flex w-full items-center justify-center gap-x-2"
+        type="button"
         disabled={isSigningIn}
-        onClick={() => handleSocialSignIn('google')}
+        onClick={() => signIn({ provider: 'google' })}
+        className="w-full px-0 sm:px-4"
       >
-        {isSigningIn && activeProvider === 'google' ? (
-          <Loader2 className="size-4 animate-spin" />
-        ) : (
-          <Google className="size-4" />
-        )}
-        <span>Continue with Google</span>
+        <GoogleIcon className="size-5 shrink-0 sm:mr-2" />
+        <span className="hidden text-sm font-medium sm:inline">Google</span>
       </Button>
 
-      {/* Кнопка GitHub */}
+      {/* GitHub */}
       <Button
-        type="button"
         variant="outline"
-        className="flex w-full items-center justify-center gap-x-2"
+        type="button"
         disabled={isSigningIn}
-        onClick={() => handleSocialSignIn('github')}
+        onClick={() => signIn({ provider: 'github' })}
+        className="w-full px-0 sm:px-4"
       >
-        {isSigningIn && activeProvider === 'github' ? (
-          <Loader2 className="size-4 animate-spin" />
-        ) : (
-          <GitHub className="size-4" />
-        )}
-        <span>Continue with GitHub</span>
+        <GitHubIcon className="size-5 shrink-0 sm:mr-2" />
+        <span className="hidden text-sm font-medium sm:inline">GitHub</span>
       </Button>
 
-      {/* Кнопка LinkedIn */}
+      {/* LinkedIn */}
       <Button
-        type="button"
         variant="outline"
-        className="flex w-full items-center justify-center gap-x-2"
+        type="button"
         disabled={isSigningIn}
-        onClick={() => handleSocialSignIn('linkedin')}
+        onClick={() => signIn({ provider: 'linkedin' })}
+        className="w-full px-0 sm:px-4"
       >
-        {isSigningIn && activeProvider === 'linkedin' ? (
-          <Loader2 className="size-4 animate-spin" />
-        ) : (
-          <LinkedIn className="size-4" />
-        )}
-        <span>Continue with LinkedIn</span>
+        <LinkedInIcon className="size-5 shrink-0 sm:mr-2" />
+        <span className="hidden text-sm font-medium sm:inline">LinkedIn</span>
       </Button>
     </div>
   );

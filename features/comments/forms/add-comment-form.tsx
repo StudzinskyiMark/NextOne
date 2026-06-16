@@ -23,10 +23,7 @@ import {
   commentsSchema,
 } from '../schemas/comments.schema';
 
-// TODO Implement user avatar next to the comment input
-// 1. Fetch current user data (name, image) using authComponent or requireUser.
-// 2. Integrate shadcn/ui Avatar component or a custom <img> with a fallback (first letter of the name).
-// 3. Position the avatar to the left of the textarea to create a personalized "I am writing this" UX.
+
 
 // TODO: Implement Messenger-style Layout with Framer Motion
 // 1. Wrap the form in <motion.form layout> to enable automatic smooth transitions for all child elements.

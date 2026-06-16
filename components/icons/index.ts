@@ -1,3 +1,3 @@
-export { Google } from './google';
-export { GitHub } from './github';
-export { LinkedIn } from './linkedin';
+export { Google as GoogleIcon } from './google';
+export { GitHub as GitHubIcon } from './github';
+export { LinkedIn as LinkedInIcon } from './linkedin';
