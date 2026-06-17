@@ -6,3 +6,12 @@ export const getSiteSettings = query({
     return await ctx.db.query('siteSettings').first();
   },
 });
+
+export const getAnnouncement = query({
+  args: {},
+  handler: async (ctx) => {
+    const settings = await ctx.db.query('siteSettings').first();
+
+    return settings?.announcement || { enabled: false, text: '' };
+  },
+});

@@ -158,3 +158,26 @@ export const deletePostByTitle = mutation({
     };
   },
 });
+
+export const getLatestPosts = query({
+  args: {},
+  handler: async (ctx) => {
+    const posts = await ctx.db.query('posts').order('desc').take(3);
+
+    const settings = await ctx.db.query('siteSettings').first();
+
+    const defaultId = settings?.defaultPostImageId;
+
+    return await Promise.all(
+      posts.map(async (post) => {
+        const imageId = post.imageStorageID ?? defaultId;
+
+        return {
+          ...post,
+
+          imageUrl: imageId ? await ctx.storage.getUrl(imageId) : null,
+        };
+      })
+    );
+  },
+});
