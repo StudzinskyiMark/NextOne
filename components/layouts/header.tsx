@@ -9,7 +9,7 @@ import { ThemeToggle } from './theme-toggle';
 
 export async function Header() {
   return (
-    <nav className="flex w-full items-center justify-between py-5">
+    <header className="flex w-full items-center justify-between px-6 py-6 md:px-10">
       <div className="flex items-center gap-6">
         <Suspense fallback={<div className="bg-muted h-8 w-27 animate-pulse rounded" />}>
           <SiteBrand />
@@ -26,6 +26,6 @@ export async function Header() {
         <ThemeToggle />
         <AuthControl />
       </div>
-    </nav>
+    </header>
   );
 }

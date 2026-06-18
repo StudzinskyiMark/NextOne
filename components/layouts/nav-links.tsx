@@ -13,7 +13,7 @@ export function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center gap-6 md:gap-4">
+    <nav className="flex items-center gap-6 md:gap-4">
       {navigationConfig.map((item) => {
         const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
@@ -45,7 +45,7 @@ export function NavLinks() {
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 }
 

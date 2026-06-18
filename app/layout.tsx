@@ -5,6 +5,8 @@ import { ConvexClientProvider } from '@/providers/convex-client-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { fetchQuery } from 'convex/nextjs';
 
+import { cn } from '@/lib/utils';
+
 import { Toaster } from '@/components/ui/sonner';
 
 import '@/styles/globals.css';
@@ -88,14 +90,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={cn(
+          geistSans.variable,
+          geistMono.variable,
+          'antialiased',
+          'bg-background min-h-screen font-sans antialiased',
+          'selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-50'
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="mx-auto w-full max-w-7xl px-2 md:px-4 lg:px-6">
+          <main className="mx-auto w-full">
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
           <Toaster />

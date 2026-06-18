@@ -148,3 +148,9 @@
     color: oklch(0.18 0.05 165) !important;
   }
 }
+
+body {
+  selection {
+    @apply bg-emerald-500/30;
+  }
+}
