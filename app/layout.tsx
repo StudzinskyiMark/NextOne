@@ -33,7 +33,7 @@ export async function generateMetadata() {
       description: settings?.siteDescription ?? 'Developer Platform',
       icons: {
         icon: '/favicon.ico',
-        apple: '/apple-touch-icon.png', // Додав для кращого вигляду на iPhone
+        apple: '/apple-touch-icon.png',
       },
       // Open Graph
       openGraph: {
@@ -66,10 +66,10 @@ export async function generateMetadata() {
       },
     };
   } catch (e) {
+    console.error(e);
     return {
       title: { default: 'NextOne', template: '%s | NextOne' },
     };
-    console.error(e);
   }
 }
 
@@ -89,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body
         className={cn(
           geistSans.variable,

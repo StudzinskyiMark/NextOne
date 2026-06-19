@@ -9,7 +9,7 @@ import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
 
 import { BlogPostCardSkeleton, BlogPostsList } from '@/features/editor';
-import { BlogSearchBar } from '@/features/search-posts';
+import { SearchBar } from '@/features/search-posts';
 
 import { Separator } from '@/components/ui/separator';
 
@@ -35,7 +35,7 @@ export default async function BlogPage() {
         </p>
         <Separator className="my-2" />
 
-        <BlogSearchBar />
+        <SearchBar />
       </div>
       <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 md:px-6 lg:grid-cols-3">
         <Suspense

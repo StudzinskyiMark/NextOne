@@ -6,7 +6,7 @@ import { vi } from 'vitest';
 
 import { useSearch } from '@/features/search-posts/model/use-search';
 
-import { BlogSearchBar } from './blog-search-bar';
+import { BlogSearchBar } from './search-bar';
 
 vi.mock('@/features/search-posts/model/use-search', () => ({
   useSearch: vi.fn(),
