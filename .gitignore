@@ -49,3 +49,6 @@ node_modules/
 /playwright/.auth/
 # Playwright auth session
 tests/.auth/
+
+# AI Documentation & Audits
+.ai-docs/
