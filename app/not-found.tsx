@@ -10,19 +10,6 @@ import { SearchBar } from '@/features/search-posts/components/search-bar';
 
 import { Button } from '@/components/ui/button';
 
-export async function generateMetadata() {
-  return {
-    title: '404 | Not Found',
-    description:
-      "Oops! We're still working on it! 🛠️ This page doesn't exist yet or is currently under development. We're actively building new features, so some links might lead here.",
-    openGraph: {
-      title: '404 | Not Found',
-      description:
-        "Oops! We're still working on it! 🛠️ This page doesn't exist yet or is currently under development. We're actively building new features, so some links might lead here.",
-    },
-  };
-}
-
 export default function NotFound() {
   const router = useRouter();
 
