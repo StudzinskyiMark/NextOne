@@ -16,12 +16,17 @@ import { SearchResults } from './search-results';
 // 2. Extract the search term from the URL query string (e.g., ?q=term) on the new page.
 // 3. Pass the extracted term to useSearch and render the SearchResults component.
 
-export function BlogSearchBar() {
+export function SearchBar() {
   const { term, setTerm, results, isLoading } = useSearch(5);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useClickAway(containerRef, () => setIsOpen(false));
+  const handleClose = () => {
+    setIsOpen(false);
+    setTerm('');
+  };
+
+  useClickAway(containerRef, handleClose);
 
   const showResults = isOpen && term.trim().length > 0;
 
@@ -54,7 +59,7 @@ export function BlogSearchBar() {
                     results={results}
                     isLoading={isLoading}
                     term={term}
-                    onItemClick={() => setIsOpen(false)}
+                    onItemClick={handleClose}
                   />
                 </CommandList>
               </div>

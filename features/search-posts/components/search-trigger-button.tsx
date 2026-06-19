@@ -26,14 +26,14 @@ export function SearchTriggerButton({ onClick }: SearchTriggerButtonProps) {
     <Button
       variant="outline"
       onClick={onClick}
-      className="text-muted-foreground hover:text-foreground relative h-9 w-9 p-0 transition-colors md:w-auto md:px-3 md:py-2"
+      className="text-muted-foreground hover:text-foreground relative h-9 w-9 p-0 transition-colors lg:w-auto lg:px-3 lg:py-2"
       aria-label="Open global search"
     >
-      <Search className="size-5 md:mr-2 md:size-4" />
+      <Search className="size-4 lg:mr-2 lg:size-4" />
 
-      <span className="hidden md:inline">Search</span>
+      <span className="hidden lg:inline">Search</span>
 
-      <kbd className="bg-muted/50 border-border text-muted-foreground pointer-events-none hidden h-5 items-center gap-0.5 rounded border px-1.5 font-mono text-[10px] font-medium transition-colors select-none md:inline-flex">
+      <kbd className="bg-muted/50 border-border text-muted-foreground pointer-events-none hidden h-5 items-center gap-0.5 rounded border px-1.5 font-mono text-[10px] font-medium transition-colors select-none lg:inline-flex">
         {isMac ? (
           <>
             <span className="text-xs">⌘</span>

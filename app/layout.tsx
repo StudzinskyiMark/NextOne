@@ -5,6 +5,8 @@ import { ConvexClientProvider } from '@/providers/convex-client-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { fetchQuery } from 'convex/nextjs';
 
+import { cn } from '@/lib/utils';
+
 import { Toaster } from '@/components/ui/sonner';
 
 import '@/styles/globals.css';
@@ -31,7 +33,7 @@ export async function generateMetadata() {
       description: settings?.siteDescription ?? 'Developer Platform',
       icons: {
         icon: '/favicon.ico',
-        apple: '/apple-touch-icon.png', // Додав для кращого вигляду на iPhone
+        apple: '/apple-touch-icon.png',
       },
       // Open Graph
       openGraph: {
@@ -64,10 +66,10 @@ export async function generateMetadata() {
       },
     };
   } catch (e) {
+    console.error(e);
     return {
       title: { default: 'NextOne', template: '%s | NextOne' },
     };
-    console.error(e);
   }
 }
 
@@ -87,15 +89,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <body
+        className={cn(
+          geistSans.variable,
+          geistMono.variable,
+          'antialiased',
+          'bg-background min-h-screen font-sans antialiased',
+          'selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-50'
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="mx-auto w-full max-w-7xl px-2 md:px-4 lg:px-6">
+          <main className="mx-auto w-full">
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
           <Toaster />

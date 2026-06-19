@@ -1,4 +1,7 @@
+import { Suspense } from 'react';
+
 import { Header } from '@/components/layouts/header';
+import { MobileNav, MobileNavSkeleton } from '@/components/layouts/mobile-nav';
 
 export default async function MainLayout({
   children,
@@ -6,10 +9,14 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      {/* <Suspense fallback={<div className="bg-muted h-16 w-full animate-pulse" />}></Suspense> */}
+    <div className="relative flex min-h-screen flex-col">
       <Header />
-      <main>{children}</main>
-    </>
+
+      <main className=" flex-1 pb-20 sm:pb-0">{children}</main>
+
+      <Suspense fallback={<MobileNavSkeleton />}>
+        <MobileNav />
+      </Suspense>
+    </div>
   );
 }

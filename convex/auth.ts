@@ -1,6 +1,7 @@
 import { type GenericCtx, createClient } from '@convex-dev/better-auth';
 import { convex } from '@convex-dev/better-auth/plugins';
 import { betterAuth } from 'better-auth/minimal';
+import { username } from 'better-auth/plugins';
 import { ConvexError } from 'convex/values';
 
 import { components } from './_generated/api';
@@ -10,8 +11,6 @@ import authConfig from './auth.config';
 
 const siteUrl = process.env.SITE_URL!;
 
-// The component client has methods needed for integrating Convex with Better Auth,
-// as well as helper methods for general use.
 export const authComponent = createClient<DataModel>(components.betterAuth);
 
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
@@ -24,7 +23,35 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
       requireEmailVerification: false,
     },
 
-    plugins: [convex({ authConfig })],
+    user: {
+      additionalFields: {
+        username: {
+          type: 'string',
+          required: false,
+        },
+        displayUsername: {
+          type: 'string',
+          required: false,
+        },
+      },
+    },
+
+    socialProviders: {
+      github: {
+        clientId: process.env.GITHUB_CLIENT_ID!,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      },
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      },
+      linkedin: {
+        clientId: process.env.LINKEDIN_CLIENT_ID!,
+        clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      },
+    },
+
+    plugins: [convex({ authConfig }), username()],
   });
 };
 

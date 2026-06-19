@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { CommandDialog, CommandInput, CommandList } from '@/components/ui/command';
 
 import { useSearch } from '../model/use-search';
@@ -15,6 +17,12 @@ interface SearchModalProps {
 
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const { term, setTerm, results, isLoading } = useSearch(5);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTerm('');
+    }
+  }, [isOpen, setTerm]);
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose} shouldFilter={false}>

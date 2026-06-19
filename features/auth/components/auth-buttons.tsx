@@ -1,5 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { LogInIcon, UserPlus } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 
 import { buttonVariants } from '@/components/ui/button';
 
@@ -9,16 +15,21 @@ export function AuthButtons() {
   return (
     <>
       <Link
-        className={buttonVariants({ variant: 'outline' })}
+        aria-label="Sign In"
+        className={cn(buttonVariants({ variant: 'outline' }), 'size-9 p-0 md:w-28 md:px-4')}
         href={`/auth/sign-in?callbackUrl=${pathname}`}
       >
-        Sign In
+        <LogInIcon className="size-4 md:mr-2" />
+        <span className="hidden md:inline">Sign In</span>
       </Link>
+
       <Link
-        className={buttonVariants({ variant: 'default' })}
+        aria-label="Sign Up"
+        className={cn(buttonVariants({ variant: 'default' }), 'size-9 p-0 md:w-28 md:px-4')}
         href={`/auth/sign-up?callbackUrl=${pathname}`}
       >
-        Sign Up
+        <UserPlus className="size-4 md:mr-2" />
+        <span className="hidden md:inline">Sign Up</span>
       </Link>
     </>
   );

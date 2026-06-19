@@ -23,10 +23,7 @@ import {
   commentsSchema,
 } from '../schemas/comments.schema';
 
-// TODO Implement user avatar next to the comment input
-// 1. Fetch current user data (name, image) using authComponent or requireUser.
-// 2. Integrate shadcn/ui Avatar component or a custom <img> with a fallback (first letter of the name).
-// 3. Position the avatar to the left of the textarea to create a personalized "I am writing this" UX.
+
 
 // TODO: Implement Messenger-style Layout with Framer Motion
 // 1. Wrap the form in <motion.form layout> to enable automatic smooth transitions for all child elements.
@@ -66,7 +63,8 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
 
   const commentLength = titleValue?.length ?? 0;
 
-  if (currentUser === undefined) return <Loader2 className="mx-auto animate-spin" />;
+  if (currentUser === undefined)
+    return <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />;
 
   if (currentUser === null) {
     return (
@@ -131,7 +129,11 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
           className="disabled:pointer-events-auto disabled:cursor-not-allowed disabled:hover:shadow-none max-md:w-full"
           size="lg"
         >
-          {isAddComment ? <Loader2 className="animate-spin" /> : 'Comment'}
+          {isAddComment ? (
+            <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />
+          ) : (
+            'Comment'
+          )}
         </Button>
       </div>
     </form>

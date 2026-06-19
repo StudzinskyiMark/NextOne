@@ -1,8 +1,6 @@
-// hooks/use-sign-in.ts
 import { useTransition } from 'react';
 
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { toast } from 'sonner';
 
@@ -13,33 +11,39 @@ import { TSignUpValues } from '../schemas/auth.schema';
 export function useSignUp() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [isPending, startTransition] = useTransition();
   const callbackUrl = searchParams.get('callbackUrl');
 
-  const [isPending, startTransition] = useTransition();
-
-  const signUp = async (data: TSignUpValues) => {
-    startTransition(async () => {
-      try {
-        await authClient.signUp.email({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          callbackURL: callbackUrl || '/',
-          fetchOptions: {
-            onSuccess: () => {
-              toast.success('Sign In successfully!', { position: 'top-center' });
-              router.refresh();
+  const signUp = (data: TSignUpValues) => {
+    return new Promise<void>((resolve, reject) => {
+      startTransition(async () => {
+        try {
+          await authClient.signUp.email({
+            name: `${data.firstName} ${data.lastName}`,
+            email: data.email,
+            password: data.password,
+            username: data.username,
+            displayUsername: data.username,
+            callbackURL: callbackUrl || '/',
+            fetchOptions: {
+              onSuccess: () => {
+                toast.success('Sign Up successfully!', { position: 'top-center' });
+                router.refresh();
+                resolve();
+              },
+              onError: (ctx) => {
+                toast.error(ctx.error.message, { position: 'top-center' });
+                reject(new Error(ctx.error.message));
+              },
             },
-            onError: (ctx) => {
-              toast.error(ctx.error.message, { position: 'top-center' });
-            },
-          },
-        });
-      } catch (error) {
-        toast.error('An unexpected error occurred', { position: 'top-center' });
-        throw error instanceof Error ? error : new Error('An unknown error occurred');
-      }
+          });
+        } catch (error) {
+          const errorMessage =
+            error instanceof Error ? error.message : 'An unexpected error occurred';
+          toast.error(errorMessage, { position: 'top-center' });
+          reject(error instanceof Error ? error : new Error(errorMessage));
+        }
+      });
     });
   };
 

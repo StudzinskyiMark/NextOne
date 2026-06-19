@@ -6,7 +6,7 @@ import { vi } from 'vitest';
 
 import { useSearch } from '@/features/search-posts/model/use-search';
 
-import { BlogSearchBar } from './blog-search-bar';
+import { SearchBar } from './search-bar';
 
 vi.mock('@/features/search-posts/model/use-search', () => ({
   useSearch: vi.fn(),
@@ -29,7 +29,7 @@ describe('BlogSearchBar', () => {
       isLoading: false,
     });
 
-    render(<BlogSearchBar />);
+    render(<SearchBar />);
 
     const searchForm = screen.getByRole('search');
     const input = within(searchForm).getByRole('searchbox');
@@ -56,7 +56,7 @@ describe('BlogSearchBar', () => {
       isLoading: false,
     });
 
-    render(<BlogSearchBar />);
+    render(<SearchBar />);
 
     const searchForm = screen.getByRole('search');
     const input = within(searchForm).getByRole('searchbox');
