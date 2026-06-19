@@ -8,14 +8,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Upload, X } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
+
+import { AiTitleGenerator } from '@/features/ai-title-generator';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+
+// Або твій правильний шлях
 
 import { usePublishPost } from '../model/use-publish-post';
 import {
@@ -83,6 +88,11 @@ export function PublishForm() {
     name: 'title',
   });
 
+  const bodyValue = useWatch({
+    control: form.control,
+    name: 'body',
+  });
+
   const titleLength = titleValue?.length ?? 0;
 
   const isError = titleLength > MAX_TITLE_LENGTH;
@@ -145,7 +155,15 @@ export function PublishForm() {
             </Field>
           )}
         />
-
+        <AiTitleGenerator
+          bodyContent={bodyValue || ''}
+          onSelectTitle={(selectedTitle) => {
+            form.setValue('title', selectedTitle, {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+          }}
+        />
         <Controller
           control={form.control}
           name="title"
@@ -184,6 +202,7 @@ export function PublishForm() {
             </Field>
           )}
         />
+
         <Separator className="my-2" />
         <Controller
           control={form.control}
@@ -209,7 +228,11 @@ export function PublishForm() {
             className="w-full md:max-w-46"
             onClick={() => {
               startSaving(async () => {
-                await delay(3000).then(() => console.log('Draft saved!'));
+                await delay(300).then(() => {
+                  toast.error('Oops! We are still working on this feature.', {
+                    position: 'top-center',
+                  });
+                });
               });
             }}
           >

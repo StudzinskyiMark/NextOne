@@ -1,7 +1,7 @@
 import z from 'zod';
 
-export const MIN_TITLE_LENGTH = 6;
-export const MAX_TITLE_LENGTH = 50;
+export const MIN_TITLE_LENGTH = 10;
+export const MAX_TITLE_LENGTH = 60;
 export const MIN_BODY_LENGTH = 10;
 
 export const editorSchema = z.object({

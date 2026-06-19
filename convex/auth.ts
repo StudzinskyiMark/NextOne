@@ -78,7 +78,7 @@ export const requireUser = async (ctx: MutationCtx | QueryCtx) => {
   const authUser = await authComponent.getAuthUser(ctx);
 
   if (!authUser) {
-    throw new ConvexError('Ви повинні бути авторизовані.');
+    throw new ConvexError('You must be logged in to perform this action.');
   }
 
   // Повертаємо об'єкт як є, TypeScript сам виведе його поля (name, email, role тощо)

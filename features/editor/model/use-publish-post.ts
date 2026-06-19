@@ -7,6 +7,8 @@ import { toast } from 'sonner';
 import { publishPostAction } from '../actions/publish-post.action';
 import { TEditorValues } from '../schemas/editor.schema';
 
+// Або твій правильний шлях
+
 export const usePublishPost = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
