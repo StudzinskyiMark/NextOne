@@ -49,7 +49,7 @@ JSON STRUCTURE:
             },
             {
               role: 'user',
-              // Використовуємо явне розмежування тексту для захисту від ін'єкцій
+
               content: `--- RAW TEXT TO ANALYZE START ---\n${sanitizedContent}\n--- RAW TEXT TO ANALYZE END ---`,
             },
           ],

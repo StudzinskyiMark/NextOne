@@ -6,7 +6,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import { fetchQuery } from 'convex/nextjs';
 import { ArrowLeft } from 'lucide-react';
 
-import { PostCard } from '@/features/editor/components/post-card';
+import { PostCard } from '@/features/editor/components/cards/post-card';
 
 import { buttonVariants } from '@/components/ui/button';
 
@@ -38,7 +38,7 @@ export default async function PostIdPage({ params }: PostIdProps) {
 
   return (
     <>
-      <div className="animate-in fade-in relative mx-auto max-w-4xl duration-300">
+      <div className="animate-in fade-in relative mx-auto max-w-4xl p-0 duration-300 sm:p-4">
         <Link
           href="/blog"
           className={buttonVariants({

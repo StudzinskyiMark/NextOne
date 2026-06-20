@@ -12,7 +12,6 @@ import { AddCommentForm } from '../forms/add-comment-form';
 import { CommentItemSkeleton } from './comment-item';
 import { CommentList } from './comment-list';
 
-
 export function CommentSection({ postId }: { postId: Id<'posts'> }) {
   return (
     <Card className="my-4">

@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 
-import { PublishForm } from '../forms/publish-form';
+import { PublishForm } from '../../forms/publish-form';
 
 export function PublishCard() {
   return (

@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function LoadingPostIdPage() {
   return (
-    <div className="relative mx-auto max-w-4xl animate-pulse duration-300">
+    <div className="relative mx-auto max-w-4xl animate-pulse p-0 duration-300 sm:p-4">
       <div
         className={buttonVariants({
           variant: 'ghost',

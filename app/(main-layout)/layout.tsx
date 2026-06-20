@@ -12,7 +12,7 @@ export default async function MainLayout({
     <div className="relative flex min-h-screen flex-col">
       <Header />
 
-      <main className=" flex-1 pb-20 sm:pb-0">{children}</main>
+      <main className="flex-1 pb-18 sm:pb-0">{children}</main>
 
       <Suspense fallback={<MobileNavSkeleton />}>
         <MobileNav />

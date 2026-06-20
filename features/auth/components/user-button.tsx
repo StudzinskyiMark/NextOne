@@ -71,13 +71,13 @@ export function UserButton() {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild className="cursor-pointer py-2.5 md:py-1.5">
+          <DropdownMenuItem disabled asChild className="cursor-pointer py-2.5 md:py-1.5">
             <Link href="/profile" className="cursor-pointer">
               <User className="mr-2 size-4" />
               <span>Profile</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild className="cursor-pointer py-2.5 md:py-1.5">
+          <DropdownMenuItem asChild disabled className="cursor-pointer py-2.5 md:py-1.5">
             <Link href="/settings" className="cursor-pointer">
               <Settings className="mr-2 size-4" />
               <span>Settings</span>

@@ -6,7 +6,10 @@ import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import Autoplay from 'embla-carousel-autoplay';
 
-import { BlogPostCard, BlogPostCardSkeleton } from '@/features/editor/components/blog-post-card';
+import {
+  BlogPostCard,
+  BlogPostCardSkeleton,
+} from '@/features/editor/components/cards/blog-post-card';
 
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
@@ -40,7 +43,7 @@ export function LatestPostsBento() {
           >
             <CarouselContent className="-ml-2">
               {posts.map((post) => (
-                <CarouselItem key={post._id} className="pr-1">
+                <CarouselItem key={post._id} className="pr-1 pb-1">
                   <div className="w-full">
                     <BlogPostCard data={post} variant="carousel" />
                   </div>
