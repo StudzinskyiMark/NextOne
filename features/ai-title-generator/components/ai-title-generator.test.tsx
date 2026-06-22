@@ -23,14 +23,14 @@ describe('AiTitleGenerator Component', () => {
       clearSuggestions: mockClearSuggestions,
     });
 
-    render(<AiTitleGenerator bodyContent="Test content" onSelectTitle={vi.fn()} />);
+    render(<AiTitleGenerator getPostContent={() => 'Test content'} onSelectTitle={vi.fn()} />);
 
     expect(screen.getByText('AI Title Generator')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Generate/i })).toBeInTheDocument();
     expect(screen.queryByText('Select a title to apply:')).not.toBeInTheDocument();
   });
 
-  it('calls handleGenerate from bodyContent when the button is clicked', () => {
+  it('calls handleGenerate from getPostContent when the button is clicked', () => {
     mockUseGenerateTitles.mockReturnValue({
       isGenerating: false,
       suggestions: [],
@@ -39,7 +39,8 @@ describe('AiTitleGenerator Component', () => {
     });
 
     const bodyContent = 'Some long post content...';
-    render(<AiTitleGenerator bodyContent={bodyContent} onSelectTitle={vi.fn()} />);
+    // ПЕРЕДАЄМО ФУНКЦІЮ ЗАМІСТЬ РЯДКА
+    render(<AiTitleGenerator getPostContent={() => bodyContent} onSelectTitle={vi.fn()} />);
 
     const button = screen.getByRole('button', { name: /Generate/i });
     fireEvent.click(button);
@@ -56,7 +57,7 @@ describe('AiTitleGenerator Component', () => {
       clearSuggestions: mockClearSuggestions,
     });
 
-    render(<AiTitleGenerator bodyContent="Test content" onSelectTitle={vi.fn()} />);
+    render(<AiTitleGenerator getPostContent={() => 'Test content'} onSelectTitle={vi.fn()} />);
 
     const button = screen.getByRole('button', { name: /Generate/i });
     expect(button).toBeDisabled();
@@ -70,7 +71,7 @@ describe('AiTitleGenerator Component', () => {
       clearSuggestions: mockClearSuggestions,
     });
 
-    render(<AiTitleGenerator bodyContent="Test content" onSelectTitle={vi.fn()} />);
+    render(<AiTitleGenerator getPostContent={() => 'Test content'} onSelectTitle={vi.fn()} />);
 
     expect(screen.getByRole('button', { name: /Regenerate/i })).toBeInTheDocument();
     expect(screen.getByText('Awesome Title 1')).toBeInTheDocument();
@@ -86,7 +87,9 @@ describe('AiTitleGenerator Component', () => {
     });
 
     const mockOnSelectTitle = vi.fn();
-    render(<AiTitleGenerator bodyContent="Test content" onSelectTitle={mockOnSelectTitle} />);
+    render(
+      <AiTitleGenerator getPostContent={() => 'Test content'} onSelectTitle={mockOnSelectTitle} />
+    );
 
     const suggestionButton = screen.getByText('Selected Title');
     fireEvent.click(suggestionButton);
