@@ -86,7 +86,7 @@ export const BlogPostCard = ({ data, variant = 'default' }: PostCardProps) => {
           <h3 className="line-clamp-2 text-lg leading-tight font-bold">{data.title}</h3>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground line-clamp-3 text-sm">{data.body}</p>
+          <p className="text-muted-foreground line-clamp-3 text-sm">{data.plainText}</p>
         </CardContent>
       </Card>
     </div>

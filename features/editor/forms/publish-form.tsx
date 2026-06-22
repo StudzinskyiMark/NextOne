@@ -52,20 +52,13 @@ const TiptapTextEditor = dynamic(
 // 2. Implement debounced auto-save to Convex to reduce server load.
 // 3. Add a "Discard Draft" confirmation dialog to prevent accidental data loss.
 
-// TODO Replace Text area with TipTap text editor
-// Add a fully functional text editor for an improved user experience
-
 // IDEA Add drag-and-drop for image upload
 // Add a drag-and-drop area for image upload with preview
-
-// IDEA Add AI assistant for title generation
-// Improve UX by adding an AI title generator based on the content text
 
 // REFACTOR Move symbol counter to a separate component
 // Move symbol counter logic to a separate function and reuse it in other components
 
 export function PublishForm() {
-  //DELETE after implementing auto-save
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const [isSaving, startSaving] = useTransition();
@@ -85,6 +78,7 @@ export function PublishForm() {
     defaultValues: {
       title: '',
       body: '',
+      plainText: '',
       image: undefined,
     },
   });
@@ -92,11 +86,6 @@ export function PublishForm() {
   const titleValue = useWatch({
     control: form.control,
     name: 'title',
-  });
-
-  const bodyValue = useWatch({
-    control: form.control,
-    name: 'body',
   });
 
   const titleLength = titleValue?.length ?? 0;
@@ -161,8 +150,13 @@ export function PublishForm() {
             </Field>
           )}
         />
+
         <AiTitleGenerator
-          bodyContent={bodyValue || ''}
+          // Передаємо функцію. form.getValues() читає стан форми миттєво, без перерендеру
+          getPostContent={() => {
+            const text = form.getValues('plainText') || '';
+            return text.slice(0, 4000); // Обрізаємо до 4к символів для економії токенів Groq API
+          }}
           onSelectTitle={(selectedTitle) => {
             form.setValue('title', selectedTitle, {
               shouldValidate: true,
@@ -170,6 +164,7 @@ export function PublishForm() {
             });
           }}
         />
+
         <Controller
           control={form.control}
           name="title"
@@ -218,11 +213,23 @@ export function PublishForm() {
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel className="text-muted-foreground ml-2">Content</FieldLabel>
+              <TiptapTextEditor
+                className="scrollbar scrollbar-thin scrollbar-track-muted/10 scrollbar-thumb-muted/30 mb-1 max-h-[500px] overflow-x-hidden scroll-auto"
+                content={field.value}
+                onChange={(html, plainText) => {
+                  field.onChange(html);
+                  form.setValue('plainText', plainText, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
+              />
 
-              {/* Передаємо значення та onChange у TipTap */}
-              <TiptapTextEditor content={field.value} onChange={field.onChange} />
-
-              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+              {fieldState.error ? (
+                <FieldError>{fieldState.error.message}</FieldError>
+              ) : form.formState.errors.plainText ? (
+                <FieldError>{form.formState.errors.plainText.message}</FieldError>
+              ) : null}
             </Field>
           )}
         />

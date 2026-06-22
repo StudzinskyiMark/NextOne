@@ -4,6 +4,9 @@ import { api } from '@/convex/_generated/api';
 import { ConvexClientProvider } from '@/providers/convex-client-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { fetchQuery } from 'convex/nextjs';
+// import 'highlight.js/styles/atom-one-dark.css';
+
+import 'highlight.js/styles/monokai.css';
 
 import { cn } from '@/lib/utils';
 
@@ -96,7 +99,7 @@ export default function RootLayout({
           geistMono.variable,
           'antialiased',
           'bg-background min-h-screen font-sans antialiased',
-          'selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-50'
+          'selection:bg-emerald-500/30 selection:text-gray-800 dark:selection:text-emerald-50'
         )}
       >
         <ThemeProvider

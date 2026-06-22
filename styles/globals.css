@@ -134,6 +134,20 @@
     @apply transition-all duration-300;
   }
 
+  @layer base {
+    .prose pre ::selection,
+    .prose pre *::selection {
+      background-color: #10b981 !important; /* Колір emerald-500 */
+      color: #ffffff !important; /* Білий текст для ідеального контрасту */
+    }
+
+    /* Фікс для випадку, коли TipTap виділяє весь блок коду цілком (Node Selection) */
+    .ProseMirror-selectednode {
+      outline: 2px solid #10b981 !important;
+      outline-offset: 2px;
+    }
+  }
+
   /* Світла тема: кнопка стає темною з насиченим смарагдовим акцентом */
   .bg-primary:hover {
     background-color: oklch(0.58 0.16 164.76) !important;
@@ -149,8 +163,8 @@
   }
 }
 
-body {
+/* body {
   selection {
     @apply bg-emerald-500/30;
   }
-}
+} */

@@ -1,25 +1,36 @@
 'use client';
 
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { common, createLowlight } from 'lowlight';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { EditorToolbar } from '../tiptap/editor-toolbar';
+import { EditorToolbar } from './editor-toolbar';
 
-interface TiptapRichEditorProps {
+const lowlight = createLowlight(common);
+
+interface TiptapTextEditorProps {
   content: string;
-  onChange: (value: string) => void;
+  className?: string;
+  onChange: (html: string, plainText: string) => void;
 }
 
-export function TiptapTextEditor({ content, onChange }: TiptapRichEditorProps) {
-  const debouncedOnChange = useDebouncedCallback((html: string) => {
-    onChange(html);
-  }, 500);
+export function TiptapTextEditor({ content, className, onChange }: TiptapTextEditorProps) {
+  const debouncedOnChange = useDebouncedCallback((html: string, text: string) => {
+    onChange(html, text);
+  }, 300);
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false,
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        languageClassPrefix: 'language-',
+      }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
@@ -28,9 +39,9 @@ export function TiptapTextEditor({ content, onChange }: TiptapRichEditorProps) {
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       if (editor.isEmpty) {
-        debouncedOnChange('');
+        debouncedOnChange('', '');
       } else {
-        debouncedOnChange(editor.getHTML());
+        debouncedOnChange(editor.getHTML(), editor.getText());
       }
     },
     editorProps: {
@@ -44,7 +55,7 @@ export function TiptapTextEditor({ content, onChange }: TiptapRichEditorProps) {
   return (
     <div className="flex w-full flex-col rounded-md shadow-sm">
       <EditorToolbar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent className={className} editor={editor} />
     </div>
   );
 }

@@ -19,6 +19,25 @@ export type ToolbarButton = {
   isActive: boolean;
 };
 
+export type CodeLanguageOption = {
+  label: string;
+  value: string;
+};
+
+export const CODE_LANGUAGE_OPTIONS: CodeLanguageOption[] = [
+  { label: 'Auto', value: 'auto' },
+  { label: 'JavaScript', value: 'javascript' },
+  { label: 'TypeScript', value: 'typescript' },
+  { label: 'HTML', value: 'html' },
+  { label: 'CSS', value: 'css' },
+  { label: 'JSON', value: 'json' },
+  { label: 'Shell', value: 'bash' },
+  { label: 'Python', value: 'python' },
+  { label: 'Java', value: 'java' },
+  { label: 'C++', value: 'cpp' },
+  { label: 'SQL', value: 'sql' },
+];
+
 export const getFormattingButtons = (editor: Editor): ToolbarButton[] => [
   {
     name: 'Bold',

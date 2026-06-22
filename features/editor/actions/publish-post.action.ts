@@ -10,6 +10,7 @@ import { getToken } from '@/lib/auth-server';
 
 import { TEditorValues, editorSchema } from '../schemas/editor.schema';
 
+
 export async function publishPostAction(data: TEditorValues) {
   try {
     const parsedData = editorSchema.safeParse(data);
@@ -39,6 +40,7 @@ export async function publishPostAction(data: TEditorValues) {
       {
         title: parsedData.data.title,
         body: parsedData.data.body,
+        plainText: data.plainText,
         imageStorageID: imageStorageId,
       },
       { token }

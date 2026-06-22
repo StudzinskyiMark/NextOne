@@ -12,14 +12,18 @@ import { buttonVariants } from '@/components/ui/button';
 
 export async function generateMetadata({ params }: PostIdProps): Promise<Metadata> {
   const { id: postId } = await params;
-
   const post = await fetchQuery(api.posts.getPostById, { postId });
 
   if (!post) {
     return { title: 'Post not found!' };
   }
 
-  return { title: post.title, description: post.body, authors: [{ name: post.authorID }] };
+  return {
+    title: post.title,
+
+    description: post.plainText.slice(0, 160),
+    authors: [{ name: post.authorID }],
+  };
 }
 
 interface PostIdProps {
@@ -38,7 +42,7 @@ export default async function PostIdPage({ params }: PostIdProps) {
 
   return (
     <>
-      <div className="animate-in fade-in relative mx-auto max-w-4xl p-0 duration-300 sm:p-4">
+      <div className="animate-in fade-in relative mx-auto max-w-4xl p-2 duration-300 sm:p-8">
         <Link
           href="/blog"
           className={buttonVariants({

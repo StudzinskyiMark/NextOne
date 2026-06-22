@@ -9,6 +9,7 @@ import { CommentSection } from '@/features/comments/components/comment-section';
 import { Presence } from '@/features/presence';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { PostHtmlRenderer } from '@/components/ui/post-html-renderer';
 import { Separator } from '@/components/ui/separator';
 
 import { PostWithImageUrl } from '../../model/types';
@@ -19,7 +20,7 @@ export async function PostCard(post: PostWithImageUrl) {
   const userId = await fetchQuery(api.presence.getUserId, {}, { token });
 
   return (
-    <Card className="mb-0 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm max-sm:rounded-b-none md:mb-8 dark:shadow-emerald-600/40">
+    <Card className="mb-10 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm md:mb-4 dark:shadow-emerald-600/40">
       <div className="relative h-64 w-full overflow-hidden sm:h-80">
         {post.imageUrl ? (
           <>
@@ -57,7 +58,7 @@ export async function PostCard(post: PostWithImageUrl) {
         <Separator className="mt-4" />
       </CardHeader>
       <CardContent className="p-6 md:px-10">
-        <p className="text-lg leading-relaxed tracking-tight antialiased sm:text-xl">{post.body}</p>
+        <PostHtmlRenderer html={post.body} />
       </CardContent>
       <CardContent className="p-6 md:px-10">
         <Separator />

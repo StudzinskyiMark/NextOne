@@ -8,11 +8,12 @@ export default defineSchema({
   posts: defineTable({
     title: v.string(),
     body: v.string(),
+    plainText: v.string(),
     imageStorageID: v.optional(v.id('_storage')),
     authorID: v.string(),
   })
     .searchIndex('search_title', { searchField: 'title' })
-    .searchIndex('search_body', { searchField: 'body' }),
+    .searchIndex('search_body', { searchField: 'plainText' }),
 
   comments: defineTable({
     postId: v.id('posts'),

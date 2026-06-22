@@ -8,6 +8,8 @@ export const createPost = mutation({
   args: {
     title: v.string(),
     body: v.string(),
+    plainText: v.string(), // <--- Додали аргумент
+    codeLanguages: v.optional(v.array(v.string())),
     imageStorageID: v.optional(v.id('_storage')),
   },
   handler: async (ctx, args) => {
@@ -17,12 +19,10 @@ export const createPost = mutation({
       throw new ConvexError('not authenticated');
     }
 
-    // 2. Використовуємо оператор ?? щоб перетворити null на undefined
-    // Якщо imageStorageID буде undefined, поле просто не створиться в БД,
-    // і твій query getPosts автоматично підхопить дефолтну картинку з siteSettings.
     const blogArticle = await ctx.db.insert('posts', {
       title: args.title,
       body: args.body,
+      plainText: args.plainText,
       imageStorageID: args.imageStorageID ?? undefined,
       authorID: user._id,
     });
@@ -81,7 +81,7 @@ export const getPostById = query({
 interface TSearchResult {
   _id: Id<'posts'>;
   title: string;
-  body: string;
+  plainText: string;
 }
 
 export const postSearch = query({
@@ -103,7 +103,7 @@ export const postSearch = query({
         results.push({
           _id: doc._id,
           title: doc.title,
-          body: doc.body,
+          plainText: doc.plainText,
         });
         if (results.length >= limit) break;
       }
@@ -119,7 +119,7 @@ export const postSearch = query({
     if (results.length < limit) {
       const bodyMatches = await ctx.db
         .query('posts')
-        .withSearchIndex('search_body', (q) => q.search('body', args.term))
+        .withSearchIndex('search_body', (q) => q.search('plainText', args.term))
         .take(limit);
 
       await pushDoc(bodyMatches);
