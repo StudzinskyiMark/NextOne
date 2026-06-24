@@ -47,7 +47,7 @@ export function TiptapTextEditor({ content, className, onChange }: TiptapTextEdi
     editorProps: {
       attributes: {
         class:
-          'prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none min-h-[300px] w-full rounded-b-md border border-t-0 border-input bg-background px-4 py-6 ring-offset-background',
+          'prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none min-h-[300px] max-h-[500px] overflow-y-auto w-full rounded-b-md border border-t-0 p-4 shadow-sm',
       },
     },
   });

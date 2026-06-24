@@ -163,8 +163,27 @@
   }
 }
 
-/* body {
-  selection {
-    @apply bg-emerald-500/30;
-  }
-} */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  /* Використовуємо надійний fallback колір, якщо змінні Shadcn не підтягнуться */
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.8);
+}
+
+/* Підтримка для Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}

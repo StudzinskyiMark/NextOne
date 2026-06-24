@@ -6,10 +6,7 @@ export async function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
   const { pathname } = request.nextUrl;
 
-  const isProtectedRoute =
-    pathname.startsWith('/blog') ||
-    pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/publish');
+  const isProtectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/publish');
 
   if (isProtectedRoute && !sessionCookie) {
     const signInUrl = new URL('/auth/sign-in', request.url);
@@ -25,5 +22,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/publish/:path*', '/auth/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

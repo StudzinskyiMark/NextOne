@@ -214,7 +214,6 @@ export function PublishForm() {
             <Field>
               <FieldLabel className="text-muted-foreground ml-2">Content</FieldLabel>
               <TiptapTextEditor
-                className="scrollbar scrollbar-thin scrollbar-track-muted/10 scrollbar-thumb-muted/30 mb-1 max-h-[500px] overflow-x-hidden scroll-auto"
                 content={field.value}
                 onChange={(html, plainText) => {
                   field.onChange(html);

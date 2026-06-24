@@ -23,15 +23,6 @@ import {
   commentsSchema,
 } from '../schemas/comments.schema';
 
-
-
-// TODO: Implement Messenger-style Layout with Framer Motion
-// 1. Wrap the form in <motion.form layout> to enable automatic smooth transitions for all child elements.
-// 2. State Management: Use `isFocused` and `hasContent` to determine `shouldShowActions`.
-// 3. Dynamic Textarea: Adjust `rows` (e.g., 1 to 4) based on `shouldShowActions` to create an expansion effect.
-// 4. AnimatePresence: Wrap the action button container in <AnimatePresence> and <motion.div>.
-// 5. Transition: Set initial/exit styles (height: 0, opacity: 0) to ensure the layout "slides" open and closed.
-
 export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
   const pathname = usePathname();
 
@@ -56,12 +47,12 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
     },
   });
 
-  const titleValue = useWatch({
+  const bodyValue = useWatch({
     control: form.control,
     name: 'body',
   });
 
-  const commentLength = titleValue?.length ?? 0;
+  const commentLength = bodyValue?.length ?? 0;
 
   if (currentUser === undefined)
     return <Loader2 className="m-0 aspect-square size-4 shrink-0 animate-spin p-0" />;
@@ -93,23 +84,36 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
           <AvatarFallback>{currentUser?.name?.slice(0, 1).toUpperCase()}</AvatarFallback>
         </Avatar>
 
-        <div className="flex-1">
+        {/* ФІКС 1: Додано min-w-0, щоб flex-контейнер не дозволяв Textarea себе розпирати */}
+        <div className="min-w-0 flex-1">
           <Controller
             control={form.control}
             name="body"
             render={({ field, fieldState }) => (
               <Field>
-                <Textarea
-                  className="min-h-25 resize-none"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                      e.preventDefault();
-                      form.handleSubmit(onAddSubmit)();
-                    }
-                  }}
-                  placeholder="Write a comment..."
-                  {...field}
-                />
+                <div className="relative">
+                  <Textarea
+                    className="max-h-[200px] min-h-[100px] w-full resize-none overflow-y-auto pb-7"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                        e.preventDefault();
+                        form.handleSubmit(onAddSubmit)();
+                      }
+                    }}
+                    placeholder="Write a comment..."
+                    {...field}
+                  />
+
+                  <div
+                    className={`pointer-events-none absolute right-3 bottom-2 text-xs ${
+                      commentLength > MAX_COMMENT_LENGTH
+                        ? 'font-medium text-red-500'
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    {commentLength}/{MAX_COMMENT_LENGTH}
+                  </div>
+                </div>
                 {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
               </Field>
             )}
