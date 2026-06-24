@@ -75,7 +75,7 @@ export default defineConfig({
     // На CI краще ганяти 'pnpm start' (production build), бо 'dev' працює повільніше і споживає більше пам'яті
     command: process.env.CI ? 'pnpm start' : 'pnpm dev',
     url: BASE_URL,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
     timeout: 120 * 1000,
   },
 });
