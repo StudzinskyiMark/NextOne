@@ -23,6 +23,13 @@ import {
   commentsSchema,
 } from '../schemas/comments.schema';
 
+// TODO: Implement Messenger-style Layout with Framer Motion
+// 1. Wrap the form in <motion.form layout> to enable automatic smooth transitions for all child elements.
+// 2. State Management: Use `isFocused` and `hasContent` to determine `shouldShowActions`.
+// 3. Dynamic Textarea: Adjust `rows` (e.g., 1 to 4) based on `shouldShowActions` to create an expansion effect.
+// 4. AnimatePresence: Wrap the action button container in <AnimatePresence> and <motion.div>.
+// 5. Transition: Set initial/exit styles (height: 0, opacity: 0) to ensure the layout "slides" open and closed.
+
 export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
   const pathname = usePathname();
 

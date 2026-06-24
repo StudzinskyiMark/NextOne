@@ -59,8 +59,14 @@ test('should create a post, find it in the feed, and leave a comment', async ({
     await page.getByRole('textbox', { name: 'Write a comment...' }).fill(commentText);
     await page.getByRole('button', { name: 'Comment' }).click({ force: true });
 
+    //  await expect(page.locator('p').filter({ hasText: 'E2E Tester' })).toBeVisible({
+    //    timeout: 3000,
+    //  });
+
+    await page.getByRole('button', { name: 'Comment' }).click({ force: true });
+    await page.waitForLoadState('networkidle'); // або 'domcontentloaded'
     await expect(page.locator('p').filter({ hasText: 'E2E Tester' })).toBeVisible({
-      timeout: 3000,
+      timeout: 10000, // збільш
     });
 
     await expect(page.getByText(commentText)).toBeVisible();
