@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -46,41 +46,58 @@ describe('useGenerateTitles', () => {
     mockAction.mockResolvedValueOnce(mockTitles);
 
     const { result } = renderHook(() => useGenerateTitles());
-    const validContent = 'a'.repeat(60); // 60 символів, щоб пройти валідацію
+    const validContent = 'a'.repeat(60);
 
-    await act(async () => {
+    act(() => {
       result.current.handleGenerate(validContent);
     });
 
+    // Чекаємо, поки асинхронний startTransition оновить стейт
+    await waitFor(() => {
+      expect(result.current.suggestions).toEqual(mockTitles);
+    });
+
     expect(mockAction).toHaveBeenCalledWith({ content: validContent });
-    expect(result.current.suggestions).toEqual(mockTitles);
   });
 
   it('should issue an error (toast) if the API request failed', async () => {
+    // Тимчасово глушимо console.error, щоб він не спамив червоним у термінал під час тесту
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
     const errorMessage = 'API rate limit exceeded';
     mockAction.mockRejectedValueOnce(new Error(errorMessage));
 
     const { result } = renderHook(() => useGenerateTitles());
     const validContent = 'a'.repeat(60);
 
-    await act(async () => {
+    act(() => {
       result.current.handleGenerate(validContent);
     });
 
-    expect(toast.error).toHaveBeenCalledWith(errorMessage, expect.any(Object));
+    // Чекаємо, поки помилка пройде через catch і викличе toast
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(errorMessage, expect.any(Object));
+    });
+
     expect(result.current.suggestions).toEqual([]);
+
+    // Відновлюємо console.error для інших тестів
+    consoleSpy.mockRestore();
   });
 
   it('should clear the suggestions list', async () => {
     const { result } = renderHook(() => useGenerateTitles());
 
-    // Спочатку симулюємо наявність заголовків (хак для тесту)
     mockAction.mockResolvedValueOnce(['Title 1']);
-    await act(async () => {
+
+    act(() => {
       result.current.handleGenerate('a'.repeat(60));
     });
 
-    // Тепер перевіряємо очищення
+    await waitFor(() => {
+      expect(result.current.suggestions).toEqual(['Title 1']);
+    });
+
     act(() => {
       result.current.clearSuggestions();
     });
