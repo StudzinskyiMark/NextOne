@@ -12,7 +12,7 @@ test('should create a post, find it in the feed, and leave a comment', async ({
   const uniqueId = `${testInfo.parallelIndex}-r${testInfo.retry}-${Date.now().toString().slice(-4)}`;
   const postTitle = `E2E Test: Title Worker ${uniqueId}`;
   const postStory = 'E2E test: story';
-  const commentText = 'E2E test: comment';
+  const commentText = `E2E test: comment ${uniqueId}`;
 
   try {
     await page.goto('/');
@@ -59,15 +59,7 @@ test('should create a post, find it in the feed, and leave a comment', async ({
     await page.getByRole('textbox', { name: 'Write a comment...' }).fill(commentText);
     await page.getByRole('button', { name: 'Comment' }).click({ force: true });
 
-    //  await expect(page.locator('p').filter({ hasText: 'E2E Tester' })).toBeVisible({
-    //    timeout: 3000,
-    //  });
-
-    await page.getByRole('button', { name: 'Comment' }).click({ force: true });
-    await page.waitForLoadState('networkidle'); // або 'domcontentloaded'
-    await expect(page.locator('p').filter({ hasText: 'E2E Tester' })).toBeVisible({
-      timeout: 10000, // збільш
-    });
+    await expect(page.getByText(commentText)).toBeVisible({ timeout: 10000 });
 
     await expect(page.getByText(commentText)).toBeVisible();
   } finally {
