@@ -12,7 +12,7 @@ test('should create a post, find it in the feed, and leave a comment', async ({
   const uniqueId = `${testInfo.parallelIndex}-r${testInfo.retry}-${Date.now().toString().slice(-4)}`;
   const postTitle = `E2E Test: Title Worker ${uniqueId}`;
   const postStory = 'E2E test: story';
-  const commentText = `E2E test: comment ${uniqueId}`;
+  const commentText = `E2E test: comment`;
 
   try {
     await page.goto('/');

@@ -52,3 +52,5 @@ tests/.auth/
 
 # AI Documentation & Audits
 .ai-docs/
+# Sentry Config File
+.env.sentry-build-plugin
