@@ -2,11 +2,11 @@
 import { useTransition } from 'react';
 import { useEffect, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Upload, X } from 'lucide-react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Upload, X } from 'lucide-react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -18,9 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-
-// Або твій правильний шлях
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { usePublishPost } from '../model/use-publish-post';
 import {
@@ -29,6 +27,14 @@ import {
   TEditorValues,
   editorSchema,
 } from '../schemas/editor.schema';
+
+const TiptapTextEditor = dynamic(
+  () => import('../components/tiptap/tiptap-text-editor').then((mod) => mod.TiptapTextEditor),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-75 w-full rounded-md" />,
+  }
+);
 
 // TODO Implement "Light" Draft system using LocalStorage
 // 1. Add a useEffect to sync form state with LocalStorage every 5 seconds.
@@ -46,20 +52,13 @@ import {
 // 2. Implement debounced auto-save to Convex to reduce server load.
 // 3. Add a "Discard Draft" confirmation dialog to prevent accidental data loss.
 
-// TODO Replace Text area with TipTap text editor
-// Add a fully functional text editor for an improved user experience
-
 // IDEA Add drag-and-drop for image upload
 // Add a drag-and-drop area for image upload with preview
-
-// IDEA Add AI assistant for title generation
-// Improve UX by adding an AI title generator based on the content text
 
 // REFACTOR Move symbol counter to a separate component
 // Move symbol counter logic to a separate function and reuse it in other components
 
 export function PublishForm() {
-  //DELETE after implementing auto-save
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const [isSaving, startSaving] = useTransition();
@@ -79,6 +78,7 @@ export function PublishForm() {
     defaultValues: {
       title: '',
       body: '',
+      plainText: '',
       image: undefined,
     },
   });
@@ -86,11 +86,6 @@ export function PublishForm() {
   const titleValue = useWatch({
     control: form.control,
     name: 'title',
-  });
-
-  const bodyValue = useWatch({
-    control: form.control,
-    name: 'body',
   });
 
   const titleLength = titleValue?.length ?? 0;
@@ -155,8 +150,13 @@ export function PublishForm() {
             </Field>
           )}
         />
+
         <AiTitleGenerator
-          bodyContent={bodyValue || ''}
+          // Передаємо функцію. form.getValues() читає стан форми миттєво, без перерендеру
+          getPostContent={() => {
+            const text = form.getValues('plainText') || '';
+            return text.slice(0, 4000); // Обрізаємо до 4к символів для економії токенів Groq API
+          }}
           onSelectTitle={(selectedTitle) => {
             form.setValue('title', selectedTitle, {
               shouldValidate: true,
@@ -164,6 +164,7 @@ export function PublishForm() {
             });
           }}
         />
+
         <Controller
           control={form.control}
           name="title"
@@ -173,6 +174,7 @@ export function PublishForm() {
               <div className="relative flex flex-col">
                 <div className="relative flex items-center">
                   <Input
+                    required
                     type="text"
                     className="text-l h-auto py-2 pr-16 font-medium md:text-xl"
                     aria-invalid={fieldState.invalid || isError}
@@ -204,23 +206,34 @@ export function PublishForm() {
         />
 
         <Separator className="my-2" />
+
         <Controller
           control={form.control}
           name="body"
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel className="text-muted-foreground ml-2">Content</FieldLabel>
-              <Textarea
-                className="min-h-50 resize-none text-lg leading-relaxed"
-                aria-invalid={fieldState.invalid}
-                placeholder="Tell your story, paste code, or drop an image..."
-                {...field}
+              <TiptapTextEditor
+                content={field.value}
+                onChange={(html, plainText) => {
+                  field.onChange(html);
+                  form.setValue('plainText', plainText, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
               />
-              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+
+              {fieldState.error ? (
+                <FieldError>{fieldState.error.message}</FieldError>
+              ) : form.formState.errors.plainText ? (
+                <FieldError>{form.formState.errors.plainText.message}</FieldError>
+              ) : null}
             </Field>
           )}
         />
-        <div className="flex justify-end-safe gap-4 max-md:flex-col">
+
+        <div className="mt-4 flex justify-end-safe gap-4 max-md:flex-col">
           <Button
             disabled={isSaving}
             type="button"

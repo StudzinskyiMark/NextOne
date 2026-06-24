@@ -6,7 +6,7 @@ import { GitHubIcon, LinkedInIcon } from '@/components/icons';
 
 export function Footer() {
   return (
-    <footer className="border-border/50 bg-card/30 mt-24 w-full border-t backdrop-blur-md">
+    <footer className="border-border/50 bg-card/30 mt-24 w-full border-t backdrop-blur-md max-sm:pb-4">
       <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           {/* Ліва частина: Лого і копірайт */}

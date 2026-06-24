@@ -9,9 +9,10 @@ import { CommentSection } from '@/features/comments/components/comment-section';
 import { Presence } from '@/features/presence';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { PostHtmlRenderer } from '@/components/ui/post-html-renderer';
 import { Separator } from '@/components/ui/separator';
 
-import { PostWithImageUrl } from '../model/types';
+import { PostWithImageUrl } from '../../model/types';
 
 export async function PostCard(post: PostWithImageUrl) {
   const token = await getToken();
@@ -19,7 +20,7 @@ export async function PostCard(post: PostWithImageUrl) {
   const userId = await fetchQuery(api.presence.getUserId, {}, { token });
 
   return (
-    <Card className="mb-8 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm dark:shadow-emerald-600/40">
+    <Card className="mb-10 overflow-hidden pt-0 shadow-2xl shadow-emerald-600/20 backdrop-blur-sm md:mb-4 dark:shadow-emerald-600/40">
       <div className="relative h-64 w-full overflow-hidden sm:h-80">
         {post.imageUrl ? (
           <>
@@ -43,7 +44,7 @@ export async function PostCard(post: PostWithImageUrl) {
         )}
       </div>
       <CardHeader>
-        <div className="flex items-center justify-between gap-2 -mt-8 mb-4">
+        <div className="-mt-8 mb-4 flex items-center justify-between gap-2">
           <p className="text-muted-foreground sm:text-md self-center text-sm">
             {new Date(post._creationTime).toLocaleDateString()}
           </p>
@@ -54,12 +55,15 @@ export async function PostCard(post: PostWithImageUrl) {
         </div>
 
         <h1 className="text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">{post.title}</h1>
-        <Separator className="my-2" />
+        <Separator className="mt-4" />
       </CardHeader>
-      <CardContent className="px-10">
-        <p className="text-lg leading-relaxed tracking-tight antialiased sm:text-xl">{post.body}</p>
+      <CardContent className="p-6 md:px-10">
+        <PostHtmlRenderer html={post.body} />
       </CardContent>
-      <CardContent>
+      <CardContent className="p-6 md:px-10">
+        <Separator />
+      </CardContent>
+      <CardContent className="p-4 md:px-10">
         <CommentSection postId={post._id} />
       </CardContent>
     </Card>

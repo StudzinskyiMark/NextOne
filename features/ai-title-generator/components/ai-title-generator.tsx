@@ -7,11 +7,12 @@ import { Button } from '@/components/ui/button';
 import { useGenerateTitles } from '../model/use-generate-titles';
 
 interface AiTitleGeneratorProps {
-  bodyContent: string;
+  // Змінили тип на функцію для отримання тексту "на вимогу"
+  getPostContent: () => string;
   onSelectTitle: (title: string) => void;
 }
 
-export function AiTitleGenerator({ bodyContent, onSelectTitle }: AiTitleGeneratorProps) {
+export function AiTitleGenerator({ getPostContent, onSelectTitle }: AiTitleGeneratorProps) {
   const { isGenerating, suggestions, handleGenerate, clearSuggestions } = useGenerateTitles();
 
   return (
@@ -32,7 +33,7 @@ export function AiTitleGenerator({ bodyContent, onSelectTitle }: AiTitleGenerato
           variant={suggestions.length > 0 ? 'outline' : 'default'}
           size="sm"
           disabled={isGenerating}
-          onClick={() => handleGenerate(bodyContent)}
+          onClick={() => handleGenerate(getPostContent())}
           className="shrink-0 gap-2"
         >
           {isGenerating ? (
@@ -55,7 +56,7 @@ export function AiTitleGenerator({ bodyContent, onSelectTitle }: AiTitleGenerato
               type="button"
               onClick={() => {
                 onSelectTitle(title);
-                clearSuggestions(); // Очищаємо після вибору
+                clearSuggestions();
               }}
               className="bg-card hover:bg-accent rounded-lg border p-3 text-left text-sm transition-colors active:scale-[0.99]"
             >

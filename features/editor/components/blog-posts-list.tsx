@@ -1,5 +1,5 @@
 import { getPostsAction } from '../actions/get-posts.action';
-import { BlogPostCard } from './blog-post-card';
+import { BlogPostCard } from './cards/blog-post-card';
 
 // IDEA Implement dynamic pagination for BlogPostsList
 // 1. Convert component to 'use client' to enable Convex reactive pagination.

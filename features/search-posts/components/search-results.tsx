@@ -71,7 +71,9 @@ export function SearchResults({ results, isLoading, term, onItemClick }: SearchR
               >
                 {post.title}
               </span>
-              <span className="text-muted-foreground mt-0.5 line-clamp-1 text-xs">{post.body}</span>
+              <span className="text-muted-foreground mt-0.5 line-clamp-1 text-xs">
+                {post.plainText}
+              </span>
             </Link>
           </CommandItem>
         ))}
