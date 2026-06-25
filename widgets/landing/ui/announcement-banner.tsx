@@ -1,13 +1,17 @@
-'use client';
+// widgets/landing/ui/announcement-banner.tsx
+import { headers } from 'next/headers';
 
 import { api } from '@/convex/_generated/api';
-import { useQuery } from 'convex/react';
+import { fetchQuery } from 'convex/nextjs';
 import { Megaphone } from 'lucide-react';
 
-export function AnnouncementBanner() {
-  const announcement = useQuery(api.siteSettings.getAnnouncement);
+export async function AnnouncementBanner() {
+  await headers();
 
-  if (announcement === undefined || !announcement.enabled || !announcement.text) {
+  const settings = await fetchQuery(api.siteSettings.getSiteSettings);
+  const announcement = settings?.announcement;
+
+  if (!announcement?.enabled || !announcement?.text) {
     return null;
   }
 

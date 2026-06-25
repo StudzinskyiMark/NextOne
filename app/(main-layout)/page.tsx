@@ -1,14 +1,19 @@
+// app/(main-layout)/page.tsx
+import { Suspense } from 'react';
+
 import { AnnouncementBanner } from '@/widgets/landing/ui/announcement-banner';
 import { LatestPostsBento } from '@/widgets/landing/ui/latest-posts-bento';
 import { MessageSquare, Search, ShieldCheck, Sparkles, Terminal, Users } from 'lucide-react';
 
 import { Footer } from '@/components/layouts/footer';
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <>
       <main className="bg-background container mx-auto min-h-screen max-w-6xl">
-        <AnnouncementBanner />
+        <Suspense fallback={null}>
+          <AnnouncementBanner />
+        </Suspense>
 
         <div className="container mx-auto px-4 py-10 md:py-16">
           {/* Hero Section */}
@@ -26,9 +31,8 @@ export default function HomePage() {
           </div>
 
           {/* 1. ВЕРХНЯ ЧАСТИНА (3 колонки на десктопі, виправлено адаптив) */}
-          {/* Змінено auto-rows на md:auto-rows-[220px], щоб на мобільних висота підлаштовувалася сама */}
           <div className="mx-auto grid grid-cols-1 gap-4 md:auto-rows-[220px] md:grid-cols-2 lg:grid-cols-3">
-            {/* Latest Posts (Carousel) — тепер завжди row-span-2, щоб мати висоту навіть на телефонах */}
+            {/* Latest Posts (Carousel) */}
             <div className="row-span-2 md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-2">
               <LatestPostsBento />
             </div>
@@ -81,10 +85,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 2. НИЖНЯ ЧАСТИНА (4 колонки на десктопі, виправлено адаптив для планшетів md:) */}
-          {/* md:auto-rows-[260px] гарантує правильну висоту на планшетах та ПК */}
+          {/* 2. НИЖНЯ ЧАСТИНА */}
           <div className="mx-auto mt-4 grid grid-cols-1 gap-4 md:auto-rows-[220px] md:grid-cols-2 lg:grid-cols-4">
-            {/* Instant Search — md:col-span-2 розтягує його на повну ширину на планшеті */}
+            {/* Instant Search */}
             <div className="group border-border/50 bg-card/50 relative overflow-hidden rounded-3xl border p-8 shadow-sm backdrop-blur-xl transition-all hover:border-amber-500/30 hover:shadow-md md:col-span-1 lg:col-span-1">
               <div className="absolute -right-10 -bottom-10 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl transition-all group-hover:bg-amber-500/20" />
               <div className="relative z-10 flex h-full flex-col justify-between">
@@ -103,7 +106,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Discussion Engine — md:col-span-1 розтягує його на повну ширину на планшеті */}
+            {/* Discussion Engine */}
             <div className="group border-border/50 bg-card/50 relative overflow-hidden rounded-3xl border p-8 shadow-sm backdrop-blur-xl transition-all hover:border-rose-500/30 hover:shadow-md md:col-span-1 lg:col-span-1">
               <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-rose-500/10 blur-3xl transition-all group-hover:bg-rose-500/20" />
               <div className="relative z-10 flex h-full flex-col justify-between">
@@ -121,7 +124,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Secure Authentication — md:col-span-2 розтягує його на повну ширину на планшеті */}
+            {/* Secure Authentication */}
             <div className="group border-border/50 bg-card/50 relative flex flex-col justify-center overflow-hidden rounded-3xl border p-8 shadow-sm backdrop-blur-xl transition-all hover:border-violet-500/30 hover:shadow-md md:col-span-2 lg:col-span-2">
               <div className="absolute -right-10 -bottom-32 h-64 w-64 rounded-full bg-violet-500/10 blur-3xl transition-all group-hover:bg-violet-500/20" />
               <div className="relative z-10 w-full">

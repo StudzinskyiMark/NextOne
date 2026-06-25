@@ -3,6 +3,7 @@ import type { MetadataRoute } from 'next';
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
 
+export const dynamic = 'force-dynamic';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://my-domen.com'; // Заміниш на свій домен перед деплоєм
 
