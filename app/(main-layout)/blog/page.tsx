@@ -1,10 +1,9 @@
-// 'use cache';
+'use cache';
+
 import { Suspense } from 'react';
 
 import { Metadata } from 'next';
-import { connection } from 'next/server';
-
-// import { cacheLife, cacheTag } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
@@ -20,10 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  //   cacheLife('minutes');
-  //   cacheTag('posts');
-
-  await connection();
+  cacheLife('minutes');
+  cacheTag('posts');
 
   let settings = null;
   try {
