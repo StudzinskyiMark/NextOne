@@ -27,6 +27,7 @@ export default async function BlogPage() {
     settings = await fetchQuery(api.siteSettings.getSiteSettings);
   } catch {
     console.error('Failed to fetch site settings');
+    return settings?.postsPerPage ?? 6;
   }
 
   const initialNumItems = settings?.postsPerPage ?? 6;
