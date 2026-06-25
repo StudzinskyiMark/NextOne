@@ -2,7 +2,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import z from 'zod';
 
 export const MIN_COMMENT_LENGTH = 3;
-export const MAX_COMMENT_LENGTH = 100;
+export const MAX_COMMENT_LENGTH = 1200;
 
 export const commentsSchema = z.object({
   body: z
