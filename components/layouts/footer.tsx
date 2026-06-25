@@ -2,8 +2,6 @@ import Link from 'next/link';
 
 import { Github, Linkedin, Mail } from 'lucide-react';
 
-import { GitHubIcon, LinkedInIcon } from '@/components/icons';
-
 export function Footer() {
   return (
     <footer className="border-border/50 bg-card/30 mt-24 w-full border-t backdrop-blur-md max-sm:pb-4">
@@ -26,7 +24,7 @@ export function Footer() {
           {/* Права частина: Соціалки */}
           <div className="flex items-center gap-4">
             <Link
-              href="https://github.comhttps://github.com/StudzinskyiMark"
+              href="https://github.com/StudzinskyiMark"
               target="_blank"
               rel="noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"

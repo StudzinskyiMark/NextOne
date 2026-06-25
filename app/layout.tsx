@@ -22,27 +22,28 @@ import '@/styles/globals.css';
 
 export async function generateMetadata() {
   'use cache';
-  //   await connection();
+
+  const siteUrl = 'https://next-one-tech.vercel.app'; // Твій домен на Vercel
+
   try {
     const settings = await fetchQuery(api.siteSettings.getSiteSettings);
     const siteName = settings?.siteName ?? 'NextOne';
+    const siteDescription = settings?.siteDescription ?? 'Developer Platform';
 
     return {
+      metadataBase: new URL(siteUrl),
       title: {
         default: siteName,
         template: `%s | ${siteName}`,
       },
       authors: [{ name: 'Mark Studzinskyi' }],
-      description: settings?.siteDescription ?? 'Developer Platform',
-      icons: {
-        icon: '/favicon.ico',
-        apple: '/apple-touch-icon.png',
-      },
-      // Open Graph
+      description: siteDescription,
+
+      // Open Graph (Telegram, Facebook, WhatsApp)
       openGraph: {
         title: siteName,
-        description: settings?.siteDescription ?? 'Developer Platform',
-        url: 'https://next-one-ebon-chi.vercel.app',
+        description: siteDescription,
+        url: siteUrl,
         siteName: siteName,
         locale: 'en_US',
         type: 'website',
@@ -55,14 +56,13 @@ export async function generateMetadata() {
           },
         ],
       },
-
-      // Twitter
+      // Twitter / X
       twitter: {
         card: 'summary_large_image',
         title: siteName,
+        description: siteDescription,
         images: ['/og-image.png'],
       },
-
       robots: {
         index: true,
         follow: true,
@@ -71,6 +71,7 @@ export async function generateMetadata() {
   } catch (e) {
     console.error(e);
     return {
+      metadataBase: new URL(siteUrl),
       title: { default: 'NextOne', template: '%s | NextOne' },
     };
   }
