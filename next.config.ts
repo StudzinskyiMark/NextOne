@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
         port: '',
       },
       {
+        hostname: 'little-ocelot-18.eu-west-1.convex.cloud',
+        protocol: 'https',
+        port: '',
+      },
+      {
         hostname: 'lh3.googleusercontent.com',
         protocol: 'https',
         port: '',

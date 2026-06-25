@@ -42,13 +42,13 @@ export async function generateMetadata() {
       openGraph: {
         title: siteName,
         description: settings?.siteDescription ?? 'Developer Platform',
-        url: 'https://tviy-domen.com', // FIXME: Update to production URL
+        url: 'https://next-one-ebon-chi.vercel.app',
         siteName: siteName,
         locale: 'en_US',
         type: 'website',
         images: [
           {
-            url: '/og-image.png', // FIXME: Ensure this exists in /public
+            url: '/og-image.png',
             width: 1200,
             height: 630,
             alt: siteName,

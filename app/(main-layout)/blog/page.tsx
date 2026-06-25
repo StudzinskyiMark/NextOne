@@ -22,6 +22,8 @@ export default async function BlogPage() {
   cacheLife('minutes');
   cacheTag('posts');
 
+  //await connection()
+
   let settings = null;
   try {
     settings = await fetchQuery(api.siteSettings.getSiteSettings);
