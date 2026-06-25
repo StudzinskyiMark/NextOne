@@ -1,5 +1,4 @@
-'use cache';
-
+// 'use cache';
 import { Suspense } from 'react';
 
 import { Metadata } from 'next';
