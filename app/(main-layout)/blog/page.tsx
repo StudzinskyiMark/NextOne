@@ -3,7 +3,9 @@
 import { Suspense } from 'react';
 
 import { Metadata } from 'next';
-import { cacheLife, cacheTag } from 'next/cache';
+import { connection } from 'next/server';
+
+// import { cacheLife, cacheTag } from 'next/cache';
 
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
@@ -19,8 +21,10 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  cacheLife('minutes');
-  cacheTag('posts');
+  //   cacheLife('minutes');
+  //   cacheTag('posts');
+
+  await connection();
 
   let settings = null;
   try {
