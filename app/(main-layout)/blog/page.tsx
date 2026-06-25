@@ -22,7 +22,12 @@ export default async function BlogPage() {
   cacheLife('minutes');
   cacheTag('posts');
 
-  const settings = await fetchQuery(api.siteSettings.getSiteSettings);
+  let settings = null;
+  try {
+    settings = await fetchQuery(api.siteSettings.getSiteSettings);
+  } catch {
+    console.error('Failed to fetch site settings');
+  }
 
   const initialNumItems = settings?.postsPerPage ?? 6;
 
