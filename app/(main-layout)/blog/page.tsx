@@ -30,7 +30,7 @@ export default async function BlogPage() {
     return settings?.postsPerPage ?? 6;
   }
 
-  const initialNumItems = settings?.postsPerPage ?? 6;
+  const initialNumItems = settings?.postsPerPage || 6;
 
   return (
     <div className="container mx-auto max-w-6xl p-4">
