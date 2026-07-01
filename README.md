@@ -6,23 +6,27 @@
 [![TailwindCSS v4](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Convex 1.31.7](https://img.shields.io/badge/Convex-1.31.7-FF6B6B)](https://convex.dev/)
 [![Better Auth 1.4.9](https://img.shields.io/badge/Better%20Auth-1.4.9-4F46E5)](https://www.better-auth.com/)
-[![Status: v1.0 | Production-Ready](https://img.shields.io/badge/Status-v1.0%20%7C%20Production--Ready-10B981?style=flat-square)](https://next-one-tech.vercel.app/)
 
-A next-generation full-stack publishing platform built on a pragmatic Feature-Sliced Design, featuring real-time sync and AI-driven workflows.
+[![Status: v1.0 - Feature Complete | Security Hardening in Progress](https://img.shields.io/badge/Status-v1.0%20%E2%80%94%20Feature%20Complete%20%7C%20Security%20Hardening%20in%20Progress-10B981?style=flat-square)](https://next-one-tech.vercel.app/)
+
+A full-stack publishing platform using a pragmatic Feature-Sliced Design, with real-time sync and AI-assisted workflows.
 
 ## 1. Header & Badges
 
-<p align="center"><img src="public/og-image.png" width="100%" alt="NextOne Platform Banner"></p>
-
 **[🌐 Live Demo URL](https://next-one-tech.vercel.app/)**
+
+<p align="center"><img src="public/og-image.png" width="100%" alt="NextOne Platform Banner"></p>
 
 <p align="center"><img src="public/screenshots/landing.png" width="850" alt="NextOne Desktop Landing Grid"></p>
 
 <p align="center"><img src="public/screenshots/publish.png" width="850" alt="NextOne Rich Text Workspace Editor"></p>
 
 <p align="center">
-<img src="public/screenshots/mobile-view.png" width="320" alt="NextOne Ergonomic Mobile Experience">
-<img src="public/screenshots/lighthouse-metric-landing.png" width="500" alt="Perfect Lighthouse Scores">
+<img src="public/screenshots/mobile-view.png" width="850" alt="NextOne Ergonomic Mobile Experience">
+</p>
+
+<p align="center">
+<img src="public/screenshots/lighthouse-metric-landing.png" width="850" alt="Perfect Lighthouse Scores">
 </p>
 
 ## 2. 🧐 Provenance & "Beyond the Tutorial"
@@ -34,8 +38,8 @@ The project's foundational authorization patterns and core live sync blocks were
 - **Architecture (Pragmatic FSD Scaling):** The tutorial implemented a flat, tightly-coupled workspace folder organization. I re-engineered the repository into a **Pragmatic Feature-Sliced Design (FSD)**. Instead of textbook FSD over-engineering, I adapted a simplified version optimized for release velocity and future scaling, isolating domain logic into `features/` (`auth`, `comments`, `editor`, `presence`, `search-posts`), decoupled semantic layouts into `widgets/`, and preserved stateless UI elements in `components/`.
 - **AI-Driven Workflows:** The reference tutorial contained no AI utilities. I architected and integrated a custom AI Title Generator inside `features/ai-title-generator` utilizing the Groq API coupled with robust backend Convex server actions and operational daily rate-limiting trackers (`aiDailyLogs` schema table).
 - **Comprehensive Testing Strategy:** The reference code entirely lacked validation layers. I built a comprehensive testing suite from scratch, implementing **Vitest** for isolated state and utility unit testing alongside comprehensive multi-device **Playwright** scripts covering complete automated End-to-End (E2E) login, publishing, and real-time comment user journeys.
-- **Production-Grade SEO & Web Quality:** Deployed reactive server-side discovery infrastructures, creating dynamic sitemap algorithms via `app/sitemap.ts`, crawlers filtering via `app/robots.ts`, and caching dynamic site configurations. Verified via real Google Lighthouse metrics, securing a 99 Performance / 94 Accessibility score on core marketing pages and an 83 Performance / 96 Accessibility score on complex rich-text publication streams.
-- **Enterprise UX Polish:** Replaced rigid raw browser render states with elegant `shadcn/ui` skeleton loaders across dynamic data flows, introduced client-and-server data schemas with strict Zod text length boundaries, and deployed custom Error Boundaries along with semantic 404 views.
+- **Production-Grade SEO & Web Quality:** Implemented server-side SEO and discovery features, creating dynamic sitemap algorithms via `app/sitemap.ts`, crawlers filtering via `app/robots.ts`, and caching dynamic site configurations. Verified via Google Lighthouse metrics (for example: ~99 Performance / ~94 Accessibility on core marketing pages and ~83 Performance / ~96 Accessibility on complex rich-text publication streams).
+- **UX improvements and polish:** Replaced rigid raw browser render states with `shadcn/ui` skeleton loaders across dynamic data flows, introduced client-and-server data schemas with Zod validations, and deployed custom Error Boundaries along with semantic 404 views.
 
 ## 3. 🛠 Core Tech Stack Matrix
 
@@ -56,8 +60,14 @@ The project's foundational authorization patterns and core live sync blocks were
 - 📝 **Advanced Rich Text Workspace:** TipTap-powered creation flow backed by pre-signed secure image upload tokens mapped to Convex storage instances.
 - 🤖 **Groq AI Co-Writer:** Interactive metadata assistance providing 3 contextual header variations with server-enforced daily limits per user session.
 - 👥 **Reactive Live Presence:** Sub-second heartbeat synchronization utilizing `@convex-dev/presence` to render real-time reader avatar facepiles on active posts.
-- 🔐 **Multi-Engine Gateway Auth:** Highly secure session tracking supporting credentials alongside native GitHub, Google, and LinkedIn OAuth providers via HTTP-only cookies.
+- 🔐 **Auth & Sessions:** Supports username/password and OAuth providers (GitHub, Google, LinkedIn) using HTTP-only cookie sessions. Security hardening (email verification, RBAC, rate limiting) is in progress — see Known Limitations below.
 - 🔍 **Database-Level Full-Text Search:** Scalable data mining execution over indexed post structures using multi-field relevance scoring via Convex search pipelines.
+
+## Known Limitations
+
+- **Security hardening in progress:** Core features are implemented, but several security controls are still being finalized (email verification flows, RBAC enforcement, and endpoint rate limiting). Treat the current deployment as a functional demo rather than a fully audited production system.
+- **Testing coverage scope:** Unit tests and E2E scripts cover the main user flows (auth, publishing, comments), but some edge-case integrations (third-party OAuth failure modes, AI gateway throttling fallbacks) have limited test coverage.
+- **Operational considerations:** Multi-region scaling, formal disaster recovery, and hard SLA commitments are not yet implemented — these are planned in the roadmap (see v1.3).
 
 ## 5. 🏗 Structural Design (Pragmatic FSD)
 
@@ -81,7 +91,7 @@ convex/             # Reactive backend functions, schema, auth adapters, AI acti
 ### 2. State Synchronization & Auth Boundaries (Convex + Better-Auth)
 
 - **Challenge:** Managing distributed responsibilities between Convex (as a reactive real-time database) and Better-Auth (for session management) without introducing redundant network roundtrips, database bloat, or race conditions during server-side renders.
-- **Solution:** Implemented a lightweight proxy layer and precise multi-layered authorization guards. Instead of bloated custom syncing hooks, the schema leverages clean separation where Convex handles reactive primitives (like full-text search and real-time facepiles) and pairs seamlessly with Better-Auth tokens to achieve instantaneous UI hydration while guaranteeing zero data leakage on critical server mutations.
+- **Solution:** Implemented a lightweight proxy layer and precise multi-layered authorization guards. Instead of bloated custom syncing hooks, the schema leverages clean separation where Convex handles reactive primitives (like full-text search and real-time facepiles) and pairs seamlessly with Better-Auth tokens to achieve instantaneous UI hydration while reducing the risk of unintended data exposure on critical server mutations; see Known Limitations.
 
 ### 3. Mobile-First Ergonomics & Performance Engineering (Lighthouse 95+)
 
