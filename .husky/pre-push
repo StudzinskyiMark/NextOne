@@ -2,4 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo "🚀 Running tests before push..."
-npm run test
+pnpm lint
+pnpm test:vitest

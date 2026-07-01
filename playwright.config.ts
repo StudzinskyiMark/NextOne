@@ -24,7 +24,7 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true, // Запуск тестів паралельно для максимальної швидкості
+  fullyParallel: false, // Запуск тестів паралельно для максимальної швидкості
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0, // На CI даємо 2 спроби (захист від випадкових мережевих флуктуацій)
   workers: process.env.CI ? 1 : undefined, // Обмежуємо воркери на CI, щоб не перевантажити раннер GitHub

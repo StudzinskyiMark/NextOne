@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "convex": "npx convex dev",
-    "test": "npm run test:vitest -- --run && npm run test:e2e",
+    "test": "npm run test:vitest -- --run && npm run test:e2e --project=chromium",
     "test:vitest": "vitest",
     "test:vitest-ui": "vitest --ui",
     "test:e2e": "playwright test",
