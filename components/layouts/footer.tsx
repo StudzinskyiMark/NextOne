@@ -41,13 +41,13 @@ export function Footer() {
               <Linkedin className="size-4" />
               <span className="sr-only">LinkedIn</span>
             </Link>
-            <Link
+            <a
               href="mailto:mark.studzinskiy@gmail.com"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               <Mail className="size-4" />
               <span className="sr-only">Email</span>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
