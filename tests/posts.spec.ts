@@ -8,6 +8,9 @@ test('should create a post, find it in the feed, and leave a comment', async ({
   page,
   request,
 }, testInfo) => {
+  // A fresh `next dev` compiles each route on first hit (~20s), so allow extra time.
+  test.setTimeout(90_000);
+
   // 🌟 BEST PRACTICE: Робимо назву унікальною для кожного воркера, ретраю та запуску
   const uniqueId = `${testInfo.parallelIndex}-r${testInfo.retry}-${Date.now().toString().slice(-4)}`;
   const postTitle = `E2E Test: Title Worker ${uniqueId}`;
@@ -63,11 +66,19 @@ test('should create a post, find it in the feed, and leave a comment', async ({
 
     await expect(page.getByText(commentText)).toBeVisible();
   } finally {
-    await request.post('/api/test/cleanup', {
+    const cleanup = await request.post('/api/test/cleanup', {
       data: { title: postTitle },
       headers: {
-        Authorization: `Bearer ${process.env.TEST_API_KEY}`,
+        'x-test-api-key': process.env.TEST_API_KEY ?? '',
       },
+      // The cleanup route may still need compiling on a cold dev server.
+      timeout: 60_000,
     });
+
+    if (!cleanup.ok()) {
+      console.warn(
+        `[E2E CLEANUP] Failed (${cleanup.status()}): post "${postTitle}" may be left behind.`
+      );
+    }
   }
 });

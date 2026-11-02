@@ -22,7 +22,7 @@ A full-stack publishing platform using a pragmatic Feature-Sliced Design, with r
 <p align="center"><img src="public/screenshots/publish.png" width="850" alt="NextOne Rich Text Workspace Editor"></p>
 
 <p align="center">
-<img src="public/screenshots/mobile-view.png" width="850" alt="NextOne Ergonomic Mobile Experience">
+<img src="public/screenshots/mobile-view.png" width="450" alt="NextOne Ergonomic Mobile Experience">
 </p>
 
 <p align="center">
@@ -100,35 +100,49 @@ convex/             # Reactive backend functions, schema, auth adapters, AI acti
 
 ## 7. 🚀 Local Installation & Setup
 
+This project uses **pnpm** (see `packageManager` in `package.json`). Running `npm install` will fail.
+
+**1. Clone and install**
+
 ```bash
 git clone https://github.com/StudzinskyiMark/NextOne.git
+cd NextOne
 pnpm install
 ```
 
+**2. Create your local env file**
+
+Copy the template, then fill in the keys. Every variable in `.env.example` has a comment saying where its value comes from.
+
 ```bash
-# Convex Cloud Core
-NEXT_PUBLIC_CONVEX_URL=https://your-deployment.convex.cloud
-NEXT_PUBLIC_CONVEX_SITE_URL=https://next-one-tech.vercel.app
-CONVEX_DEPLOYMENT=prod:your-deployment-name
-
-# Better Auth Secrets
-BETTER_AUTH_SECRET=your_auth_secret_string
-SITE_URL=https://next-one-tech.vercel.app
-
-# Third-Party API OAuth & AI Gateways
-GITHUB_CLIENT_ID=your_github_id
-GITHUB_CLIENT_SECRET=your_github_secret
-GROQ_API_KEY=your_groq_key
-
-# Automation & Testing Protocols
-TEST_API_KEY=your_e2e_cleanup_bearer_token
-TEST_USER_EMAIL=e2e-test@nextone.com
-TEST_USER_PASSWORD=YourPassword123!
+cp .env.example .env.local
 ```
 
+`.env.local` is git-ignored. Never commit real keys.
+
+**3. Set the Convex server variables**
+
+Code in `convex/` runs on Convex's servers and reads that deployment's environment, not `.env.local`. Set the variables listed under "Convex deployment environment" in `.env.example`:
+
 ```bash
-npx convex dev # Sync database schemas and mutations
+npx convex env set SITE_URL http://localhost:3000
+npx convex env set BETTER_AUTH_SECRET "$(openssl rand -base64 32)"
+npx convex env set GROQ_API_KEY <your-groq-key>
+# ...and the GitHub / Google / LinkedIn OAuth client IDs and secrets
+```
+
+**4. Run the app**
+
+```bash
+npx convex dev # Sync database schemas and mutations (also writes CONVEX_DEPLOYMENT / NEXT_PUBLIC_CONVEX_URL)
 pnpm dev       # Run local Next.js client engine
+```
+
+**5. Run the tests**
+
+```bash
+pnpm test:vitest --run                # Unit tests
+pnpm test:e2e --project=chromium      # E2E tests (starts the dev server, uses TEST_* vars from .env.local)
 ```
 
 ## 8. 📈 Strategic Product Roadmap

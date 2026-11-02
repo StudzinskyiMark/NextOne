@@ -50,7 +50,7 @@ describe('BlogSearchBar', () => {
         {
           _id: 'post-1' as Id<'posts'>,
           title: 'Testing Guide',
-          body: 'Test post for testing',
+          plainText: 'Test post for testing',
         },
       ],
       isLoading: false,

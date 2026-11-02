@@ -129,13 +129,21 @@ export const postSearch = query({
   },
 });
 
+// Used by the E2E cleanup route. Public Convex mutations can be called by anyone
+// with the deployment URL, so only let a signed-in user delete their own post.
 export const deletePostByTitle = mutation({
   args: { title: v.string() },
   handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+
+    if (!user) {
+      throw new ConvexError('not authenticated');
+    }
+
     const post = await ctx.db
       .query('posts')
-      .filter((q) => q.eq(q.field('title'), args.title))
-      .unique();
+      .filter((q) => q.and(q.eq(q.field('title'), args.title), q.eq(q.field('authorID'), user._id)))
+      .first();
 
     if (!post) {
       return { success: false, deletedCommentsCount: 0 };
