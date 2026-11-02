@@ -40,7 +40,7 @@ const cardVariants = cva(
     variants: {
       variant: {
         default: 'group-hover:border-emerald-600/50 hover:scale-[1.02]',
-        carousel: 'hover:border-emerald-600/30', // Без скейлу, м'якший бордер
+        carousel: 'hover:border-emerald-600/30', // No scale, softer border
       },
     },
     defaultVariants: {
@@ -56,7 +56,7 @@ interface PostCardProps extends VariantProps<typeof cardVariants> {
 export const BlogPostCard = ({ data, variant = 'default' }: PostCardProps) => {
   return (
     <div className="group relative flex h-full flex-col">
-      {/* Світіння рендеримо ТІЛЬКИ для дефолтного варіанту */}
+      {/* Glow only for the default variant */}
       {variant === 'default' && (
         <div className="absolute rounded-xl bg-emerald-600/40 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 dark:-inset-1" />
       )}
@@ -76,7 +76,7 @@ export const BlogPostCard = ({ data, variant = 'default' }: PostCardProps) => {
             fill
             className={cn(
               'absolute inset-0 h-full w-full object-cover transition-transform duration-400',
-              // Картинка збільшується тільки в дефолтному варіанті
+              // Image zooms only in the default variant
               variant === 'default' && 'group-hover:scale-105'
             )}
           />

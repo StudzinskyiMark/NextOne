@@ -50,7 +50,7 @@ export function MobileNavSkeleton() {
         <Skeleton className="h-6 w-6 rounded-md" />
         <Skeleton className="h-3 w-10" />
       </div>
-      {/* Твоя кругла акцентна кнопка по центру */}
+      {/* Round accent button in the center */}
       <div className="p-3">
         <Skeleton className="h-12 w-12 rounded-full" />
       </div>

@@ -36,8 +36,8 @@ export default defineSchema({
   }),
 
   aiDailyLogs: defineTable({
-    userId: v.string(), // ID користувача від Better-Auth
-    date: v.string(), // Поточна дата у форматі "YYYY-MM-DD"
-    count: v.number(), // Скільки генерацій вже зроблено
+    userId: v.string(), // Better Auth user ID
+    date: v.string(), // Date in "YYYY-MM-DD" format
+    count: v.number(), // Generations used that day
   }).index('by_user_and_date', ['userId', 'date']),
 });

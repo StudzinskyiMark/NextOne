@@ -82,19 +82,19 @@ export const requireUser = async (ctx: MutationCtx | QueryCtx) => {
     throw new ConvexError('You must be logged in to perform this action.');
   }
 
-  // Повертаємо об'єкт як є, TypeScript сам виведе його поля (name, email, role тощо)
+  // Return the user as is; TypeScript infers its fields (name, email, role, etc.)
   return authUser;
 };
 
 /**
- * Тільки для адмінів
+ * Admin-only guard (not enabled yet)
  */
 // export const requireAdmin = async (ctx: MutationCtx | QueryCtx) => {
 //   const user = await requireUser(ctx);
 
-//   // TypeScript тепер "побачить" поле role, бо воно є в об'єкті authUser
+//   // TypeScript sees `role` because it exists on the authUser object
 //   if (user.role !== 'admin') {
-//     throw new ConvexError('Ця дія доступна тільки адміністраторам.');
+//     throw new ConvexError('This action is available to administrators only.');
 //   }
 
 //   return user;

@@ -11,7 +11,7 @@ if (configResult.error) {
   console.error(configResult.error);
 } else {
   console.log(`✅ [PLAYWRIGHT ENV] File loaded: ${envPath}`);
-  // Перевірка чи змінні взагалі існують всередині файлу
+  // Check that the expected variables are actually set
   if (!process.env.TEST_USER_EMAIL) {
     console.warn(`⚠️ [PLAYWRIGHT ENV WARNING] File not found, missing TEST_USER_EMAIL: ${envPath}`);
   }
@@ -24,42 +24,42 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: false, // Запуск тестів паралельно для максимальної швидкості
+  fullyParallel: false, // Run tests sequentially: they share one test user and its data
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0, // На CI даємо 2 спроби (захист від випадкових мережевих флуктуацій)
-  workers: process.env.CI ? 1 : undefined, // Обмежуємо воркери на CI, щоб не перевантажити раннер GitHub
+  retries: process.env.CI ? 2 : 0, // 2 retries on CI to absorb flaky network issues
+  workers: process.env.CI ? 1 : undefined, // One worker on CI to avoid overloading the GitHub runner
   //   reporter: process.env.CI ? 'blob' : 'html',
-  reporter: process.env.CI ? 'github' : 'html', // Ефективніший репортер для CI
+  reporter: process.env.CI ? 'github' : 'html', // GitHub annotations on CI
 
   use: {
     baseURL: BASE_URL,
-    trace: 'on-first-retry', // Записує відео/скріншоти помилок тільки якщо тест упав
+    trace: 'on-first-retry', // Record a trace only when a test is retried
     video: 'on-first-retry',
-    // Налаштування таймаутів для екшенів (кліки, введення тексту)
+    // Timeouts for actions (clicks, typing) and navigation
     actionTimeout: 10000,
     navigationTimeout: 15000,
   },
 
-  /* 🏗️ Налаштування проектів та етапів тестування */
+  /* Test projects and their order */
   projects: [
-    // 1. Крок підготовки: Авторизація. Виконується найпершим!
+    // 1. Setup: sign in once, runs first
     {
       name: 'setup',
       testMatch: /auth\.setup\.ts/,
     },
 
-    // 2. Основні тести: Запускаються ТІЛЬКИ після успішного 'setup'
+    // 2. Main tests: run only after 'setup' succeeds
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        // Автоматично підкидаємо збережені куки авторизації у кожен тест 🔐
+        // Reuse the saved auth cookies in every test
         storageState: STORAGE_STATE,
       },
-      dependencies: ['setup'], // Зв'язуємо з першим кроком
+      dependencies: ['setup'], // Depends on the setup project
     },
 
-    //  3. (Опціонально) Перевірка мобільного інтерфейсу, якщо треба
+    // 3. Mobile viewport
     {
       name: 'mobile-chrome',
       use: {
@@ -70,9 +70,9 @@ export default defineConfig({
     },
   ],
 
-  /* 🚀 Розумний запуск локального сервера */
+  /* Start the app server for the tests */
   webServer: {
-    // На CI краще ганяти 'pnpm start' (production build), бо 'dev' працює повільніше і споживає більше пам'яті
+    // CI tests the production build ('pnpm start'); locally use 'pnpm dev'
     command: process.env.CI ? 'pnpm start' : 'pnpm dev',
     url: BASE_URL,
     reuseExistingServer: true,

@@ -52,7 +52,7 @@ describe('useGenerateTitles', () => {
       result.current.handleGenerate(validContent);
     });
 
-    // Чекаємо, поки асинхронний startTransition оновить стейт
+    // Wait for the async startTransition to update state
     await waitFor(() => {
       expect(result.current.suggestions).toEqual(mockTitles);
     });
@@ -61,7 +61,7 @@ describe('useGenerateTitles', () => {
   });
 
   it('should issue an error (toast) if the API request failed', async () => {
-    // Тимчасово глушимо console.error, щоб він не спамив червоним у термінал під час тесту
+    // Silence console.error during this test to keep the output clean
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const errorMessage = 'API rate limit exceeded';
@@ -74,14 +74,14 @@ describe('useGenerateTitles', () => {
       result.current.handleGenerate(validContent);
     });
 
-    // Чекаємо, поки помилка пройде через catch і викличе toast
+    // Wait for the error to reach the catch block and show a toast
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(errorMessage, expect.any(Object));
     });
 
     expect(result.current.suggestions).toEqual([]);
 
-    // Відновлюємо console.error для інших тестів
+    // Restore console.error for other tests
     consoleSpy.mockRestore();
   });
 

@@ -11,7 +11,7 @@ test('should create a post, find it in the feed, and leave a comment', async ({
   // A fresh `next dev` compiles each route on first hit (~20s), so allow extra time.
   test.setTimeout(90_000);
 
-  // 🌟 BEST PRACTICE: Робимо назву унікальною для кожного воркера, ретраю та запуску
+  // Unique title per worker, retry and run
   const uniqueId = `${testInfo.parallelIndex}-r${testInfo.retry}-${Date.now().toString().slice(-4)}`;
   const postTitle = `E2E Test: Title Worker ${uniqueId}`;
   const postStory = 'E2E test: story';

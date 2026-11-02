@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as useGenerateTitlesModule from '../model/use-generate-titles';
 import { AiTitleGenerator } from './ai-title-generator';
 
-// Створюємо моки для хука
+// Mock the hook
 const mockHandleGenerate = vi.fn();
 const mockClearSuggestions = vi.fn();
 
@@ -39,7 +39,7 @@ describe('AiTitleGenerator Component', () => {
     });
 
     const bodyContent = 'Some long post content...';
-    // ПЕРЕДАЄМО ФУНКЦІЮ ЗАМІСТЬ РЯДКА
+    // Pass a function, not a string
     render(<AiTitleGenerator getPostContent={() => bodyContent} onSelectTitle={vi.fn()} />);
 
     const button = screen.getByRole('button', { name: /Generate/i });

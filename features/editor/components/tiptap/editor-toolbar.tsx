@@ -109,7 +109,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
             variant="ghost"
             size="sm"
             className="w-32 shrink-0 justify-between font-normal"
-            // ВАЖЛИВО: Я видалив `disabled`, тепер кнопка клікабельна завжди!
+            // Always enabled: picking a language can also create a new code block
           >
             <Code className="mr-2 size-4" />
             <span className="truncate">
@@ -133,21 +133,21 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
               key={opt.value}
               onSelect={() => {
                 if (editor.isActive('codeBlock')) {
-                  // Якщо ми вже в блоці коду -> просто міняємо мову
+                  // Already in a code block: just change the language
                   editor
                     .chain()
                     .focus()
                     .updateAttributes('codeBlock', { language: opt.value })
                     .run();
                 } else {
-                  // Якщо ми в звичайному тексті -> створюємо новий Code Block з обраною мовою!
+                  // In regular text: create a new code block with this language
                   editor.chain().focus().toggleCodeBlock({ language: opt.value }).run();
                 }
               }}
               className="flex cursor-pointer items-center justify-between"
             >
               <span>{opt.label}</span>
-              {/* Галочка стоїть тільки якщо це поточна мова активного блоку */}
+              {/* Check mark only for the active block's current language */}
               {editor.isActive('codeBlock') &&
                 editor.getAttributes('codeBlock').language === opt.value && (
                   <Check className="size-4 text-emerald-500" />

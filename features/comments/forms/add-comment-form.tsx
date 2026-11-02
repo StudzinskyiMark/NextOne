@@ -91,7 +91,7 @@ export const AddCommentForm = ({ postId }: { postId: Id<'posts'> }) => {
           <AvatarFallback>{currentUser?.name?.slice(0, 1).toUpperCase()}</AvatarFallback>
         </Avatar>
 
-        {/* ФІКС 1: Додано min-w-0, щоб flex-контейнер не дозволяв Textarea себе розпирати */}
+        {/* min-w-0 stops the Textarea from stretching the flex container */}
         <div className="min-w-0 flex-1">
           <Controller
             control={form.control}

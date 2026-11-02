@@ -22,7 +22,6 @@ export default function FacePile({ presenceState }: { presenceState: PresenceSta
             index !== 0 && '-ml-2',
             '!hover:z-50'
           )}
-          
           style={{ zIndex: visible.length - index }}
         >
           <Avatar presence={presence} />
@@ -91,7 +90,7 @@ function getEmojiForUserId(userId: string): string {
     hash |= 0;
   }
   const emojis = [
-    // Розробка та Технології
+    // Development & tech
     '👨‍💻',
     '👩‍💻',
     '🤖',
@@ -102,7 +101,7 @@ function getEmojiForUserId(userId: string): string {
     '🛡️',
     '🔑',
     '📡',
-    // Енергія та Космос
+    // Energy & space
     '🚀',
     '✨',
     '🔥',
@@ -113,7 +112,7 @@ function getEmojiForUserId(userId: string): string {
     '🌙',
     '🌟',
     '🛸',
-    // Статус та Нагороди
+    // Status & awards
     '💎',
     '🏆',
     '🎯',
@@ -124,7 +123,7 @@ function getEmojiForUserId(userId: string): string {
     '✅',
     '🌈',
     '🎐',
-    // Творчість та Офіс
+    // Creativity & office
     '💡',
     '📚',
     '🖋️',

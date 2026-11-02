@@ -8,7 +8,7 @@ export const createPost = mutation({
   args: {
     title: v.string(),
     body: v.string(),
-    plainText: v.string(), // <--- Додали аргумент
+    plainText: v.string(), // Plain-text copy of the body (search, AI)
     codeLanguages: v.optional(v.array(v.string())),
     imageStorageID: v.optional(v.id('_storage')),
   },
@@ -151,7 +151,7 @@ export const deletePostByTitle = mutation({
 
     const comments = await ctx.db
       .query('comments')
-      .filter((q) => q.eq(q.field('postId'), post._id)) // перевір чи у тебе 'postId' чи 'postID'
+      .filter((q) => q.eq(q.field('postId'), post._id))
       .collect();
 
     for (const comment of comments) {

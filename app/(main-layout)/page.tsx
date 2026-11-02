@@ -30,7 +30,7 @@ export default async function HomePage() {
             </p>
           </div>
 
-          {/* 1. ВЕРХНЯ ЧАСТИНА (3 колонки на десктопі, виправлено адаптив) */}
+          {/* 1. Top section (3 columns on desktop) */}
           <div className="mx-auto grid grid-cols-1 gap-4 md:auto-rows-[220px] md:grid-cols-2 lg:grid-cols-3">
             {/* Latest Posts (Carousel) */}
             <div className="row-span-2 md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-2">
@@ -85,7 +85,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* 2. НИЖНЯ ЧАСТИНА */}
+          {/* 2. Bottom section */}
           <div className="mx-auto mt-4 grid grid-cols-1 gap-4 md:auto-rows-[220px] md:grid-cols-2 lg:grid-cols-4">
             {/* Instant Search */}
             <div className="group border-border/50 bg-card/50 relative overflow-hidden rounded-3xl border p-8 shadow-sm backdrop-blur-xl transition-all hover:border-amber-500/30 hover:shadow-md md:col-span-1 lg:col-span-1">

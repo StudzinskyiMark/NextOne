@@ -74,7 +74,7 @@ export default function NotFound() {
         className="relative flex min-h-screen w-full flex-col items-center justify-center px-6 py-20 md:px-10"
       >
         <div className="relative z-10 flex w-full max-w-5xl flex-col gap-20">
-          {/* Рядок пошуку */}
+          {/* Search bar */}
           <div className="flex flex-col items-center text-center">
             <h2 className="text-foreground mb-6 text-2xl font-bold tracking-tight">
               Or find what you were looking for
@@ -84,7 +84,7 @@ export default function NotFound() {
             </div>
           </div>
 
-          {/* Останні публікації (Bento Grid) */}
+          {/* Latest posts (bento grid) */}
           <div className="flex flex-col items-center">
             <div className="mb-8 text-center">
               <h2 className="text-foreground text-2xl font-bold tracking-tight">Latest Posts</h2>
@@ -93,7 +93,7 @@ export default function NotFound() {
               </p>
             </div>
 
-            {/* Обмежуємо ширину Bento Grid */}
+            {/* Limit the bento grid width */}
             <div className="w-full max-w-2xl">
               <LatestPostsBento />
             </div>

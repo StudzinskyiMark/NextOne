@@ -4,7 +4,7 @@ import { useClickAway } from './use-click-away';
 
 describe('useClickAway hook', () => {
   test('should call onClickAway when clicked outside', () => {
-    // 1. Arrange (Налаштування середовища)
+    // 1. Arrange
     const cb = vi.fn(); // Create a mock function
     const targetEl = document.createElement('div'); //  Element, that will be clicked
     const outsideEl = document.createElement('div'); // Element, that will be outside
@@ -16,11 +16,11 @@ describe('useClickAway hook', () => {
     // Creating a ref hook
     const ref = { current: targetEl };
 
-    // 2. Act (Виконання дії)
+    // 2. Act
     renderHook(() => useClickAway(ref, cb)); // Run the hook
     outsideEl.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })); // Simulate a click on the outside element to simulate a real mouse click
 
-    // 3. Assert (Перевірка результату)
+    // 3. Assert
     expect(cb).toHaveBeenCalled(); // Check if the mock function was called
   });
 });

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useGenerateTitles } from '../model/use-generate-titles';
 
 interface AiTitleGeneratorProps {
-  // Змінили тип на функцію для отримання тексту "на вимогу"
+  // A function, so the text is read on demand (when the user clicks)
   getPostContent: () => string;
   onSelectTitle: (title: string) => void;
 }

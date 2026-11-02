@@ -152,10 +152,10 @@ export function PublishForm() {
         />
 
         <AiTitleGenerator
-          // Передаємо функцію. form.getValues() читає стан форми миттєво, без перерендеру
+          // Pass a function: form.getValues() reads the current value without a re-render
           getPostContent={() => {
             const text = form.getValues('plainText') || '';
-            return text.slice(0, 4000); // Обрізаємо до 4к символів для економії токенів Groq API
+            return text.slice(0, 4000); // Trim to 4k characters to save Groq tokens
           }}
           onSelectTitle={(selectedTitle) => {
             form.setValue('title', selectedTitle, {

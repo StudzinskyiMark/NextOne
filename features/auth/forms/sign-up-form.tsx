@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 
-// 🌟 Додаємо імпорт стану
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Mail } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -19,7 +18,7 @@ import { TSignUpValues, signUpSchema } from '../schemas/auth.schema';
 
 export const SignUpForm = () => {
   const { isSigningUp, signUp } = useSignUp();
-  // 🌟 Стан для керування видимістю форми
+  // Whether the email form is expanded
   const [showEmailForm, setShowEmailForm] = useState(false);
 
   const form = useForm<TSignUpValues>({
@@ -35,7 +34,7 @@ export const SignUpForm = () => {
 
   return (
     <div className="mx-auto w-full max-w-lg space-y-6">
-      {/* 1. Соціальні кнопки тепер завжди зверху */}
+      {/* 1. Social sign-in buttons always on top */}
       <SocialAuthButtons />
 
       <div className="relative flex items-center py-2">
@@ -46,7 +45,7 @@ export const SignUpForm = () => {
         <div className="border-muted flex-grow border-t" />
       </div>
 
-      {/* 2. Якщо форма прихована — показуємо кнопку-перемикач */}
+      {/* 2. While the form is hidden, show a toggle button */}
       {!showEmailForm ? (
         <Button variant="outline" className="w-full" onClick={() => setShowEmailForm(true)}>
           <Mail className="mr-2 size-4" />

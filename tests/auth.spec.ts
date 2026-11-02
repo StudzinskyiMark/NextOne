@@ -2,27 +2,27 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Core Authentication & Layout', () => {
   test('should successfully load home page for authenticated user', async ({ page }) => {
-    // 1. Переходимо на головну сторінку
+    // 1. Open the home page
     await page.goto('/');
 
-    // 2. Перевіряємо, що додаток успішно завантажився і title коректний
+    // 2. The app loaded and the title is correct
     await expect(page).toHaveTitle(/NextOne/);
 
-    // 3. Перевіряємо, що Better Auth успішно підставив сесію:
-    // Кнопки "Sign In" бути не повинно
+    // 3. Better Auth restored the session:
+    // there must be no "Sign In" button
     const signInButton = page.locator('text=Sign In');
     await expect(signInButton).not.toBeVisible();
 
-    // 4. Шукаємо кнопку нашого Dropdown-меню.
-    // Playwright шукатиме кнопку, яка містить ім'я "E2E Tester" або ініціали фолбеку "E2"
+    // 4. Find the user dropdown trigger.
+    // It shows either the name "E2E Tester" or the fallback initials "E2"
     const userMenuTrigger = page.getByRole('button', { name: /E2E Tester|E2/i });
     await expect(userMenuTrigger).toBeVisible({ timeout: 10000 });
 
-    // 5. Клікаємо по профілю, щоб відкрити Shadcn DropdownMenu
+    // 5. Open the shadcn DropdownMenu
     await userMenuTrigger.click();
 
-    // 6. Перевіряємо, що всередині меню з'явився пункт "Sign Out"
-    // Shadcn автоматично додає роль 'menuitem' для елементів Dropdown
+    // 6. The menu contains a "Sign Out" item
+    // shadcn gives dropdown items the 'menuitem' role
     const signOutMenuItem = page.getByRole('menuitem', { name: /Sign Out/i });
     await expect(signOutMenuItem).toBeVisible();
   });

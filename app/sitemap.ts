@@ -8,9 +8,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Render per request (replaces `dynamic = 'force-dynamic'`, which cacheComponents doesn't allow).
   await connection();
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://my-domen.com'; // Заміниш на свій домен перед деплоєм
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://my-domen.com'; // Fallback for local development
 
-  // 1. Статичні сторінки платформи
+  // 1. Static platform pages
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 2. Динамічні сторінки (Пости з Convex)
+  // 2. Dynamic pages (posts from Convex)
   let dynamicRoutes: MetadataRoute.Sitemap = [];
 
   try {

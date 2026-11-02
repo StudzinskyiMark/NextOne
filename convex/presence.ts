@@ -17,12 +17,12 @@ export const heartbeat = mutation({
   handler: async (ctx, { roomId, userId, sessionId, interval }) => {
     const user = await authComponent.safeGetAuthUser(ctx);
 
-    // 1. Якщо аутентифікований — використовуємо ID з auth контексту (для безпеки)
+    // 1. Signed in: use the ID from the auth context (can't be spoofed)
     if (user) {
       return await presence.heartbeat(ctx, roomId, user._id, sessionId, interval);
     }
 
-    // 2. Якщо гість — дозволяємо з переданим userId
+    // 2. Guest: accept the userId passed by the client
     return await presence.heartbeat(ctx, roomId, userId, sessionId, interval);
   },
 });
@@ -34,13 +34,13 @@ export const list = query({
 
     return await Promise.all(
       entries.map(async (entry) => {
-        // Якщо це гість — не йдемо в базу за юзером
+        // Guests have no user record to look up
         if (entry.userId.startsWith('Guest:')) {
           return entry;
         }
 
         try {
-          // Тільки якщо це реальний Id юзера
+          // Only for real user IDs
           const user = await authComponent.getAnyUserById(ctx, entry.userId);
           if (!user) return entry;
 
