@@ -8,24 +8,24 @@ export interface NavItem {
   isAccent?: boolean;
 }
 
-// Єдине джерело правди для всієї навігації в додатку
+// Single source of truth for all app navigation
 export const navigationConfig: NavItem[] = [
   {
     title: 'Home',
     href: '/',
     icon: Home,
-    exact: true, // Підсвічувати тільки коли шлях строго дорівнює '/'
+    exact: true, // Highlight only when the path is exactly '/'
   },
   {
     title: 'Blog',
     href: '/blog',
     icon: BookOpen,
-    // exact не потрібен, бо для постів (напр. /blog/123) вкладка теж має бути активною
+    // No `exact`: the tab stays active on post pages too (e.g. /blog/123)
   },
   {
     title: 'Publish',
     href: '/publish',
     icon: Plus,
-    isAccent: true, // Прапорець для візуального виділення (CTA)
+    isAccent: true, // Visually emphasized item (CTA)
   },
 ];

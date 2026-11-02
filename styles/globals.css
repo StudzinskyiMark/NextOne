@@ -57,7 +57,7 @@
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.666 0.179 164.76); /* Emerald 600 - твій незмінний акцент */
+  --primary: oklch(0.666 0.179 164.76); /* Emerald 600 - brand accent */
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(89.143% 0.0001 271.152);
   --secondary-foreground: oklch(0.208 0.042 265.755);
@@ -67,7 +67,7 @@
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
 
-  /* Знижено світлоту (lightness) з 0.929 до 0.88 для чітких outline кнопок та інпутів */
+  /* Lightness lowered from 0.929 to 0.88 so outline buttons and inputs stay visible */
   --border: oklch(0.88 0.015 255.508);
   --input: oklch(0.88 0.015 255.508);
 
@@ -94,7 +94,7 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508); /* Білий акцент для темної теми */
+  --primary: oklch(0.929 0.013 255.508); /* White accent for the dark theme */
   --primary-foreground: oklch(0.208 0.042 265.755);
   --secondary: oklch(22.09% 0.02829 259.927);
   --secondary-foreground: oklch(0.984 0.003 247.858);
@@ -121,7 +121,7 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-/* Виносимо всю глобальну логіку та ховери в один чистий блок */
+/* Global base styles and hover states */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -137,25 +137,25 @@
   @layer base {
     .prose pre ::selection,
     .prose pre *::selection {
-      background-color: #10b981 !important; /* Колір emerald-500 */
-      color: #ffffff !important; /* Білий текст для ідеального контрасту */
+      background-color: #10b981 !important; /* emerald-500 */
+      color: #ffffff !important; /* White text for contrast */
     }
 
-    /* Фікс для випадку, коли TipTap виділяє весь блок коду цілком (Node Selection) */
+    /* Fix for when TipTap selects the whole code block (node selection) */
     .ProseMirror-selectednode {
       outline: 2px solid #10b981 !important;
       outline-offset: 2px;
     }
   }
 
-  /* Світла тема: кнопка стає темною з насиченим смарагдовим акцентом */
+  /* Light theme: dark button with a saturated emerald accent */
   .bg-primary:hover {
     background-color: oklch(0.58 0.16 164.76) !important;
     box-shadow: 0 10px 25px -5px oklch(0.666 0.179 164.76 / 30%);
     color: oklch(0.985 0 0) !important;
   }
 
-  /* Темна тема: кнопка стає білою */
+  /* Dark theme: white button */
   .dark .bg-primary:hover {
     background-color: oklch(0.98 0.01 165) !important;
     box-shadow: 0 0 20px oklch(0.666 0.179 164.76 / 40%);
@@ -173,7 +173,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  /* Використовуємо надійний fallback колір, якщо змінні Shadcn не підтягнуться */
+  /* Fallback color in case the shadcn variables are missing */
   background-color: rgba(156, 163, 175, 0.5);
   border-radius: 10px;
 }
@@ -182,7 +182,7 @@
   background-color: rgba(156, 163, 175, 0.8);
 }
 
-/* Підтримка для Firefox */
+/* Firefox support */
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;

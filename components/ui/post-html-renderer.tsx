@@ -17,19 +17,19 @@ interface PostHtmlRendererProps {
 export function PostHtmlRenderer({ html, className }: PostHtmlRendererProps) {
   const options = {
     replace: (domNode: DOMNode) => {
-      // Знаходимо блок <pre>
+      // Find <pre> blocks
       if (domNode instanceof Element && domNode.name === 'pre') {
         const codeNode = domNode.children.find(
           (child) => child instanceof Element && child.name === 'code'
         ) as Element | undefined;
 
         if (codeNode) {
-          // Дістаємо мову з класу (TipTap зберігає її як language-js, language-html і т.д.)
+          // Read the language from the class (TipTap stores it as language-js, language-html, etc.)
           const nodeClassName = codeNode.attribs.class || '';
           const match = nodeClassName.match(/language-(\w+)/);
           const language = match ? match[1] : 'text';
 
-          // Витягуємо чистий текст коду
+          // Extract the raw code text
           const codeString = domToReact(codeNode.children as DOMNode[]) as string;
 
           return <CustomCodeBlock language={language} code={codeString} />;
@@ -50,7 +50,7 @@ export function PostHtmlRenderer({ html, className }: PostHtmlRendererProps) {
   );
 }
 
-// Внутрішній компонент для відмальовки самого блоку коду
+// Renders a single code block
 function CustomCodeBlock({ language, code }: { language: string; code: string }) {
   const [copied, setCopied] = useState(false);
 

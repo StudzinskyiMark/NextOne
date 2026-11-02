@@ -4,7 +4,7 @@ const Name_MIN_LENGTH = 3;
 const Name_MAX_LENGTH = 30;
 const Username_MIN_LENGTH = 3;
 const Username_MAX_LENGTH = 20;
-const Password_MIN_LENGTH = 8; // 🔒 Підняли стандарт безпеки до 8 символів
+const Password_MIN_LENGTH = 8; // Minimum 8 characters
 const Password_MAX_LENGTH = 30;
 
 export const signUpSchema = z.object({

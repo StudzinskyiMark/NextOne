@@ -7,27 +7,27 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. --- MAINTENANCE MODE (Vercel Edge Config) ---
-  // Працюватиме тільки коли є змінна EDGE_CONFIG (на продакшені або при локальному підключенні)
+  // Only active when EDGE_CONFIG is set (production, or a local Edge Config connection)
   if (process.env.EDGE_CONFIG) {
     try {
       const isMaintenance = await get<boolean>('isMaintenanceMode');
       const isMaintenancePage = pathname === '/maintenance';
 
-      // Якщо режим УВІМКНЕНО, і юзер НЕ на сторінці-заглушці
+      // Maintenance ON and the user is not on the maintenance page
       if (isMaintenance && !isMaintenancePage) {
         const url = request.nextUrl.clone();
         url.pathname = '/maintenance';
-        // rewrite підміняє контент, але залишає старий URL у браузері
+        // rewrite serves the maintenance page but keeps the original URL
         return NextResponse.rewrite(url);
       }
 
-      // Якщо режим ВИМКНЕНО, але юзер пробує зайти на /maintenance вручну
+      // Maintenance OFF but the user opened /maintenance directly
       if (!isMaintenance && isMaintenancePage) {
         return NextResponse.redirect(new URL('/', request.url));
       }
     } catch (error) {
       console.error('Edge Config error:', error);
-      // Якщо Edge Config недоступний, нічого не блокуємо, йдемо далі
+      // If Edge Config is unavailable, don't block anything
     }
   }
 
@@ -36,19 +36,19 @@ export async function proxy(request: NextRequest) {
 
   const isProtectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/publish');
 
-  // Захист приватних роутів
+  // Protect private routes
   if (isProtectedRoute && !sessionCookie) {
     const signInUrl = new URL('/auth/sign-in', request.url);
     signInUrl.searchParams.set('callbackUrl', pathname);
     return NextResponse.redirect(signInUrl);
   }
 
-  // Редирект авторизованих користувачів зі сторінок логіну
+  // Redirect signed-in users away from the auth pages
   if (pathname.startsWith('/auth') && sessionCookie) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  // Якщо все ок - пропускаємо запит до Next.js сервера
+  // Otherwise, continue to the app
   return NextResponse.next();
 }
 

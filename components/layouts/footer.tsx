@@ -7,13 +7,13 @@ export function Footer() {
     <footer className="border-border/50 bg-card/30 mt-24 w-full border-t backdrop-blur-md max-sm:pb-4">
       <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          {/* Ліва частина: Лого і копірайт */}
+          {/* Left: logo and copyright */}
           <div className="flex flex-col items-center gap-1 sm:items-start">
             <span className="text-foreground font-bold tracking-tight">NextOne</span>
             <p className="text-muted-foreground text-xs">&copy; {2026} All rights reserved.</p>
           </div>
 
-          {/* Центральна частина: Твій бренд */}
+          {/* Center: brand */}
           <div className="text-muted-foreground text-center text-sm">
             Designed & Engineered by{' '}
             <span className="text-foreground font-medium transition-colors hover:text-emerald-500">
@@ -21,7 +21,7 @@ export function Footer() {
             </span>
           </div>
 
-          {/* Права частина: Соціалки */}
+          {/* Right: social links */}
           <div className="flex items-center gap-4">
             <Link
               href="https://github.com/StudzinskyiMark"

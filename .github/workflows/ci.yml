@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  # 1. Швидка перевірка лінтера (ESLint)
+  # 1. Lint (ESLint)
   static-checks:
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Run ESLint
         run: pnpm lint
 
-  # 2. Окрема джоба для юніт-тестів (Vitest)
+  # 2. Unit tests (Vitest)
   vitest-unit:
     runs-on: ubuntu-latest
     steps:
@@ -56,7 +56,7 @@ jobs:
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
-  # 3. Збирання проекту (Перевірка компиляції Next.js)
+  # 3. Build (Next.js compile check)
   build:
     needs: [static-checks, vitest-unit]
     runs-on: ubuntu-latest
@@ -87,7 +87,7 @@ jobs:
           SITE_URL: ${{ secrets.SITE_URL }}
           BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
 
-  # 4. Е2Е тести (Playwright) з локальним білдом та credentials
+  # 4. E2E tests (Playwright) against a local production build
   playwright-e2e:
     needs: build
     runs-on: ubuntu-latest

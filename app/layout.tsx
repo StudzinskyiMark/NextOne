@@ -21,7 +21,7 @@ import '@/styles/globals.css';
 // 3. OG Image: Create a 1200x630 'og-image.png' with the site branding and place it in /public.
 // 4. Manifest: Consider adding 'manifest.json' for PWA support and mobile browser theme colors.
 
-const siteUrl = 'https://next-one-tech.vercel.app'; // Твій домен на Vercel
+const siteUrl = 'https://next-one-tech.vercel.app'; // Production URL
 
 // Only the Convex fetch is cached: 'use cache' return values must be serializable,
 // and the metadata below contains a URL object (metadataBase), which isn't.

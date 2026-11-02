@@ -41,7 +41,7 @@ describe('useSignIn', () => {
       options.fetchOptions?.onSuccess?.({ data: null } as any);
     });
 
-    // Загортаємо в act, щоб React встиг синхронізувати транзицію
+    // Wrap in act so React flushes the transition
     await act(async () => {
       await result.current.signIn(testData);
     });
@@ -56,7 +56,7 @@ describe('useSignIn', () => {
     const { result } = renderHook(() => useSignIn());
     const testData = { email: 'example@example.com', password: 'password' };
 
-    // Твій поточний мок, який імітує помилку від authClient
+    // Mock an error response from authClient
     vi.mocked(authClient.signIn.email).mockImplementation(async ({ fetchOptions }) => {
       fetchOptions?.onError?.({
         error: { message: 'Error signing in' },
@@ -64,12 +64,12 @@ describe('useSignIn', () => {
       } as any);
     });
 
-    // Очікуємо, що проміс зареджектиться з помилкою бекенду 🛡️
+    // Expect the promise to reject with the backend error
     await act(async () => {
       await expect(result.current.signIn(testData)).rejects.toThrow('Error signing in');
     });
 
-    // Всі інші перевірки залишаються без змін
+    // Remaining assertions
     expect(authClient.signIn.email).toHaveBeenCalledWith(expect.objectContaining(testData));
     expect(toast.error).toHaveBeenCalledWith('Error signing in', {
       position: 'top-center',
@@ -82,7 +82,7 @@ describe('useSignIn', () => {
     const { result } = renderHook(() => useSignIn());
     const testData = { email: 'example@example.com', password: 'password' };
 
-    // Створюємо ручний контроль над промісом 🕹️
+    // A promise we resolve manually
     let resolveAuthPromise: (value: unknown) => void = () => {};
     const authPromise = new Promise((resolve) => {
       resolveAuthPromise = resolve;
@@ -97,21 +97,21 @@ describe('useSignIn', () => {
 
     expect(result.current.isSigningIn).toBe(false);
 
-    // Запускаємо транзицію всередині act
+    // Start the transition inside act
     act(() => {
       result.current.signIn(testData);
     });
 
-    // Тепер лоудінгу нікуди дітися, він 100% буде true, бо проміс "завис"
+    // Loading must be true while the promise is pending
     expect(result.current.isSigningIn).toBe(true);
 
-    // Вивільняємо наш проміс і чекаємо на його завершення
+    // Resolve the promise and wait for it to settle
     await act(async () => {
       resolveAuthPromise(null);
       await authPromise;
     });
 
-    // Після завершення транзиції статус гарантовано скидається
+    // Loading resets once the transition finishes
     expect(result.current.isSigningIn).toBe(false);
   });
 
@@ -142,7 +142,7 @@ describe('useSignIn', () => {
   test('should NOT sign in with social provider successfully', async () => {
     const { result } = renderHook(() => useSignIn());
 
-    // Твій поточний мок для помилки соціального входу, який викликає onError...
+    // Mock a social sign-in error that calls onError
     vi.mocked(authClient.signIn.social).mockImplementation(async ({ fetchOptions }) => {
       fetchOptions?.onError?.({
         error: { message: 'Error signing in' },
@@ -150,14 +150,14 @@ describe('useSignIn', () => {
       } as any);
     });
 
-    // Оновлюємо цей блок, щоб він очікував на реджект промісу 🛡️
+    // Expect the promise to reject
     await act(async () => {
       await expect(result.current.signIn({ provider: 'google' })).rejects.toThrow(
         'Error signing in'
       );
     });
 
-    // Всі інші перевірки залишаються без змін
+    // Remaining assertions
     expect(authClient.signIn.social).toHaveBeenCalledWith(
       expect.objectContaining({
         provider: 'google',

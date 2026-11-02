@@ -30,14 +30,14 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Custom "page" cache profile used by the app
   cacheLife: {
     page: {
-      stale: 60, // 1 хвилина (сервер віддасть старий кеш, паралельно оновлюючи його)
-      revalidate: 600, // 10 хвилин (період валідації даних у фоні)
-      expire: 3600, // 1 година (максимальний час життя кешу, після якого він точно помре)
+      stale: 60, // 1 min: serve cached content while refreshing in the background
+      revalidate: 600, // 10 min: background revalidation interval
+      expire: 3600, // 1 hour: max cache lifetime
     },
   },
-  // Реєструємо кастомний профіль кешування "page", який вимагає твій додаток
   experimental: {},
 };
 

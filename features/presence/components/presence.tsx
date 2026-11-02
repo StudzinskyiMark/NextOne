@@ -16,17 +16,17 @@ export function Presence({ roomId, userId }: PresenceProps) {
   const effectiveUserId = userId || guestId;
   const presenceState = usePresence(api.presence, roomId, effectiveUserId ?? '');
 
-  // 1. Поки немає ID — скелетон
+  // 1. No ID yet: show a skeleton
   if (!effectiveUserId) {
     return <FacePileSkeleton />;
   }
 
-  // 2. Поки дані завантажуються (undefined) — скелетон
+  // 2. Data still loading (undefined): show a skeleton
   if (presenceState === undefined) {
     return <FacePileSkeleton />;
   }
 
-  // 3. Якщо нікого немає (або тільки ви) — приховуємо
+  // 3. Nobody else here (or only you): hide
   if (presenceState.length === 0) {
     return null;
   }

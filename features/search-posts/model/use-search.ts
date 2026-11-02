@@ -16,7 +16,7 @@ export function useSearch(limit = 5) {
     return () => clearTimeout(handler);
   }, [term]);
 
-  // Викликаємо query тільки якщо є текст для пошуку
+  // Run the query only when there is a search term
   const results = useQuery(
     api.posts.postSearch,
     debouncedTerm.trim().length > 0 ? { term: debouncedTerm, limit } : 'skip'
