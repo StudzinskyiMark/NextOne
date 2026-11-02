@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -9,7 +9,6 @@ import { fetchMutation } from 'convex/nextjs';
 import { getToken } from '@/lib/auth-server';
 
 import { TEditorValues, editorSchema } from '../schemas/editor.schema';
-
 
 export async function publishPostAction(data: TEditorValues) {
   try {
@@ -48,7 +47,9 @@ export async function publishPostAction(data: TEditorValues) {
 
     if (!resultPost) return { success: false, message: `Something went wrong!` };
 
-    revalidateTag('posts', 'page');
+    // updateTag (not revalidateTag) so the author sees the new post immediately:
+    // in Next 16.4 revalidateTag serves stale data while it refreshes in the background.
+    updateTag('posts');
 
     return { success: true, message: `Successfully published!` };
   } catch (error) {
