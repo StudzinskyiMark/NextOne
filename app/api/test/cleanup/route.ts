@@ -3,11 +3,20 @@ import { NextResponse } from 'next/server';
 import { api } from '@/convex/_generated/api';
 import { fetchMutation } from 'convex/nextjs';
 
-export async function POST(request: Request) {
-  const authHeader = request.headers.get('Authorization');
-  const expectedToken = `Bearer ${process.env.TEST_API_KEY}`;
+import { getToken } from '@/lib/auth-server';
 
-  if (!process.env.TEST_API_KEY || authHeader !== expectedToken) {
+export async function POST(request: Request) {
+  // Test-only route: hide it on the production deployment.
+  // VERCEL_ENV (not NODE_ENV) because CI runs E2E against `pnpm start`, where NODE_ENV is 'production'.
+  if (process.env.VERCEL_ENV === 'production') {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  // Uses its own header, not Authorization: getToken() forwards request headers to
+  // Better Auth, which would treat an Authorization bearer as the session.
+  const testKey = request.headers.get('x-test-api-key');
+
+  if (!process.env.TEST_API_KEY || testKey !== process.env.TEST_API_KEY) {
     return new NextResponse('Forbidden: Invalid or missing test token', { status: 403 });
   }
 
@@ -18,7 +27,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Title is required' }, { status: 400 });
     }
 
-    const result = await fetchMutation(api.posts.deletePostByTitle, { title });
+    // Forward the caller's session: the mutation only deletes the signed-in user's own post.
+    const token = await getToken();
+    if (!token) {
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
+
+    const result = await fetchMutation(api.posts.deletePostByTitle, { title }, { token });
 
     if (!result.success) {
       return NextResponse.json({ error: 'Post not found or already deleted' }, { status: 404 });

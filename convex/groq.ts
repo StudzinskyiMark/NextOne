@@ -3,6 +3,8 @@ import { ConvexError, v } from 'convex/values';
 import { internal } from './_generated/api';
 import { action } from './_generated/server';
 
+const GROQ_MODEL = 'openai/gpt-oss-20b';
+
 export const generateTitles = action({
   args: { content: v.string() },
   handler: async (ctx, args) => {
@@ -25,7 +27,8 @@ export const generateTitles = action({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
+          // llama-3.1-8b-instant was shut down on Groq on 2026-08-16; this is Groq's recommended replacement.
+          model: GROQ_MODEL,
           response_format: { type: 'json_object' },
           messages: [
             {
@@ -58,6 +61,10 @@ JSON STRUCTURE:
       });
 
       if (!response.ok) {
+        // Log Groq's status and error body (it never contains the API key) so failures are diagnosable.
+        const errorBody = (await response.text()).slice(0, 500);
+        console.error(`Groq API error ${response.status} (model ${GROQ_MODEL}):`, errorBody);
+
         if (response.status === 429) {
           throw new ConvexError(
             'Too many requests to the AI server (Rate Limit). Please wait a moment.'
@@ -67,9 +74,17 @@ JSON STRUCTURE:
       }
 
       const data = await response.json();
-      const aiResponseText = data.choices[0].message.content;
+      const aiResponseText = data.choices?.[0]?.message?.content;
+
+      if (typeof aiResponseText !== 'string') {
+        throw new Error('Groq response has no message content');
+      }
 
       const parsedJson = JSON.parse(aiResponseText);
+
+      if (!Array.isArray(parsedJson.titles)) {
+        throw new Error('Groq response JSON has no "titles" array');
+      }
 
       return parsedJson.titles as string[];
     } catch (error) {

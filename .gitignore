@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...but commit the empty template
+!.env.example
 
 # vercel
 .vercel
@@ -52,5 +54,10 @@ tests/.auth/
 
 # AI Documentation & Audits
 .ai-docs/
+AGENTS.md
 # Sentry Config File
 .env.sentry-build-plugin
+
+
+#Git Audit
+.VSCodeCounter/

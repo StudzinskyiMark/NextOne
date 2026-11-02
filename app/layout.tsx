@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { api } from '@/convex/_generated/api';
@@ -20,13 +21,18 @@ import '@/styles/globals.css';
 // 3. OG Image: Create a 1200x630 'og-image.png' with the site branding and place it in /public.
 // 4. Manifest: Consider adding 'manifest.json' for PWA support and mobile browser theme colors.
 
-export async function generateMetadata() {
+const siteUrl = 'https://next-one-tech.vercel.app'; // Твій домен на Vercel
+
+// Only the Convex fetch is cached: 'use cache' return values must be serializable,
+// and the metadata below contains a URL object (metadataBase), which isn't.
+async function getCachedSiteSettings() {
   'use cache';
+  return fetchQuery(api.siteSettings.getSiteSettings);
+}
 
-  const siteUrl = 'https://next-one-tech.vercel.app'; // Твій домен на Vercel
-
+export async function generateMetadata(): Promise<Metadata> {
   try {
-    const settings = await fetchQuery(api.siteSettings.getSiteSettings);
+    const settings = await getCachedSiteSettings();
     const siteName = settings?.siteName ?? 'NextOne';
     const siteDescription = settings?.siteDescription ?? 'Developer Platform';
 
